@@ -73,7 +73,14 @@ class Tenant(db.Model):
     #expiryDate = db.DateProperty()  
     #startDate = db.DateProperty(auto_now_add = True)
     registerDate = db.DateProperty(auto_now_add = True)  
-     
+    
+    def getCurrentTenants(self):
+        tenants = db.GqlQuery("SELECT * "
+                              "FROM Tenant")
+        currentTenants = []
+        for tenant in tenants:
+            currentTenants.append(tenant)              
+        return currentTenants  
 
 class Contract(db.Model):
     tenant = db.ReferenceProperty(Tenant, required = True)

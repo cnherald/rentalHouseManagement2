@@ -1,8 +1,18 @@
-application: rentalHouseManagement2ID
+application: rentalhousemanagement2id
 version: 1
 runtime: python
 api_version: 1
 
 handlers:
+- url: /scripts
+  static_dir: static/scripts
+
+- url: /css
+  static_dir: static/css
+  
+- url: /img
+  static_dir: static/img 
+  
 - url: /.*
   script: rentalManager.py
+
