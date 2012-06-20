@@ -218,68 +218,69 @@ $('#tenantHrefId').click(function(){
 		
 //register a tenant	
 			
-		$(".tenantRegisterButton").click(function() {
+		// $(".tenantRegisterButton").click(function() {
 			
-			$('.error').hide();
-			var firstName = $("input#firstName").val();
-			if(firstName == null || firstName == "") {
-				$("label#firstName_error").show();
-				$("input#firstName").focus();
-				return false;
-			}
+			// $('.error').hide();
+			// var firstName = $("input#firstName").val();
+			// if(firstName == null || firstName == "") {
+				// $("label#firstName_error").show();
+				// $("input#firstName").focus();
+				// return false;
+			// }
 			
-			var surname = $("input#surname").val();
-			if(surname == null || surname == "") {
-				$("label#surname_error").show();
-				$("input#surname").focus();
-				return false;
-			}
+			// var surname = $("input#surname").val();
+			// if(surname == null || surname == "") {
+				// $("label#surname_error").show();
+				// $("input#surname").focus();
+				// return false;
+			// }
 			
-			//var tenantGender = $("input#tenant_gender").val();
 			
-			if ($('input[name=tenant_gender]:checked').length == 0) {
-				$("label#tenant_gender_error").show();
-				//$("input#tenant_gender").focus();
-				return false;
-			}
+			// if ($('input[name=tenant_gender]:checked').length == 0) {
+				// $("label#tenant_gender_error").show();
+				// return false;
+			// }
 			
-			var tenant_age = $("input#tenant_age").val();
-			if(tenant_age == null || tenant_age == "") {
-				$("label#tenant_age_error").show();
-				$("input#tenant_age").focus();
-				return false;
-			}
+			// var tenant_age = $("input#tenant_age").val();
+			// if(tenant_age == null || tenant_age == "") {
+				// $("label#tenant_age_error").show();
+				// $("input#tenant_age").focus();
+				// return false;
+			// }
 			
-			var tenant_phoneNumber = $("input#tenant_phoneNumber").val();
-			if(tenant_phoneNumber == null || tenant_phoneNumber == "") {
-				$("label#tenant_phoneNumber_error").show();
-				$("input#tenant_phoneNumber").focus();
-				return false;
-			}
+			// var tenant_phoneNumber = $("input#tenant_phoneNumber").val();
+			// if(tenant_phoneNumber == null || tenant_phoneNumber == "") {
+				// $("label#tenant_phoneNumber_error").show();
+				// $("input#tenant_phoneNumber").focus();
+				// return false;
+			// }
 			
-			var contact_name = $("input#contact_name").val();
-			if(contact_name ==null || contact_name == "") {
-				$("label#contact_name_error").show();
-				$("input#contact_name").focus();
-				return false;
-			}
+			// var contact_name = $("input#contact_name").val();
+			// if(contact_name ==null || contact_name == "") {
+				// $("label#contact_name_error").show();
+				// $("input#contact_name").focus();
+				// return false;
+			// }
 			
-			var contact_phoneNumber = $("input#contact_phoneNumber").val();
-			if(contact_phoneNumber == null || contact_phoneNumber == "") {
-				$("label#contact_phoneNumber_error").show();
-				$("input#contact_phoneNumber").focus();
-				return false;
-			}
+			// var contact_phoneNumber = $("input#contact_phoneNumber").val();
+			// if(contact_phoneNumber == null || contact_phoneNumber == "") {
+				// $("label#contact_phoneNumber_error").show();
+				// $("input#contact_phoneNumber").focus();
+				// return false;
+			// }
 			
-			var registerDate = $("input#registerDate").val();
-			if(registerDate == null || registerDate == "") {
-				$("label#registerDate_error").show();
-				$("input#registerDate").focus();
-				return false;
-			}
-		});
+			// var registerDate = $("input#registerDate").val();
+			// if(registerDate == null || registerDate == "") {
+				// $("label#registerDate_error").show();
+				// $("input#registerDate").focus();
+				// return false;
+			// }
+		// });
+
+
 		
 		$('#tenantRegister').submit(function() {
+			
 			var values = $('#tenantRegister').serializeArray(),
 				data = {};
 			$.each(values, function(index,item){
@@ -326,6 +327,7 @@ $('#tenantHrefId').click(function(){
 	$('#registerTenant').click(function(){
 		//alert("you click register");
 		$('#tenantOrRoomProfile').html(registerTenantPage()).show();
+		$('#tenantRegister').validate();
 	
 	});
 	
@@ -1087,70 +1089,68 @@ $('.payRentFormClass1').on('submit',function(){
 		
 	}
 
-	function registerTenantPage(){
-		var jqForm = $('<form id="tenantRegister" onsubmit="return false;">'
-		+ '<div>'
-		+ '<label for="firstName">First Name: </label>'
-		+ '<input id="firstName" type="text" name="firstName">'
-		+ '<label class="error" for="firstName" id="firstName_error">This field is required.</label>'
-		+ '</div>'
+	// function registerTenantPage(){
+		// var jqForm = $('<form id="tenantRegister" onsubmit="return false;">'
+		// + '<div>'
+		// + '<label for="firstName">First Name: </label>'
+		// + '<input id="firstName" type="text" name="firstName" class="required" placeholder="enter first name">'
+		// + '<label class="error" for="firstName" id="firstName_error">This field is required.</label>'
+		// + '</div>'
 		
-		+ '<div>'
-		+ '<label for="surname">Surname:</label>'
-		+ '<input id="surname" type="test" name="surname">'
-		+ '<label class="error" for="surname" id="surname_error">This field is required.</label>'
-		+ '</div>'
+		// + '<div>'
+		// + '<label for="surname">Surname:</label>'
+		// + '<input id="surname" type="test" name="surname" class="required" placeholder="enter surname">'
+		// + '<label class="error" for="surname" id="surname_error">This field is required.</label>'
+		// + '</div>'
 		
-		+ '<div>'
-		+ '<label for="tenant_gender_male">Gender: </label>'
-		+ '<input id="tenant_gender_male" type="radio" value="male" name="tenant_gender">'							
-		+ '<label for="tenant_gender_male">Male</label>'
-		+ '<input id="tenant_gender_female" type="radio" value="female" name="tenant_gender">'
-		+ '<label for="tenant_gender_female">Female</label></br>'
-		+ '<label class="error" for="tenant_gender" id="tenant_gender_error"> Please select a gender.</label>'						
-		+ '</div>'
+		// + '<div>'
+		// + '<label for="tenant_gender_male">Gender: </label>'
+		// + '<input id="tenant_gender_male" type="radio" value="male" name="tenant_gender">'							
+		// + '<label for="tenant_gender_male">Male</label>'
+		// + '<input id="tenant_gender_female" type="radio" value="female" name="tenant_gender">'
+		// + '<label for="tenant_gender_female">Female</label></br>'
+		// + '<label class="error" for="tenant_gender" id="tenant_gender_error"> Please select a gender.</label>'						
+		// + '</div>'
 		
-		+ '<div>'
-		+ '<label for="tenant_age">Age:</label>'
-		+ '<input id="tenant_age" type="number" name="tenant_age" min="1" max="100">'
-		+ '<label class="error" for="tenant_age" id="tenant_age_error">This field is required.</label>'
-		+ '</div>'
+		// + '<div>'
+		// + '<label for="tenant_age">Age:</label>'
+		// + '<input id="tenant_age" type="number" name="tenant_age" min="1" max="100">'
+		// + '<label class="error" for="tenant_age" id="tenant_age_error">This field is required.</label>'
+		// + '</div>'
 		
-		+ '<div>'
-		+ '<label for="tenant_phoneNumber">Phone Number:</label>'
-		+ '<input id="tenant_phoneNumber" type="text" name="tenant_phoneNumber">'
-		+ '<label class="error" for="tenant_phoneNumber" id="tenant_phoneNumber_error">This field is required.</label>'
-		+ '</div>'
+		// + '<div>'
+		// + '<label for="tenant_phoneNumber">Phone Number:</label>'
+		// + '<input id="tenant_phoneNumber" type="text" name="tenant_phoneNumber">'
+		// + '<label class="error" for="tenant_phoneNumber" id="tenant_phoneNumber_error">This field is required.</label>'
+		// + '</div>'
 		
-		+ '<div>'
-		+ '<label> Emergency Contact:</label>'
-		+ '<input id="contact_name" type="text" name="contact_name" />'
-		+ '<label class="error" for="contact_name" id="contact_name_error">This field is required.</label>'
-		+ '</div>'
+		// + '<div>'
+		// + '<label> Emergency Contact:</label>'
+		// + '<input id="contact_name" type="text" name="contact_name" />'
+		// + '<label class="error" for="contact_name" id="contact_name_error">This field is required.</label>'
+		// + '</div>'
 		
-		+ '<div>'
-		+ '<label> Emergency Contact PhoneNumber:</label>'
-		+ '<input id="contact_phoneNumber" type="text" name="contact_phoneNumber" />'
-		+ '<label class="error" for="contact_phoneNumber" id="contact_phoneNumber_error">This field is required.</label>'
-		+ '</div>'
+		// + '<div>'
+		// + '<label> Emergency Contact PhoneNumber:</label>'
+		// + '<input id="contact_phoneNumber" type="text" name="contact_phoneNumber" />'
+		// + '<label class="error" for="contact_phoneNumber" id="contact_phoneNumber_error">This field is required.</label>'
+		// + '</div>'
 		
-		+ '<div>'
-		+ '<label for="registerDate">Register Date:</label>'
-		+ '<input id="registerDate" type="date" name="register_date" placeholder="Year-Month-Day">'
-		+ '<label class="error" for="registerDate" id="registerDate_error">This field is required.</label>'
-		+ '</div>'	
+		// + '<div>'
+		// + '<label for="registerDate">Register Date:</label>'
+		// + '<input id="registerDate" type="date" name="register_date" placeholder="Year-Month-Day">'
+		// + '<label class="error" for="registerDate" id="registerDate_error">This field is required.</label>'
+		// + '</div>'	
 		
-		+ '<div>'						
-		+ '<input type="submit" name="submit" class="tenantRegisterButton" id="tenantRegister_btn" value="Submit" />'
-		+ '<input type="reset" value="Reset" /></br>'
-		+ '</div>'
+		// + '<div>'						
+		// + '<input type="submit" name="submit" class="tenantRegisterButton" id="tenantRegister_btn" value="Submit" />'
+		// + '<input type="reset" value="Reset" /></br>'
+		// + '</div>'
 
-		+ '</form>');
-		$('body').append(jqForm);
-		//$('body').append('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>');
-		$('body').append('<script type="text/javascript" src="/scripts/app.js"></script>');
-		return jqForm;
-	}
+		// + '</form>');
+		// $('body').append(jqForm);		
+		// return jqForm;
+	// }
 	
 	function registerRoomPage(){
 		var jqForm = $('<form id="roomRegister" onsubmit="return false;">'
