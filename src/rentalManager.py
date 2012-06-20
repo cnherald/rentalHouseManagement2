@@ -5,6 +5,7 @@ import os
 from google.appengine.ext.webapp import template
 from models import Tenant
 from models import Room
+from google.appengine.ext import db
 
 class MainPage(webapp.RequestHandler):
     def get(self):
@@ -35,9 +36,29 @@ class TenantHandler(webapp.RequestHandler):
             roomNotAvailable = True
             template_values = {'tenants':tenants, 'roomNotAvailable':roomNotAvailable}                       
 
-        self.response.out.write(template.render(path, template_values))       
+        self.response.out.write(template.render(path, template_values)) 
+        
+class RoomHandler(webapp.RequestHandler):
+    def get(self):
+        rooms = db.GqlQuery("SELECT *"
+                            "FROM Room")
+
+        path = os.path.join(os.path.dirname(__file__), 'htmls/rooms.html')         
+        template_values = {'rooms':rooms}
+        self.response.out.write(template.render(path, template_values)) 
+    def post(self):
+        room = Room()
+        room.roomNumber = self.request.get('room_number')
+        room.size = float(self.request.get('room_size'))
+        room.rentSingle = float(self.request.get('room_rent_single'))
+        room.rentDouble = float(self.request.get('room_rent_double'))
+        #room.availability = self.request.get('room_availability')
+        room.put()    
+        room_url = '/rooms'
+        self.redirect(room_url)              
 
 application = webapp.WSGIApplication([('/', MainPage),
+                                      ('/rooms',RoomHandler),
                                       ('/tenants',TenantHandler)], debug=True)
 
 def main():
