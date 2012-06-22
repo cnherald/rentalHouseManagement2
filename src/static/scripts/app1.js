@@ -326,20 +326,26 @@ $('#tenantHrefId').click(function(){
 	// Register a New Tenant page
 	$('#registerTenant').click(function(){
 		//alert("you click register");
-		$('#tenantOrRoomProfile').html(registerTenantPage()).show();
+		$('#tenantOrRoomProfile').html(createRegisterTenantForm()).show();
 		$('#tenantRegister').validate();
 	
 	});
 	
-
+	$('button#registerTenantCancel').click(function(){
+		$('#tenantOrRoomProfile').hide();
+	});
 	
 	// Register a New Room page
 	$('#registerRoom').click(function(){
-		//alert("you click Room register");
-		$('#tenantOrRoomProfile').html(registerRoomPage()).show();
+		
+		$('#tenantOrRoomProfile').html(createRegisterRoomForm()).show();
+		$('#roomRegister').validate();
 	
 	});
 	
+	$('button#registerRoomCancel').click(function(){
+		$('#tenantOrRoomProfile').hide();
+	});
 
 //register a room
 	// $(function() {
