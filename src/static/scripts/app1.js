@@ -348,41 +348,39 @@ $('#tenantHrefId').click(function(){
 	});
 
 //register a room
-	// $(function() {
+
+	// $(".roomRegisterButton").click(function() {
 		// $('.error').hide();
-	// });
-	$(".roomRegisterButton").click(function() {
-		$('.error').hide();
-		var roomNumber = $("input#room_number").val();
-		if (roomNumber==null || roomNumber =="") {
-			$("label#roomNumber_error").show();
-			$("input#room_number").focus();
-			return false;
-		}
+		// var roomNumber = $("input#room_number").val();
+		// if (roomNumber==null || roomNumber =="") {
+			// $("label#roomNumber_error").show();
+			// $("input#room_number").focus();
+			// return false;
+		// }
 		
-		var roomSize = $("input#room_size").val();
-		if (roomSize==null || roomSize =="") {
-			$("label#roomSize_error").show();
-			$("input#room_size").focus();
-			return false;
-		}
+		// var roomSize = $("input#room_size").val();
+		// if (roomSize==null || roomSize =="") {
+			// $("label#roomSize_error").show();
+			// $("input#room_size").focus();
+			// return false;
+		// }
 		
-		var rentSingle = $("input#room_rent_single").val();
-		if (rentSingle==null || rentSingle =="") {
-			$("label#rentSingle_error").show();
-			$("input#room_rent_single").focus();
-			return false;
-		}
+		// var rentSingle = $("input#room_rent_single").val();
+		// if (rentSingle==null || rentSingle =="") {
+			// $("label#rentSingle_error").show();
+			// $("input#room_rent_single").focus();
+			// return false;
+		// }
 		
-		var rentDouble = $("input#room_rent_double").val();
-		if (rentDouble== null || rentDouble =="") {
-			$("label#rentDouble_error").show();
-			$("input#room_rent_double").focus();
-			return false;
-		}
+		// var rentDouble = $("input#room_rent_double").val();
+		// if (rentDouble== null || rentDouble =="") {
+			// $("label#rentDouble_error").show();
+			// $("input#room_rent_double").focus();
+			// return false;
+		// }
 	
-	});
-		//});
+	// });
+		
 		
 		$('#roomRegister').submit(function() {
 		var values = $('#roomRegister').serializeArray(),
