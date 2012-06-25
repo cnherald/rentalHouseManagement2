@@ -339,6 +339,7 @@ $('#tenantHrefId').click(function(){
 	$('#registerRoom').click(function(){
 		
 		$('#tenantOrRoomProfile').html(createRegisterRoomForm()).show();
+		alert("validate the form?");
 		$('#roomRegister').validate();
 	
 	});
