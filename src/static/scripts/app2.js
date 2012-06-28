@@ -7,7 +7,7 @@
 // include app1.js into app2.js file
 // function importApp1(){
 	// var imported = document.createElement('script');
-	// imported.src = '/scripts/app11.js';
+	// imported.src = '/scripts/app1.js';
 	// document.getElementsByTagName('head')[0].appendChild(imported);
 // }
 
@@ -200,7 +200,7 @@
 		$('body').append(jqForm);
 		//$('body').append('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>');
 		
-		//$('body').append('<script type="text/javascript" src="/scripts/app1.js"></script>');
+		$('body').append('<script type="text/javascript" src="/scripts/app1.js"></script>');
 		//importApp1();
 		return jqForm;
 	}
@@ -239,7 +239,7 @@
 		+ '</form>');
 		$('body').append(jqForm);
 		//$('body').append('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>');
-		//$('body').append('<script type="text/javascript" src="/scripts/app1.js"></script>');
+		$('body').append('<script type="text/javascript" src="/scripts/app1.js"></script>');
 		return jqForm;
 			
 	}

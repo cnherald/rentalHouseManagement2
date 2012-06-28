@@ -327,11 +327,13 @@ $('#tenantHrefId').click(function(){
 	$('#registerTenant').click(function(){
 		//alert("you click register");
 		$('#tenantOrRoomProfile').html(createRegisterTenantForm()).show();
+		alert("validate the tenant form?");
 		$('#tenantRegister').validate();
 	
 	});
 	
 	$('button#registerTenantCancel').click(function(){
+	alert("you want to cancel?");
 		$('#tenantOrRoomProfile').hide();
 	});
 	
@@ -339,7 +341,7 @@ $('#tenantHrefId').click(function(){
 	$('#registerRoom').click(function(){
 		
 		$('#tenantOrRoomProfile').html(createRegisterRoomForm()).show();
-		alert("validate the form?");
+		alert("validate the room form?");
 		$('#roomRegister').validate();
 	
 	});
