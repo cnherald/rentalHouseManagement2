@@ -200,7 +200,7 @@
 		$('body').append(jqForm);
 		//$('body').append('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>');
 		
-		$('body').append('<script type="text/javascript" src="/scripts/app1.js"></script>');
+		//$('body').append('<script type="text/javascript" src="/scripts/app1.js"></script>');
 		//importApp1();
 		return jqForm;
 	}

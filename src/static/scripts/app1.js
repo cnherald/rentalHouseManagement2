@@ -332,9 +332,12 @@ $('#tenantHrefId').click(function(){
 	
 	});
 	
+	
+	//remove the form
 	$('button#registerTenantCancel').click(function(){
 	alert("you want to cancel?");
-		$('#tenantOrRoomProfile').hide();
+		
+		$('#tenantOrRoomProfile').children().remove();
 	});
 	
 	// Register a New Room page
