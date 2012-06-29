@@ -334,8 +334,9 @@ $('#tenantHrefId').click(function(){
 	
 	
 	//remove the form
-	$('button#registerTenantCancel').click(function(){
-	alert("you want to cancel?");
+	//$('button#registerTenantCancel').click(function(){
+	$('#tenantOrRoomProfile').on('click', '#registerTenantCancel', function(){
+		alert("you want to cancel?");
 		
 		$('#tenantOrRoomProfile').children().remove();
 	});
