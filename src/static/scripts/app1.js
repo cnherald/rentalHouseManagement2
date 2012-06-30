@@ -326,32 +326,33 @@ $('#tenantHrefId').click(function(){
 	// Register a New Tenant page
 	$('#registerTenant').click(function(){
 		//alert("you click register");
-		$('#tenantOrRoomProfile').html(createRegisterTenantForm()).show();
-		alert("validate the tenant form?");
+		$('#tenantFormOrTable').html(createRegisterTenantForm()).show();
+		//alert("validate the tenant form?");
 		$('#tenantRegister').validate();
 	
 	});
 	
 	
-	//remove the form
+	//remove the tenant register form
 	//$('button#registerTenantCancel').click(function(){
-	$('#tenantOrRoomProfile').on('click', '#registerTenantCancel', function(){
-		alert("you want to cancel?");
-		
-		$('#tenantOrRoomProfile').children().remove();
+	$('#tenantFormOrTable').on('click', '#registerTenantCancel', function(){
+		//alert("you want to cancel?");		
+		$('#tenantFormOrTable').children().remove();
 	});
 	
 	// Register a New Room page
 	$('#registerRoom').click(function(){
 		
-		$('#tenantOrRoomProfile').html(createRegisterRoomForm()).show();
+		$('#roomFormOrTable').html(createRegisterRoomForm()).show();
 		alert("validate the room form?");
 		$('#roomRegister').validate();
 	
 	});
 	
-	$('button#registerRoomCancel').click(function(){
-		$('#tenantOrRoomProfile').hide();
+	//remove the room register form
+	$('#roomFormOrTable').on('click', '#registerRoomCancel', function(){
+	alert("you want to cancel?");	
+		$('#roomFormOrTable').children().remove();
 	});
 
 //register a room
