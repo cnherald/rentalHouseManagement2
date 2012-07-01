@@ -328,7 +328,24 @@ $('#tenantHrefId').click(function(){
 		//alert("you click register");
 		$('#tenantFormOrTable').html(createRegisterTenantForm()).show();
 		//alert("validate the tenant form?");
-		$('#tenantRegister').validate();
+		$('#tenantRegister').validate({
+			errorPlacement: function(error, element) {
+				error.appendTo($('#hereId'));
+			},
+			showErrors: function(errorMap,errorList){
+				$('#tenantRegister').find('input').each(function(){
+					$(this).removeClass('error');
+				
+				});
+				if(errorList.length){
+				$('#hereId').html(errorList[0]['message']);
+				$(errorList[0]['element']).addClass('error');
+				}
+			
+			},
+			debug:true
+		
+		});
 	
 	});
 	

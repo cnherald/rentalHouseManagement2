@@ -129,8 +129,9 @@
 		+ '<div>'
 		
 		//+ '<label for="firstName">First Name: </label>'
-
-		+ '<p>First Name: <input id="firstName" type="text" name="firstName" class="required"  placeholder="enter first name"/></p>'
+		//+ '<div id="hereId"></div>'
+		+ '<p>First Name: <input id="firstName" type="text" name="firstName" class="required"  placeholder="enter first name"/><div id="hereId"></div></p>'
+		//+ '<div id="hereId"></div>'
 		//+ '<label class="error" for="firstName" id="firstName_error">This field is required.</label>'
 
 		+ '</div>'
