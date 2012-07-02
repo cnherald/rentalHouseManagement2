@@ -6,6 +6,8 @@ from google.appengine.ext.webapp import template
 from models import Tenant
 from models import Room
 from google.appengine.ext import db
+import simplejson
+import django.utils.simplejson as json
 
 class MainPage(webapp.RequestHandler):
     def get(self):
@@ -55,9 +57,23 @@ class RoomHandler(webapp.RequestHandler):
         #room.availability = self.request.get('room_availability')
         room.put()    
         room_url = '/rooms'
-        self.redirect(room_url)              
+        self.redirect(room_url) 
+        
+class tenantRegisterHandler(webapp.RequestHandler):
+    def post(self):
+        self.response.headers['Content-Type'] = 'application/json'
+        jsonString = self.request.body          
+        data = simplejson.loads(jsonString) #Decoding JSON 
+        Tenant().registerTenant(data) 
+        #tenant = Tenant().registerTenant(data)
+        #tenant.createRegisterActivityRecord()
+        tenantRegisterResponse = {'tenantRegisterMsg':'Congratulations, you have registered a new tenant successfully!'}
+        jsonResponse = simplejson.dumps(tenantRegisterResponse)
+        return self.response.out.write(jsonResponse)
+                  
 
 application = webapp.WSGIApplication([('/', MainPage),
+                                      ('/tenantRegister',tenantRegisterHandler),
                                       ('/rooms',RoomHandler),
                                       ('/tenants',TenantHandler)], debug=True)
 

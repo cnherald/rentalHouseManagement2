@@ -124,69 +124,43 @@
 		var jqForm = $('<form class="form-horizontal" span2 id="tenantRegister" onsubmit="return false;">'
 		
         +'<div class="control-group">'
-        +'<div class="controls">'
-		
+        +'<div class="controls">'	
 		+ '<div>'
-		
-		//+ '<label for="firstName">First Name: </label>'
-		//+ '<div id="hereId"></div>'
 		+ '<p>First Name: <input id="firstName" type="text" name="firstName" class="required"  placeholder="enter first name"/><div id="hereId"></div></p>'
-		//+ '<div id="hereId"></div>'
-		//+ '<label class="error" for="firstName" id="firstName_error">This field is required.</label>'
-
-		+ '</div>'
+		+ '</div>'	
 		
 		+ '<div>'
-		//+ '<label for="surname">Surname:</label>'
-
-		+ '<p>Surname: <input id="surname" type="text" name="surname" class="required" placeholder="enter surname"/></p>'
-		//+ '<label class="error" for="surname" id="surname_error">This field is required.</label>'
-
+		+ '<p>Surname: <input id="surname" type="text" name="surname" class="required" placeholder="enter surname"/><div id="hereId"></p>'
 		+ '</div>'
 		
 		+ '<div>'
 		+ '<label for="tenant_gender_male">Gender: </label>'
-		+ '<p>Male: <input id="tenant_gender_male" type="radio" value="male" name="tenant_gender" class="required"/></p>'							
-		//+ '<label for="tenant_gender_male">Male</label>'
-		+ '<p>Female: <input id="tenant_gender_female" type="radio" value="female" name="tenant_gender" class="required"/></p>'
-		//+ '<label for="tenant_gender_female">Female</label></br>'
-		//+ '<label class="error" for="tenant_gender" id="tenant_gender_error"> Please select a gender.</label>'						
+		+ '<p>Male: <input id="tenant_gender_male" type="radio" value="male" name="tenant_gender" class="required"/><div id="hereId"></p>'							
+		+ '<p>Female: <input id="tenant_gender_female" type="radio" value="female" name="tenant_gender" class="required"/><div id="hereId"></p>'				
 		+ '</div>'
 		
 		+ '<div>'
-		//+ '<label for="tenant_age">Age:</label>'
-		+ '<p>Age: <input id="tenant_age" type="number" name="tenant_age" min="1" max="100" class="required" placeholder="enter age"/></p>'
-		//+ '<label class="error" for="tenant_age" id="tenant_age_error">This field is required.</label>'
+		+ '<p>Age: <input id="tenant_age" type="number" name="tenant_age" min="1" max="100" class="required" placeholder="enter age"/><div id="hereId"></p>'
 		+ '</div>'
 		
 		+ '<div>'
-		//+ '<label for="tenant_phoneNumber">Phone Number:</label>'
 		+ '<p>Phone Number: <input id="tenant_phoneNumber" type="text" name="tenant_phoneNumber" class="input-small span2 required" placeholder="enter phone number"/></p>'
-		//+ '<label class="error" for="tenant_phoneNumber" id="tenant_phoneNumber_error">This field is required.</label>'
 		+ '</div>'
 		
 		+ '<div>'
-		//+ '<label for="tenant_email">Email:</label>'
 		+ '<p>Email: <input id="tenant_email" type="email" name="tenant_email" class="required" placeholder="enter email"/></p>'
-		//+ '<label class="error" for="tenant_phoneNumber" id="tenant_phoneNumber_error">This field is required.</label>'
 		+ '</div>'
 		
 		+ '<div>'
-		//+ '<label> Emergency Contact:</label>'
 		+ '<p>Emergency Contact: <input id="contact_name" type="text" name="contact_name" class="input-small span2 required" placeholder="enter name"/></p>'
-		//+ '<label class="error" for="contact_name" id="contact_name_error">This field is required.</label>'
 		+ '</div>'
 		
 		+ '<div>'
-		//+ '<label> Emergency Contact PhoneNumber:</label>'
 		+ '<p>Emergency Contact PhoneNumber: <input id="contact_phoneNumber" type="text" name="contact_phoneNumber" class="required" placeholder="enter phone number"/></p>'
-		//+ '<label class="error" for="contact_phoneNumber" id="contact_phoneNumber_error">This field is required.</label>'
 		+ '</div>'
 		
 		+ '<div>'
-		//+ '<label for="registerDate">Register Date:</label>'
 		+ '<p>Register Date: <input id="registerDate" type="date" name="register_date" placeholder="Year-Month-Day"></p>'
-		//+ '<label class="error" for="registerDate" id="registerDate_error">This field is required.</label>'
 		+ '</div>'	
 		
 		+ '<div>'						
@@ -199,10 +173,6 @@
 		+ '<div class="control-group">'
 		+ '</form>');
 		$('body').append(jqForm);
-		//$('body').append('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>');
-		
-		//$('body').append('<script type="text/javascript" src="/scripts/app1.js"></script>');
-		//importApp1();
 		return jqForm;
 	}
 	
@@ -210,25 +180,16 @@
 		var jqForm = $('<form id="roomRegister" onsubmit="return false;">'
 		+ '<div>'
 		+ '<div>'
-		//+ '<label for="room_number">Number:</label>'
-		//+ '<input id="room_number" type="text" name="room_number"/>'
-		//+ '<label class="error" for="room_number" id="roomNumber_error">This field iss required.</label>'
-		+ '<p>Number: <input id="room_number" type="text" name="room_number" class="required" placeholder="enter room_number"/></p>'
+		+ '<p>Number: <input id="room_number" type="text" name="room_number" class="required" placeholder="enter room number"/></p>'
 		+ '</div>'
 		+ '<div>'
-		+ '<label for="room_size">Size:</label>'
-		+ '<input id="room_size" type="number" name="room_size"/>'
-		+ '<label class="error" for="room_size" id="roomSize_error">This field iss required.</label>'
+		+ '<p>Area: <input id="room_area" type="number" name="room_area" class="required" placeholder="enter room area"/></p>'
 		+ '</div>'
 		+ '<div>'
-		+ '<label for="room_rent_single">Rent_Single:</label>'
-		+ '<input id="room_rent_single" type="number" name="room_rent_single"/>'
-		+ '<label class="error" for="room_rent_single" id="rentSingle_error">This field is required.</label>'
+		+ '<p>Rent_Single: <input id="room_rent_single" type="number" name="room_rent_single" class="required" placeholder="enter the rent for single"/></p>'
 		+ '</div>'
 		+ '<div>'
-		+ '<label for="room_rent_double">Rent_Double:</label>'
-		+ '<input id="room_rent_double" type="number" name="room_rent_double"/>'
-		+ '<label class="error" for="room_rent_double" id="rentDouble_error">This field is required.</label>'
+		+ '<p>Rent_Double: <input id="room_rent_double" type="number" name="room_rent_double" class="required" placeholder="enter the rent for double"/></p>'
 		+ '</div>'
 	
 		+ '</div>'		
@@ -239,8 +200,6 @@
 		+ '</div>'
 		+ '</form>');
 		$('body').append(jqForm);
-		//$('body').append('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>');
-		//$('body').append('<script type="text/javascript" src="/scripts/app1.js"></script>');
 		return jqForm;
 			
 	}

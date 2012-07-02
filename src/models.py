@@ -74,6 +74,22 @@ class Tenant(db.Model):
     #startDate = db.DateProperty(auto_now_add = True)
     registerDate = db.DateProperty(auto_now_add = True)  
     
+    def registerTenant(self,data):
+        tenant = Tenant(key_name = data['firstName'] + data['surname'] + data['registerDate'])         
+        #tenant = Tenant(key_name = self.request.get('firstName')+'_' + self.request.get('surname'))      
+        tenant.firstName = data['firstName']
+        tenant.surname = data['surname']
+        tenant.gender = data['gender']
+        tenant.age = int(data['age'])
+        tenant.phoneNumber = data['phoneNumber'] 
+        tenant.contactName = data['contactName']
+        tenant.contactPhoneNumber = data['contactPhoneNumber']
+        #tenant.registerDate = data['registerDate']
+        registerDate = datetime.strptime(data['registerDate'],"%Y-%m-%d")
+        tenant.registerDate = registerDate.date()    
+        tenant.put()
+        return tenant
+    
     def getCurrentTenants(self):
         tenants = db.GqlQuery("SELECT * "
                               "FROM Tenant")

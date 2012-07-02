@@ -215,71 +215,11 @@ $('#tenantHrefId').click(function(){
 	
 	});
 	
-		
-//register a tenant	
-			
-		// $(".tenantRegisterButton").click(function() {
-			
-			// $('.error').hide();
-			// var firstName = $("input#firstName").val();
-			// if(firstName == null || firstName == "") {
-				// $("label#firstName_error").show();
-				// $("input#firstName").focus();
-				// return false;
-			// }
-			
-			// var surname = $("input#surname").val();
-			// if(surname == null || surname == "") {
-				// $("label#surname_error").show();
-				// $("input#surname").focus();
-				// return false;
-			// }
-			
-			
-			// if ($('input[name=tenant_gender]:checked').length == 0) {
-				// $("label#tenant_gender_error").show();
-				// return false;
-			// }
-			
-			// var tenant_age = $("input#tenant_age").val();
-			// if(tenant_age == null || tenant_age == "") {
-				// $("label#tenant_age_error").show();
-				// $("input#tenant_age").focus();
-				// return false;
-			// }
-			
-			// var tenant_phoneNumber = $("input#tenant_phoneNumber").val();
-			// if(tenant_phoneNumber == null || tenant_phoneNumber == "") {
-				// $("label#tenant_phoneNumber_error").show();
-				// $("input#tenant_phoneNumber").focus();
-				// return false;
-			// }
-			
-			// var contact_name = $("input#contact_name").val();
-			// if(contact_name ==null || contact_name == "") {
-				// $("label#contact_name_error").show();
-				// $("input#contact_name").focus();
-				// return false;
-			// }
-			
-			// var contact_phoneNumber = $("input#contact_phoneNumber").val();
-			// if(contact_phoneNumber == null || contact_phoneNumber == "") {
-				// $("label#contact_phoneNumber_error").show();
-				// $("input#contact_phoneNumber").focus();
-				// return false;
-			// }
-			
-			// var registerDate = $("input#registerDate").val();
-			// if(registerDate == null || registerDate == "") {
-				// $("label#registerDate_error").show();
-				// $("input#registerDate").focus();
-				// return false;
-			// }
-		// });
+	
 
 
-		
-		$('#tenantRegister').submit(function() {
+	$('#tenantFormOrTable').on('submit', '#tenantRegister', function(){
+		//$('#tenantRegister').submit(function() {
 			
 			var values = $('#tenantRegister').serializeArray(),
 				data = {};
@@ -328,24 +268,25 @@ $('#tenantHrefId').click(function(){
 		//alert("you click register");
 		$('#tenantFormOrTable').html(createRegisterTenantForm()).show();
 		//alert("validate the tenant form?");
-		$('#tenantRegister').validate({
-			errorPlacement: function(error, element) {
-				error.appendTo($('#hereId'));
-			},
-			showErrors: function(errorMap,errorList){
-				$('#tenantRegister').find('input').each(function(){
-					$(this).removeClass('error');
+		$('#tenantRegister').validate(
+			// errorPlacement: function(error, element) {
+				// error.appendTo($('#hereId'));
+			// },
+			// showErrors: function(errorMap,errorList){
+				// $('#tenantRegister').find('input').each(function(){
+					// $(this).removeClass('error');
 				
-				});
-				if(errorList.length){
-				$('#hereId').html(errorList[0]['message']);
-				$(errorList[0]['element']).addClass('error');
-				}
+				// });
+				// $('#hereId').html("");
+				// if(errorList.length){
+				// $('#hereId').html(errorList[0]['message']);
+				// $(errorList[0]['element']).addClass('error');
+				// }
 			
-			},
-			debug:true
+			// },
+			// debug:true
 		
-		});
+		);
 	
 	});
 	
@@ -361,14 +302,14 @@ $('#tenantHrefId').click(function(){
 	$('#registerRoom').click(function(){
 		
 		$('#roomFormOrTable').html(createRegisterRoomForm()).show();
-		alert("validate the room form?");
+		//alert("validate the room form?");
 		$('#roomRegister').validate();
 	
 	});
 	
 	//remove the room register form
 	$('#roomFormOrTable').on('click', '#registerRoomCancel', function(){
-	alert("you want to cancel?");	
+	//alert("you want to cancel?");	
 		$('#roomFormOrTable').children().remove();
 	});
 
