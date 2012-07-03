@@ -261,7 +261,7 @@
 	}
 
 	
-	function checkinForm(tenantKey,tenant_data,rooms_data){		
+	function creatCheckinForm(tenantKey,tenant_data,rooms_data){		
 		var roomNumberOptions = new Array();
 		roomNumberOptions.push('<option value = "title"> Rooms </option>');
 		$.each(rooms_data, function(item){

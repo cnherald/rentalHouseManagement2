@@ -5,6 +5,7 @@ import os
 from google.appengine.ext.webapp import template
 from models import Tenant
 from models import Room
+from models import RentalContract
 from google.appengine.ext import db
 import simplejson
 import django.utils.simplejson as json
@@ -59,7 +60,7 @@ class RoomHandler(webapp.RequestHandler):
         room_url = '/rooms'
         self.redirect(room_url) 
         
-class tenantRegisterHandler(webapp.RequestHandler):
+class TenantRegisterHandler(webapp.RequestHandler):
     def post(self):
         self.response.headers['Content-Type'] = 'application/json'
         jsonString = self.request.body          
@@ -70,10 +71,57 @@ class tenantRegisterHandler(webapp.RequestHandler):
         tenantRegisterResponse = {'tenantRegisterMsg':'Congratulations, you have registered a new tenant successfully!'}
         jsonResponse = simplejson.dumps(tenantRegisterResponse)
         return self.response.out.write(jsonResponse)
-                  
+    
+class RoomRegisterHandler(webapp.RequestHandler):
+    def post(self):
+        self.response.headers['Content-Type'] = 'application/json'
+        jsonString = self.request.body          
+        data = simplejson.loads(jsonString) #Decoding JSON        
+        room = Room(key_name = data['roomNumber'] )
+        room.roomNumber = data['roomNumber']         
+        room.area = float(data['roomArea'])
+        room.rentSingle = float(data['rentSingle'])
+        room.rentDouble = float(data['rentDouble'])
+        room.put()    
 
+        roomRegisterResponse = {'roomRegisterMsg':'Congratulations, you have registered a new room successfully!'}
+        json = simplejson.dumps(roomRegisterResponse)
+        return self.response.out.write(json)
+                  
+class TenantCheckinHandler(webapp.RequestHandler):
+    def get(self):
+        tenant_key = self.request.get('tenant_key')
+        tenant = Tenant.get(tenant_key)
+        room = Room()
+        contract = RentalContract()
+        contracts = contract.getAllRentalContracts()
+        if room.notFull():            
+            tenant_data_list = tenant.getTenantProfile()
+            rooms_data_list = room.getAvailableRoomsProfile()
+            data_list = []
+            data_list.append({'tenantProfile': tenant_data_list, 'roomsProfile': rooms_data_list})
+            output_json = json.dumps(data_list) 
+            self.response.out.write(output_json)                              
+        else:
+            noVacancyResponse = {'noVacancyResponse':'Sorry, All rooms are occupied!'}
+            noVacancyResponse_json = simplejson.dumps(noVacancyResponse)
+            return self.response.out.write(noVacancyResponse_json) 
+        
+    def post(self):
+        self.response.headers['Content-Type'] = 'application/json'
+        jsonString = self.request.body       
+        data = simplejson.loads(jsonString)
+        tenant_key = data['tenantKey']
+        tenant = Tenant.get(tenant_key)
+        tenant.registerRoom(data)
+        tenant.createCheckinActivityRecord()          
+        checkinResponse = {'checkinSuccessMessage':'Congratulations, you have checked in the room!'}
+        jsonCheckinResponse = simplejson.dumps(checkinResponse)
+        return self.response.out.write(jsonCheckinResponse)
 application = webapp.WSGIApplication([('/', MainPage),
-                                      ('/tenantRegister',tenantRegisterHandler),
+                                      ('/tenantRegister',TenantRegisterHandler),
+                                      ('/roomRegister',RoomRegisterHandler),
+                                      ('/tenantCheckin',TenantCheckinHandler),
                                       ('/rooms',RoomHandler),
                                       ('/tenants',TenantHandler)], debug=True)
 

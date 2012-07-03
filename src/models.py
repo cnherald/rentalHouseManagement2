@@ -16,7 +16,7 @@ class Room(db.Model):
     #tenant = db.ReferenceProperty(required = False)
     #tenant = db.ReferenceProperty()#test
     roomNumber = db.StringProperty(required = False)    
-    size = db.FloatProperty()
+    area = db.FloatProperty()
     rentSingle = db.FloatProperty()
     rentDouble = db.FloatProperty()
 #    rentActual = db.FloatProperty()    
@@ -74,6 +74,10 @@ class Tenant(db.Model):
     #startDate = db.DateProperty(auto_now_add = True)
     registerDate = db.DateProperty(auto_now_add = True)  
     
+    def getAllTenants(self):
+        tenants = db.GqlQuery("SELECT * "
+                      "FROM Tenant")
+        return tenants
     def registerTenant(self,data):
         tenant = Tenant(key_name = data['firstName'] + data['surname'] + data['registerDate'])         
         #tenant = Tenant(key_name = self.request.get('firstName')+'_' + self.request.get('surname'))      
@@ -98,7 +102,7 @@ class Tenant(db.Model):
             currentTenants.append(tenant)              
         return currentTenants  
 
-class Contract(db.Model):
+class RentalContract(db.Model):
     tenant = db.ReferenceProperty(Tenant, required = True)
     room = db.ReferenceProperty(Room, required = True)
     checkedIn = db.BooleanProperty()
@@ -106,13 +110,18 @@ class Contract(db.Model):
     endDate = db.DateProperty()
     checkedOutDate = db.DateProperty()
     
-class Payments(db.Model):
-    contract = db.ReferenceProperty(Contract, required = True)
+    def getAllRentalContracts(self):
+        contracts = db.GqlQuery("SELECT * "
+                      "FROM RentalContract")
+        return contracts
+    
+class Payment(db.Model):
+    contract = db.ReferenceProperty(RentalContract, required = True)
     rentActual = db.FloatProperty()
     payPeriod = db.IntegerProperty(default = 1)
     bond = db.FloatProperty()
     
 class Transaction(db.Model):
-    payment = db.ReferenceProperty(Payments, required = True)
+    payment = db.ReferenceProperty(Payment, required = True)
     paidAmount = db.FloatProperty()
     transactionDate = db.DateProperty()

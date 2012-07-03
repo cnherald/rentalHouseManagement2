@@ -41,7 +41,7 @@ $('#tenantHrefId').click(function(){
 		var tenantKey = $(this).data('tenant-key');
 		
 		$.ajax({
-			url:"/checkin?tenant_key=" + tenantKey,
+			url:"/tenantCheckin?tenant_key=" + tenantKey,
 			type:'GET',
 			//dataType:'json',
 			dataType:'json',
@@ -56,7 +56,7 @@ $('#tenantHrefId').click(function(){
 						tenant_data = resp[i].tenantProfile;
 						rooms_data = resp[i].roomsProfile;
 					}
-					$('#tenantOrRoomProfile').html(checkinForm(tenantKey,tenant_data,rooms_data)).show();
+					$('#tenantFormOrTable').html(creatCheckinForm(tenantKey,tenant_data,rooms_data)).show();
 
 				}
 			}		
@@ -348,15 +348,16 @@ $('#tenantHrefId').click(function(){
 	// });
 		
 		
-		$('#roomRegister').submit(function() {
+		//$('#roomRegister').submit(function() {
+		$('#roomFormOrTable').on('submit', '#roomRegister', function(){
 		var values = $('#roomRegister').serializeArray(),
 			data = { };
 		$.each(values, function(index,item){
 			if (item.name == 'room_number'){
 				data.roomNumber = item.value;
 				//console.log('>>>roomNumber', item.value);
-			} else if (item.name == 'room_size') {
-				data.roomSize = item.value;
+			} else if (item.name == 'room_area') {
+				data.roomArea = item.value;
 			}else if (item.name == 'room_rent_single') {
 				data.rentSingle = item.value;
 			} else if (item.name == 'room_rent_double') {

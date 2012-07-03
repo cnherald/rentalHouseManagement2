@@ -59,9 +59,9 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Options<b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a id="registerTenant" href="#" >Register New Tenant</a></li>
-							<li><a href="#">Link 2</a></li>
-							<li><a href="#">Link 3</a></li>
+							<li><a id="registerTenant" href="#">Register New Tenant</a></li>
+							<li><a id="checkinTenant" href="#">Check in</a></li>
+							<li><a id="checkoutTenant" href="#">Check out</a></li>
 						</ul>						
 					</li>
 				</ul>
@@ -121,6 +121,7 @@
 									<th>Contact Name</th>				
 									<th>Contact Phone Number</th>
 									<th>Register Date</th>
+									<th>ToDo</th>
 									<th>Delete</th>
 									<th>Activities</th>
 									
@@ -140,6 +141,14 @@
 									<td>{{ tenant.contactName }}</td>
 									<td>{{ tenant.contactPhoneNumber }}</td>
 									<td>{{ tenant.registerDate }}</td>
+									<td class="checkinOrOutClass">
+										{% if tenant.room %}
+										<a href="#" id="checkoutHrefId" rel="popover" data-content="click to check {{ tenant.firstName }} {{ tenant.surname }} out" data-tenant-key="{{ tenant.key}}"> Check Out </a>
+										{% else %}{% ifequal tenant.room None %}													
+										<a href="#" id="checkinHrefId" rel="popover" data-content="click to check {{ tenant.firstName }} {{ tenant.surname }} in" data-tenant-key="{{ tenant.key}}"> Check In </a>						
+										{% endifequal %}
+										{% endif %}
+									</td>
 									<td class="deleteTenant">										
 										<a href="#" rel="popover" data-content="click to delete {{ tenant.firstName }} {{ tenant.surname }} from this table" data-tenant-key="{{ tenant.key}}"> Delete </a>
 									</td >									
@@ -183,10 +192,8 @@
 			<script src="scripts/bootstrap-dropdown.js"></script>			
 			<script src="scripts/bootstrap-tooltip.js"></script>						
 			<script src="scripts/bootstrap-modal.js"></script>
-			<script src="scripts/bootstrap-popover.js"></script>
-			
+			<script src="scripts/bootstrap-popover.js"></script>			
 			<script src="scripts/bootstrap-tooltip.js"/>
-			<script type="text/javascript" src="scripts/bootstrap-dropdown.js"/>
 			<script src="scripts/bootstrap.min.js"/>
 			
 	</body>
