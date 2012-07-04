@@ -93,11 +93,12 @@ class TenantCheckinHandler(webapp.RequestHandler):
         tenant_key = self.request.get('tenant_key')
         tenant = Tenant.get(tenant_key)
         room = Room()
-        contract = RentalContract()
-        contracts = contract.getAllRentalContracts()
+        #contract = RentalContract()
+        #contracts = contract.getAllRentalContracts()
         if room.notFull():            
             tenant_data_list = tenant.getTenantProfile()
-            rooms_data_list = room.getAvailableRoomsProfile()
+            roomsAvailable = room.getAvailableRooms()
+            rooms_data_list = room.getRoomsProfile(roomsAvailable)
             data_list = []
             data_list.append({'tenantProfile': tenant_data_list, 'roomsProfile': rooms_data_list})
             output_json = json.dumps(data_list) 

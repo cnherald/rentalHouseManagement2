@@ -15,11 +15,37 @@ from datetime import datetime
 class Room(db.Model):
     #tenant = db.ReferenceProperty(required = False)
     #tenant = db.ReferenceProperty()#test
-    #rentalContract = db.ReferenceProperty()
+    rentalContract = db.ReferenceProperty()
     roomNumber = db.StringProperty(required = False)    
     area = db.FloatProperty()
     rentSingle = db.FloatProperty()
     rentDouble = db.FloatProperty()
+    
+    def notFull(self):
+        rooms = Room.all()
+        rc = RentalContract()
+        for room in rooms:
+            for con in rc.getAllRentalContracts():
+                if room.key() == con.room.key():
+                #if (not room.rentalContract.tenant):
+                    return False
+        return True
+    
+    def getAvailableRooms(self):
+        rooms = Room.all()
+        rooms_list = []
+        for room in rooms:
+            if (not room.rentalContract):
+                rooms_list.append(room)
+        return rooms_list
+        
+    def getRoomsProfile(self,rooms):
+        #rooms = Room.all()
+        rooms_data_list = []
+        for room in rooms:
+            #if (not room.tenant):
+                rooms_data_list.append({'roomKey':str(room.key()),'roomNumber':room.roomNumber,'area':room.area,'rentSingle':room.rentSingle,'rentDouble':room.rentDouble})
+        return rooms_data_list
 #    rentActual = db.FloatProperty()    
 
 #    def notFull(self):
@@ -95,6 +121,15 @@ class Tenant(db.Model):
         tenant.put()
         return tenant
     
+    def getTenantProfile(self):
+        tenants = db.GqlQuery("SELECT * "
+                      "FROM Tenant")
+        data_list = []
+        for tenant in tenants:
+            if tenant.key()== self.key():
+                data_list.append({'firstName':tenant.firstName,'surname':tenant.surname,'gender':tenant.gender,'age':tenant.age,'phoneNumber':tenant.phoneNumber,'email':tenant.email,'contactName':tenant.contactName,'contactPhoneNumber':tenant.contactPhoneNumber,'registerDate': tenant.registerDate.isoformat()})          
+        return data_list
+    
     def getCurrentTenants(self):
         tenants = db.GqlQuery("SELECT * "
                               "FROM Tenant")
@@ -114,10 +149,10 @@ class RentalContract(db.Model):
     def getAllRentalContracts(self):
         contracts = db.GqlQuery("SELECT * "
                       "FROM RentalContract")
-        allContracts = []
-        for contract in contracts:
-            allContracts.append(contract)
-        return allContracts
+#        allContracts = []
+#        for contract in contracts:
+#            allContracts.append(contract)
+        return contracts
     
 class Payment(db.Model):
     contract = db.ReferenceProperty(RentalContract, required = True)
