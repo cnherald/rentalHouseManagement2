@@ -16,12 +16,12 @@ class MainPage(webapp.RequestHandler):
         tenants = Tenant().getCurrentTenants()              
         clearedTenants = []
         pendingTenants = []      
-        for tenant in tenants:
-            if tenant.room: #displays only checked in tenant                 
-                if tenant.paymentIsClear():
-                    clearedTenants.append(tenant)                
-                else:
-                    pendingTenants.append(tenant)  
+#        for tenant in tenants:
+#            if tenant.RentalContract.room: #displays only checked in tenant                 
+#                if tenant.paymentIsClear():
+#                    clearedTenants.append(tenant)                
+#                else:
+#                    pendingTenants.append(tenant)  
         path = os.path.join(os.path.dirname(__file__), 'htmls/mainPage.html')
         template_values = {'pendingTenants':pendingTenants, 'clearedTenants':clearedTenants}
         self.response.out.write(template.render(path, template_values))

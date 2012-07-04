@@ -113,7 +113,10 @@ class RentalContract(db.Model):
     def getAllRentalContracts(self):
         contracts = db.GqlQuery("SELECT * "
                       "FROM RentalContract")
-        return contracts
+        allContracts = []
+        for contract in contracts:
+            allContracts.append(contract)
+        return allContracts
     
 class Payment(db.Model):
     contract = db.ReferenceProperty(RentalContract, required = True)
