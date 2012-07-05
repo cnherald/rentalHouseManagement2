@@ -273,7 +273,7 @@
 			payPeriodOptions.push('<option value=' + i +'>' + i + "week" + '</option>');
 		}
 		
-		var jqForm = $('<form id="checkInForm"></form>');
+		var jqForm = $('<form class="form-horizontal" span2 id="checkInForm"></form>');
 		$.each(tenant_data, function(item){
 				jqForm.append(
 					'<div>'
@@ -324,7 +324,7 @@
 		
 		$('body').append(jqForm);
 		//$('body').append('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>');
-		$('body').append('<script type="text/javascript" src="/scripts/app.js"></script>');		
+		//$('body').append('<script type="text/javascript" src="/scripts/app.js"></script>');		
 		return jqForm;
 	}
 	

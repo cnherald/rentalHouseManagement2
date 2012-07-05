@@ -399,7 +399,8 @@ $('#tenantHrefId').click(function(){
 		});
 	//});
 		//console.trace();
-	$('#checkInForm').submit(function() {
+	//$('#checkInForm').submit(function() {
+	$('#tenantFormOrTable').on('submit', '#checkInForm', function(){
 	
 		//console.trace();
 	//$('#submitButton').click(function() {
