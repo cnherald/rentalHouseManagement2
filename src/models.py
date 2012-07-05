@@ -38,6 +38,15 @@ class Room(db.Model):
             if (not room.rentalContract):
                 rooms_list.append(room)
         return rooms_list
+    
+    def getRoomProfile(self):
+        rooms = db.GqlQuery("SELECT * "
+                      "FROM Room")
+        data_list = []
+        for room in rooms:
+            if room.key()== self.key():
+                data_list.append({'roomNumber':room.roomNumber,'area':room.area,'rentSingle':room.rentSingle,'rentDouble':room.rentDouble})          
+        return data_list
         
     def getRoomsProfile(self,rooms):
         #rooms = Room.all()

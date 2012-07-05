@@ -220,7 +220,7 @@
 	
 	}
 	
-	function showRoomProfileForm(roomKey,data_json){
+	function creatShowRoomProfileForm(roomKey,data_json){
 		var jqForm = $('<form id="orderRoomForm" onsubmit="return false;"></form>');
 		$.each(data_json,function(item){
 			jqForm.append(
@@ -231,19 +231,19 @@
 				// + '<p>Number:' + data_json[item].roomNumber +'</p>'
 				// + '</div>'
 				+ '<div>'
-				+ '<p>Size:'+ data_json[item].size +'</p>'
+				+ '<p>Area:'+ data_json[item].area +'</p>'
 				+ '</div>'
 				+ '<div>'
 				// '<input type="checkbox" id = "singleRentCheckBoxId" labelledby="singleRentLable" />'
 				+ '<input type = "radio" id = "singleRentRadioId" name = "rent">'
-				+ '<label id="singleRentLabel">Single Rent:</label>'						
-				+ '<input  type="text" name="room_rentSingle" id="singleRentID" class="rent-input" value=' + data_json[item].rentSingle + ' disabled/>'
+				//+ '<label id="singleRentLabel">Single Rent:</label>'						
+				+ '<p>Single Rent: <input  type="text" name="room_rentSingle" id="singleRentID" class="rent-input" value=' + data_json[item].rentSingle + ' disabled/></p>'
 				+ '</div>'								
 				+ '<div>'							
 				//+ '<input type="checkbox" id = "doubleRentCheckBoxId" labelledby="doubleRentLabel" />'
 				+ '<input type = "radio" id = "doubleRentRadioId" name = "rent">'
-				+ '<label id="doubleRentLabel">Double Rent:</label>'
-				+ '<input type="text" name="room_rentDouble" id="doubleRent" class="rent-input" value=' + data_json[item].rentSingle + ' disabled/>'
+				//+ '<label id="doubleRentLabel">Double Rent:</label>'
+				+ '<p>Double Rent: <input type="text" name="room_rentDouble" id="doubleRent" class="rent-input" value=' + data_json[item].rentDouble + ' disabled/></p>'
 				+ '</div>'
 				//+ '<div>'
 				//+ '<input type="submit" value="Order this Room" />'
@@ -294,9 +294,9 @@
 					//+ '<div>'
 					+ '<span id="showRoomInfo"></span>'
 					+ '<div>'
-					+ '<label for="tenant_startDate">StartDate:</label>'
-					+ '<input id="tenant_startDate" type="date" name="tenant_startDate" placeholder="Year-Month-Day">'
-					+ '<label class="error" for="tenant_startDate" id="startDate_error">This field is required.</label>'
+					//+ '<label for="tenant_startDate">StartDate:</label>'
+					+ '<p>StartDate: <input id="tenant_startDate" type="date" name="tenant_startDate" placeholder="Year-Month-Day"></p>'
+					//+ '<label class="error" for="tenant_startDate" id="startDate_error">This field is required.</label>'
 					+ '</div>'
 					
 					+ '<div>'

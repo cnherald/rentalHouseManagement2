@@ -119,11 +119,32 @@ class TenantCheckinHandler(webapp.RequestHandler):
         checkinResponse = {'checkinSuccessMessage':'Congratulations, you have checked in the room!'}
         jsonCheckinResponse = simplejson.dumps(checkinResponse)
         return self.response.out.write(jsonCheckinResponse)
+    
+class RoomProfileDataHandler(webapp.RequestHandler):
+    def get(self):
+        room_key = self.request.get('room_key')
+        room = Room.get(room_key)
+        data_list = room.getRoomProfile()
+        output_json = json.dumps(data_list)
+        self.response.out.write(output_json) 
+
+    def post(self):
+        room_key = self.request.get('room_key')
+        room = Room.get(room_key)
+        room.roomNumber = self.request.get('room_number')    
+        room.size = float(self.request.get('room_size'))
+        room.rentSingle = float(self.request.get('room_rentSingle'))
+        room.rentDouble = float(self.request.get('room_rentDouble'))
+        room.put()
+        roomProfile_url = '/rooms'
+        self.redirect(roomProfile_url)
+    
 application = webapp.WSGIApplication([('/', MainPage),
                                       ('/tenantRegister',TenantRegisterHandler),
                                       ('/roomRegister',RoomRegisterHandler),
                                       ('/tenantCheckin',TenantCheckinHandler),
                                       ('/rooms',RoomHandler),
+                                      ('/roomProfileData',RoomProfileDataHandler),
                                       ('/tenants',TenantHandler)], debug=True)
 
 def main():

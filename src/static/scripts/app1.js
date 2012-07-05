@@ -177,7 +177,8 @@ $('#tenantHrefId').click(function(){
 	
 	//Get the profile of the room
 	//$('#selectRoom').change(function(){
-	$('.selectRoomClass select').change(function(){ //use container:"selectRoomClass" instead of id:#selectRoom
+	//$('.selectRoomClass select').change(function(){ //use container:"selectRoomClass" instead of id:#selectRoom
+	$('#tenantFormOrTable').on('change', '.selectRoomClass select', function(){
 		//var roomKey = $('#selectRoom').val();
 		var roomKey = $('.selectRoomClass select').val();
 		$.ajax({
@@ -187,7 +188,7 @@ $('#tenantHrefId').click(function(){
 			dataType:'json',
 			success: function(data_json){
 			//alert("room info returned");
-				$('#showRoomInfo').html(showRoomProfileForm(roomKey,data_json)).show();
+				$('#showRoomInfo').html(creatShowRoomProfileForm(roomKey,data_json)).show();
 				//$('.showRoomInfoClass span').html(showRoomProfileForm(roomKey,data_json)).show();
 			//alert("after showRoomProfileForm method");
 			}		
@@ -1179,46 +1180,6 @@ $('.payRentFormClass1').on('submit',function(){
 	
 	}
 	
-	function showRoomProfileForm(roomKey,data_json){
-		var jqForm = $('<form id="orderRoomForm" onsubmit="return false;"></form>');
-		$.each(data_json,function(item){
-			jqForm.append(
-				'<div>'
-				+ '<input type="hidden" name="room_key" value=' + roomKey + ' />'
-				+ '</div>'
-				// + '<div>'
-				// + '<p>Number:' + data_json[item].roomNumber +'</p>'
-				// + '</div>'
-				+ '<div>'
-				+ '<p>Size:'+ data_json[item].size +'</p>'
-				+ '</div>'
-				+ '<div>'
-				// '<input type="checkbox" id = "singleRentCheckBoxId" labelledby="singleRentLable" />'
-				+ '<input type = "radio" id = "singleRentRadioId" name = "rent">'
-				+ '<label id="singleRentLabel">Single Rent:</label>'						
-				+ '<input  type="text" name="room_rentSingle" id="singleRentID" class="rent-input" value=' + data_json[item].rentSingle + ' disabled/>'
-				+ '</div>'								
-				+ '<div>'							
-				//+ '<input type="checkbox" id = "doubleRentCheckBoxId" labelledby="doubleRentLabel" />'
-				+ '<input type = "radio" id = "doubleRentRadioId" name = "rent">'
-				+ '<label id="doubleRentLabel">Double Rent:</label>'
-				+ '<input type="text" name="room_rentDouble" id="doubleRent" class="rent-input" value=' + data_json[item].rentSingle + ' disabled/>'
-				+ '</div>'
-				//+ '<div>'
-				//+ '<input type="submit" value="Order this Room" />'
-				//+ '<input type="reset" value="Reset the Order" />'
-				//+ '</div>'
-			
-			
-			);
-		
-		});
-		$('body').append(jqForm);
-		//$('body').append('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>');
-		//$('body').append('<script type="text/javascript" src="/scripts/app.js"></script>');
-		return jqForm;
-	}
-
 	
 	function checkinForm(tenantKey,tenant_data,rooms_data){		
 		var roomNumberOptions = new Array();
