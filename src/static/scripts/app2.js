@@ -221,42 +221,27 @@
 	}
 	
 	function creatShowRoomProfileForm(roomKey,data_json){
-		var jqForm = $('<form id="orderRoomForm" onsubmit="return false;"></form>');
+		var jqForm = $('<form class="well form-horizontal" id="orderRoomForm" onsubmit="return false;"></form>');
 		$.each(data_json,function(item){
 			jqForm.append(
 				'<div>'
 				+ '<input type="hidden" name="room_key" value=' + roomKey + ' />'
 				+ '</div>'
-				// + '<div>'
-				// + '<p>Number:' + data_json[item].roomNumber +'</p>'
-				// + '</div>'
 				+ '<div>'
 				+ '<p>Area:'+ data_json[item].area +'</p>'
 				+ '</div>'
 				+ '<div>'
-				// '<input type="checkbox" id = "singleRentCheckBoxId" labelledby="singleRentLable" />'
-				+ '<input type = "radio" id = "singleRentRadioId" name = "rent">'
-				//+ '<label id="singleRentLabel">Single Rent:</label>'						
+				+ '<input type = "radio" id = "singleRentRadioId" name = "rent">'					
 				+ '<p>Single Rent: <input  type="text" name="room_rentSingle" id="singleRentID" class="rent-input" value=' + data_json[item].rentSingle + ' disabled/></p>'
 				+ '</div>'								
 				+ '<div>'							
-				//+ '<input type="checkbox" id = "doubleRentCheckBoxId" labelledby="doubleRentLabel" />'
 				+ '<input type = "radio" id = "doubleRentRadioId" name = "rent">'
-				//+ '<label id="doubleRentLabel">Double Rent:</label>'
 				+ '<p>Double Rent: <input type="text" name="room_rentDouble" id="doubleRent" class="rent-input" value=' + data_json[item].rentDouble + ' disabled/></p>'
 				+ '</div>'
-				//+ '<div>'
-				//+ '<input type="submit" value="Order this Room" />'
-				//+ '<input type="reset" value="Reset the Order" />'
-				//+ '</div>'
-			
-			
 			);
 		
 		});
 		$('body').append(jqForm);
-		//$('body').append('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>');
-		//$('body').append('<script type="text/javascript" src="/scripts/app.js"></script>');
 		return jqForm;
 	}
 
@@ -281,57 +266,35 @@
 					+ '<label>' + tenant_data[item].firstName + tenant_data[item].surname + '</label>'
 					+ '<input type="hidden" name="tenant_key" value=' + tenantKey + ' />'
 					+ '</div>'
-					
-					+ '<label>Please Select a Room:</label>'
 					+ '<div  class="selectRoomClass" >'
-					//+ '<div id="selectRoomDiv">'
-					+ '<select id="selectRoom">'					
+					+ '<p>Please Select a Room: <select id="selectRoom"></p>'					
 					+ '</select>'
 					+ '</div>'
-					//+ '</div>'
-					//+ '<div class = "showRoomInfoClass">'
-					//+ '<span id="showRoomInfo"></span>'
-					//+ '<div>'
 					+ '<span id="showRoomInfo"></span>'
 					+ '<div>'
-					//+ '<label for="tenant_startDate">StartDate:</label>'
 					+ '<p>StartDate: <input id="tenant_startDate" type="date" name="tenant_startDate" placeholder="Year-Month-Day"></p>'
-					//+ '<label class="error" for="tenant_startDate" id="startDate_error">This field is required.</label>'
-					+ '</div>'
-					
-					+ '<div>'
-					+ '<label for="tenant_payPeriod">PayPeriod:</label>'
 					+ '</div>'
 					+ '<div class = "selectPayPeriodClass">'
-					+ '<select id="tenant_payPeriod" name="tenant_payPeriod">'
+					+ '<p>PayPeriod: <select id="tenant_payPeriod" name="tenant_payPeriod"></p>'
 					+ '</select>'
-					+ '</div>'	
-					
+					+ '</div>'						
 					+ '<div>'
 					+ '<input type="submit" name="submit" class="submitButton" id="submit_btn" value="Check In" >'
 					+ '<input type="reset" value="Reset" >'
-					+ '</div>'
-					
+					+ '<button id="checkinFormCancel" >Cancel</button></br>'
+					+ '</div>'					
 				);
 
 		});
 		var selectRoomTag = jqForm.find('.selectRoomClass select');			
 		selectRoomTag.html(roomNumberOptions.join(''));
-
 		
 		var selectPayPeriodTag = jqForm.find('.selectPayPeriodClass select');
 		selectPayPeriodTag.html(payPeriodOptions.join(''));
 		
-		$('body').append(jqForm);
-		//$('body').append('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>');
-		//$('body').append('<script type="text/javascript" src="/scripts/app.js"></script>');		
+		$('body').append(jqForm);	
 		return jqForm;
 	}
-	
-	
-	
-	
-	
 	
 	//function payRentForm(tenantKey,tenant_data){
 	function payRentForm(tenantKey,firstName,surname) {

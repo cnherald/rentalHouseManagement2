@@ -153,6 +153,7 @@ class RentalContract(db.Model):
     checkedIn = db.BooleanProperty()
     startDate = db.DateProperty()
     endDate = db.DateProperty()
+    rent = db.FloatProperty()
     checkedOutDate = db.DateProperty()
     
     def getAllRentalContracts(self):
