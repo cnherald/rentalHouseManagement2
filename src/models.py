@@ -152,6 +152,7 @@ class RentalContract(db.Model):
     room = db.ReferenceProperty(Room)
     checkedIn = db.BooleanProperty()
     startDate = db.DateProperty()
+    expiryDate = db.DateProperty()
     endDate = db.DateProperty()
     rent = db.FloatProperty()
     checkedOutDate = db.DateProperty()
@@ -163,6 +164,16 @@ class RentalContract(db.Model):
 #        for contract in contracts:
 #            allContracts.append(contract)
         return contracts
+    
+    def createRentalContract(self,data):
+        self.tenant = Tenant.get(data['tenantKey'])    
+        self.room = Room.get(data['room_key'])
+        self.rent = float(data['actualRent'])                                  
+        self.payPeriod = int(data['payPeriod'])       
+        startDate = datetime.strptime(data['startDate'],"%Y-%m-%d")
+        self.startDate = startDate.date()
+        self.expiryDate = startDate.date()
+        self.put()
     
 class Payment(db.Model):
     contract = db.ReferenceProperty(RentalContract, required = True)

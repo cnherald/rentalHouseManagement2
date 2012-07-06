@@ -452,7 +452,7 @@ $('#tenantHrefId').click(function(){
 			var r = confirm("Do u really want to check in this room?");
 			if(r) {
 			$.ajax({
-				url: '/checkin',
+				url: '/tenantCheckin',
 				type: 'POST',
 				data: dataStringJson,
 				success: function(resp) {				

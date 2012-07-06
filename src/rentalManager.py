@@ -112,10 +112,9 @@ class TenantCheckinHandler(webapp.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json'
         jsonString = self.request.body       
         data = simplejson.loads(jsonString)
-        tenant_key = data['tenantKey']
-        tenant = Tenant.get(tenant_key)
-        tenant.registerRoom(data)
-        tenant.createCheckinActivityRecord()          
+        contract = RentalContract()
+        contract.createRentalContract(data)
+        #.createCheckinActivityRecord()          
         checkinResponse = {'checkinSuccessMessage':'Congratulations, you have checked in the room!'}
         jsonCheckinResponse = simplejson.dumps(checkinResponse)
         return self.response.out.write(jsonCheckinResponse)
