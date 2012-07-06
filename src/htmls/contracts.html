@@ -43,11 +43,12 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			  </a>
-			  <a class="brand" href="#">Rooms Management</a>
+			  <a class="brand" href="#">Contracts Management</a>
 			  <div class="nav-collapse">
 				<ul class="nav">
 				  <li class="active"><a href="/"><i class="icon-home icon-white"></i> Home</a></li>
 				  <li><a href="tenants">Tenants</a></li>
+				  <li><a href="rooms">Rooms</a></li>
 				  <li><a href="#">Something Else</a></li>
 				  
 				</ul>
@@ -58,7 +59,7 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Options<b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a id="registerRoom" href="#" >Register New Room</a></li>
+							<li><a id="registerRoom" href="roomContracts" >Contracts by Room</a></li>
 							<li><a href="#">Link 2</a></li>
 							<li><a href="#">Link 3</a></li>
 						</ul>						
@@ -75,7 +76,7 @@
 			<!--modal -->
 			<div class="modal hide" id="modal1"><!-- note the use of "hide" class -->
 			  <div class="modal-header">
-				<button class="close" data-dismiss="modal">×</button>
+				<button class="close" data-dismiss="modal">?/button>
 				<h3>Modal header</h3>
 			  </div>
 			  <div class="modal-body">				
@@ -92,26 +93,26 @@
 			<div class="row">			
 				<div class="span12">	
 					<div>			
-						<h2>Current Rooms</h2>
+						<h2>Tenant Contracts</h2>
 						<table class="table table-bordered">
 							<thead>
 								<tr>
-									<th>Number</th>
-									<th>Area</th>
-									<th>Rent Signal</th>
-									<th>Rent Double</th>
+									<th>Tenant Name</th>
+									<th>Room Number</th>
+									<th>Rent</th>
+									<th>Checkin Date</th>
 									<th>Rental Status</th>
 								</tr>
 							</thead>
 							<tbody>
-							{% for room in rooms %}
+							{% for contract in contracts %}
 								<tr>								
-									<td class="roomNumberEditorClass">
-										<a href="#" rel="popover" data-content="click to Edit room {{ room.roomNumber }} 's profile" data-original-title="Remainder:" data-room-key="{{ room.key }}" >{{ room.roomNumber }}</a>
+									<td class="tenantNameClass">
+										<a href="#" rel="popover" data-content="click to display tenant {{ contract.tenant.firstName }} {{ contract.tenant.surname }}'s profile" data-original-title="Remainder:" data-tenant-key="{{ contract.tenant.key }}" >{{ contract.tenant.firstName }} {{ contract.tenant.surname }}</a>
 									</td>	
-									<td>{{ room.area }}</td>
-									<td>{{ room.rentSingle }}</td>
-									<td>{{ room.rentDouble }}</td>
+									<td>{{ contract.room.roomNumber }}</td>
+									<td>{{ contract.rent }}</td>
+									<td>{{ contract.startDate }}</td>
 									<td class="roomRentalStatus">
 										{% if room.isUnoccupied %}
 										<a href="#" id="roomVacantId" rel="popover" data-content="click to check room {{ room.roomNumber }} status" data-room-key="{{ room.key}}"> Vacant </a>

@@ -93,12 +93,10 @@ class TenantCheckinHandler(webapp.RequestHandler):
         tenant_key = self.request.get('tenant_key')
         tenant = Tenant.get(tenant_key)
         room = Room()
-        #contract = RentalContract()
-        #contracts = contract.getAllRentalContracts()
-        if room.notFull():            
+        vacantRooms=room.getVacantRooms()
+        if vacantRooms:            
             tenant_data_list = tenant.getTenantProfile()
-            roomsAvailable = room.getAvailableRooms()
-            rooms_data_list = room.getRoomsProfile(roomsAvailable)
+            rooms_data_list = room.getRoomsProfile(vacantRooms)
             data_list = []
             data_list.append({'tenantProfile': tenant_data_list, 'roomsProfile': rooms_data_list})
             output_json = json.dumps(data_list) 
@@ -115,7 +113,7 @@ class TenantCheckinHandler(webapp.RequestHandler):
         contract = RentalContract()
         contract.createRentalContract(data)
         #.createCheckinActivityRecord()          
-        checkinResponse = {'checkinSuccessMessage':'Congratulations, you have checked in the room!'}
+        checkinResponse = {'checkinSuccessMessage':'Congratulations, you have checked in the room successfully!'}
         jsonCheckinResponse = simplejson.dumps(checkinResponse)
         return self.response.out.write(jsonCheckinResponse)
     
@@ -123,7 +121,9 @@ class RoomProfileDataHandler(webapp.RequestHandler):
     def get(self):
         room_key = self.request.get('room_key')
         room = Room.get(room_key)
-        data_list = room.getRoomProfile()
+        data_list = []
+        #data_list = room.getRoomProfile()
+        data_list.append({'roomNumber':room.roomNumber,'area':room.area,'rentSingle':room.rentSingle,'rentDouble':room.rentDouble})
         output_json = json.dumps(data_list)
         self.response.out.write(output_json) 
 
@@ -137,8 +137,20 @@ class RoomProfileDataHandler(webapp.RequestHandler):
         room.put()
         roomProfile_url = '/rooms'
         self.redirect(roomProfile_url)
+
+class TenantContractsHandler(webapp.RequestHandler):
+    def get(self):
+        contracts = db.GqlQuery("SELECT *"
+                            "FROM Contract")
+
+        path = os.path.join(os.path.dirname(__file__), 'htmls/contracts.html')         
+        template_values = {'contracts':contracts}
+        self.response.out.write(template.render(path, template_values)) 
+    
+    
     
 application = webapp.WSGIApplication([('/', MainPage),
+                                      ('/tenantContracts',TenantContractsHandler),
                                       ('/tenantRegister',TenantRegisterHandler),
                                       ('/roomRegister',RoomRegisterHandler),
                                       ('/tenantCheckin',TenantCheckinHandler),

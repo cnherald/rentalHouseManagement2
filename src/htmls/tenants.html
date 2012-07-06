@@ -142,7 +142,7 @@
 									<td>{{ tenant.contactPhoneNumber }}</td>
 									<td>{{ tenant.registerDate }}</td>
 									<td class="checkinOrOutClass">
-										{% if tenant.room %}
+										{% if tenant.hasCheckedIn %}
 										<a href="#" id="checkoutHrefId" rel="popover" data-content="click to check {{ tenant.firstName }} {{ tenant.surname }} out" data-tenant-key="{{ tenant.key}}"> Check Out </a>
 										{% else %}{% ifequal tenant.room None %}													
 										<a href="#" id="checkinHrefId" rel="popover" data-content="click to check {{ tenant.firstName }} {{ tenant.surname }} in" data-tenant-key="{{ tenant.key}}"> Check In </a>						

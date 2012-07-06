@@ -248,7 +248,7 @@
 	
 	function creatCheckinForm(tenantKey,tenant_data,rooms_data){		
 		var roomNumberOptions = new Array();
-		roomNumberOptions.push('<option value = "title"> Rooms </option>');
+		roomNumberOptions.push('<option value = "title">Vacant Rooms</option>');
 		$.each(rooms_data, function(item){
 			roomNumberOptions.push('<option value="'+ rooms_data[item].roomKey + '">' + rooms_data[item].roomNumber + '</option>');
 		});
@@ -262,12 +262,13 @@
 		$.each(tenant_data, function(item){
 				jqForm.append(
 					'<div>'
-					+ '<label> Tenant Name: </label>'
-					+ '<label>' + tenant_data[item].firstName + tenant_data[item].surname + '</label>'
+					+ '<label> Please fill out this checkin form: </label>'
+					//+ '<label> Tenant Name: </label>'
+					+ '<label>' + 'Tenant Name: '+ tenant_data[item].firstName + '_' + tenant_data[item].surname + '</label>'
 					+ '<input type="hidden" name="tenant_key" value=' + tenantKey + ' />'
 					+ '</div>'
 					+ '<div  class="selectRoomClass" >'
-					+ '<p>Please Select a Room: <select id="selectRoom"></p>'					
+					+ '<p>Select a Room: <select id="selectRoom"></p>'					
 					+ '</select>'
 					+ '</div>'
 					+ '<span id="showRoomInfo"></span>'
@@ -295,6 +296,7 @@
 		$('body').append(jqForm);	
 		return jqForm;
 	}
+	
 	
 	//function payRentForm(tenantKey,tenant_data){
 	function payRentForm(tenantKey,firstName,surname) {

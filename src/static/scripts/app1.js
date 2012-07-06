@@ -20,20 +20,8 @@ $('td.payRentClass a').popover();
 $('td.deleteTenant a').popover();
 $('td.tenantActivityClass a').popover();
 $('td.checkinOrOutClass a').popover();
+$('td.roomRentalStatus a').popover();
 $('td.deleteRoomClass a').popover();
-
-//show tenants table
-$('#tenantHrefId').click(function(){
-	$.ajax({
-		url:"tenant",
-		type:'GET',
-		dataType:'json',
-		success:function(data_json){
-		
-		}			
-	});
-
-});
 
 
 //check in a tenant
@@ -179,21 +167,22 @@ $('#tenantHrefId').click(function(){
 	//$('#selectRoom').change(function(){
 	//$('.selectRoomClass select').change(function(){ //use container:"selectRoomClass" instead of id:#selectRoom
 	$('#tenantFormOrTable').on('change', '.selectRoomClass select', function(){
-		//var roomKey = $('#selectRoom').val();
-		var roomKey = $('.selectRoomClass select').val();
-		$.ajax({
-			//url: 'roomProfileData?room_key=' + roomKey,
-			url: 'roomProfileData?room_key=' + roomKey, //get the selected room profile from the server side
-			type: 'GET',
-			dataType:'json',
-			success: function(data_json){
-			//alert("room info returned");
-				$('#showRoomInfo').html(creatShowRoomProfileForm(roomKey,data_json)).show();
-				//$('.showRoomInfoClass span').html(showRoomProfileForm(roomKey,data_json)).show();
-			//alert("after showRoomProfileForm method");
-			}		
-		
-		});	
+		var value = $('.selectRoomClass select').val();
+		if(value == "title"){
+			$('#showRoomInfo').children().remove();
+		} else {
+			var roomKey = value;
+			$.ajax({
+				url: 'roomProfileData?room_key=' + roomKey, //get the selected room profile from the server side
+				type: 'GET',
+				dataType:'json',
+				success: function(data_json){
+					$('#showRoomInfo').html(creatShowRoomProfileForm(roomKey,data_json)).show();
+				}		
+			
+			});	
+		}
+
 	});
 	
 		

@@ -15,88 +15,46 @@ from datetime import datetime
 class Room(db.Model):
     #tenant = db.ReferenceProperty(required = False)
     #tenant = db.ReferenceProperty()#test
-    rentalContract = db.ReferenceProperty()
+    #rentalContract = db.ReferenceProperty()
     roomNumber = db.StringProperty(required = False)    
     area = db.FloatProperty()
     rentSingle = db.FloatProperty()
     rentDouble = db.FloatProperty()
     
-    def notFull(self):
+    def hasVacancy(self):
         rooms = Room.all()
-        rc = RentalContract()
         for room in rooms:
-            for con in rc.getAllRentalContracts():
-                if room.key() == con.room.key():
-                #if (not room.rentalContract.tenant):
-                    return False
+            if room.isNotOccupied():
+                    return True
+        return False
+    
+    def isUnoccupied(self):
+        rc = RentalContract()
+        contracts = rc.getAllRentalContracts()
+        for con in contracts:
+            if self.key()== con.room.key():
+                return False
         return True
     
-    def getAvailableRooms(self):
+    def getVacantRooms(self):
         rooms = Room.all()
-        rooms_list = []
+        vacant_rooms_list = []
+        rc = RentalContract()
+        contracts = rc.getAllRentalContracts()
         for room in rooms:
-            if (not room.rentalContract):
-                rooms_list.append(room)
-        return rooms_list
-    
-    def getRoomProfile(self):
-        rooms = db.GqlQuery("SELECT * "
-                      "FROM Room")
-        data_list = []
-        for room in rooms:
-            if room.key()== self.key():
-                data_list.append({'roomNumber':room.roomNumber,'area':room.area,'rentSingle':room.rentSingle,'rentDouble':room.rentDouble})          
-        return data_list
+            for con in contracts:
+                if room.key() == con.room.key():
+                    vacant_rooms_list.append(room)
+        return vacant_rooms_list
         
     def getRoomsProfile(self,rooms):
-        #rooms = Room.all()
         rooms_data_list = []
         for room in rooms:
-            #if (not room.tenant):
-                rooms_data_list.append({'roomKey':str(room.key()),'roomNumber':room.roomNumber,'area':room.area,'rentSingle':room.rentSingle,'rentDouble':room.rentDouble})
-        return rooms_data_list
-#    rentActual = db.FloatProperty()    
-
-#    def notFull(self):
-#        rooms = Room.all()
-#        for room in rooms:
-#            if (not room.tenant):
-#                return True
-#        return False
-#            
-#            
-#    def getRoomProfile(self):
-#        rooms = db.GqlQuery("SELECT * "
-#                      "FROM Room")
-#        data_list = []
-#        for room in rooms:
-#            if room.key()== self.key():
-#                data_list.append({'roomNumber':room.roomNumber,'size':room.size,'rentSingle':room.rentSingle,'rentDouble':room.rentDouble,'rentActual':room.rentActual})          
-#        return data_list
-#    
-#    def getAvailableRoomsProfile(self):
-#        rooms = Room.all()
-#        rooms_data_list = []
-#        for room in rooms:
-#            if (not room.tenant):
-#                rooms_data_list.append({'roomKey':str(room.key()),'roomNumber':room.roomNumber,'size':room.size,'rentSingle':room.rentSingle,'rentDouble':room.rentDouble,'rentActual':room.rentActual})
-#        return rooms_data_list
-#        
-#        
-#    def updateRoomProfile(self,data):
-#        rooms = db.GqlQuery("SELECT * "
-#              "FROM Room")
-#        for room in rooms:
-#            if room.key() == self.key():
-#                room.roomNumber = data['number']
-#                room.size = float(data['size'])
-#                room.rentSingle = float(data['rentSingle'])
-#                room.rentDouble = float(data['rentDouble'])
-#                room.rentActual = float(data['rentActual'])
-#                room.put()
-#        return True
+            rooms_data_list.append({'roomKey':str(room.key()),'roomNumber':room.roomNumber,'area':room.area,'rentSingle':room.rentSingle,'rentDouble':room.rentDouble})
+        return rooms_data_list     
       
 class Tenant(db.Model):
+    #rentalContract = db.ReferenceProperty()
     firstName = db.StringProperty()
     surname = db.StringProperty()
     gender = db.StringProperty()
@@ -146,11 +104,17 @@ class Tenant(db.Model):
         for tenant in tenants:
             currentTenants.append(tenant)              
         return currentTenants  
-
+    def hasCheckedIn(self):
+        rc = RentalContract()
+        contracts = rc.getAllRentalContracts()
+        for con in contracts:
+            if self.key()== con.tenant.key():
+                return True
+        return False
 class RentalContract(db.Model):
     tenant = db.ReferenceProperty(Tenant)
     room = db.ReferenceProperty(Room)
-    checkedIn = db.BooleanProperty()
+    
     startDate = db.DateProperty()
     expiryDate = db.DateProperty()
     endDate = db.DateProperty()
@@ -173,7 +137,7 @@ class RentalContract(db.Model):
         startDate = datetime.strptime(data['startDate'],"%Y-%m-%d")
         self.startDate = startDate.date()
         self.expiryDate = startDate.date()
-        self.checkedIn = True
+        
         self.put()
     
 class Payment(db.Model):
