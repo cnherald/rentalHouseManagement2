@@ -173,6 +173,7 @@ class RentalContract(db.Model):
         startDate = datetime.strptime(data['startDate'],"%Y-%m-%d")
         self.startDate = startDate.date()
         self.expiryDate = startDate.date()
+        self.checkedIn = True
         self.put()
     
 class Payment(db.Model):
