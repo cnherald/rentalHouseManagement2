@@ -40,11 +40,15 @@ class Room(db.Model):
         rooms = Room.all()
         vacant_rooms_list = []
         rc = RentalContract()
-        contracts = rc.getAllRentalContracts()
+        contracts = rc.getAllRentalContracts()  
         for room in rooms:
             for con in contracts:
-                if room.key() == con.room.key():
-                    vacant_rooms_list.append(room)
+                if not room.key() == con.room.key():
+                    continue
+                else:
+                    break
+                    
+                vacant_rooms_list.append(room)
         return vacant_rooms_list
         
     def getRoomsProfile(self,rooms):
