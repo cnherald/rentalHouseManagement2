@@ -46,9 +46,8 @@ class Room(db.Model):
                 if not room.key() == con.room.key():
                     continue
                 else:
-                    break
-                    
-                vacant_rooms_list.append(room)
+                    break    
+            vacant_rooms_list.append(room)
         return vacant_rooms_list
         
     def getRoomsProfile(self,rooms):
