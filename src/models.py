@@ -30,7 +30,7 @@ class Room(db.Model):
     
     def isUnoccupied(self):
         rc = RentalContract()
-        contracts = rc.getAllRentalContracts()
+        contracts = rc.getValidRentalContracts()
         for con in contracts:
             if self.key()== con.room.key():
                 return False
@@ -40,14 +40,14 @@ class Room(db.Model):
         rooms = Room.all()
         vacant_rooms_list = []
         rc = RentalContract()
-        contracts = rc.getAllRentalContracts()  
+        validContracts = rc.getValidRentalContracts()  
         for room in rooms:
-            for con in contracts:
-                if not room.key() == con.room.key():
-                    continue
-                else:
-                    break    
-            vacant_rooms_list.append(room)
+            for con in validContracts :
+                if room.key() == con.room.key():
+                    break
+            else:
+                #continue   
+                vacant_rooms_list.append(room)
         return vacant_rooms_list
         
     def getRoomsProfile(self,rooms):
@@ -109,7 +109,7 @@ class Tenant(db.Model):
         return currentTenants  
     def hasCheckedIn(self):
         rc = RentalContract()
-        contracts = rc.getAllRentalContracts()
+        contracts = rc.getValidRentalContracts()
         for con in contracts:
             if self.key()== con.tenant.key():
                 return True
@@ -122,14 +122,24 @@ class RentalContract(db.Model):
     expiryDate = db.DateProperty()
     endDate = db.DateProperty()
     rent = db.FloatProperty()
-    checkedOutDate = db.DateProperty()
+    checkOutDate = db.DateProperty()
+    isValid = db.BooleanProperty()
     
-    def getAllRentalContracts(self):
-        contracts = db.GqlQuery("SELECT * "
-                      "FROM RentalContract")
+    def getValidRentalContracts(self):
+#        contracts = db.GqlQuery("SELECT * "
+#                      "FROM RentalContract "  
+#                      "WHERE isValid = :1 ORDER BY checkOutDate","True" )  
+        #contracts = db.GqlQuery("SELECT * FROM RentalContract WHERE isValid = :1 ORDER BY startDate" ,True)
+        contracts = db.GqlQuery("SELECT * FROM RentalContract")
 #        allContracts = []
 #        for contract in contracts:
 #            allContracts.append(contract)
+        return contracts
+    
+    def getInvalidRentalContracts(self):
+        contracts = db.GqlQuery("SELECT * "
+                      "FROM RentalContract"
+                      "WHERE isValid = :1","False" )
         return contracts
     
     def createRentalContract(self,data):
@@ -140,7 +150,7 @@ class RentalContract(db.Model):
         startDate = datetime.strptime(data['startDate'],"%Y-%m-%d")
         self.startDate = startDate.date()
         self.expiryDate = startDate.date()
-        
+        self.isValid = True
         self.put()
     
 class Payment(db.Model):
