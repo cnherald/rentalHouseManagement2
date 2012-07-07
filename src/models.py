@@ -128,19 +128,13 @@ class RentalContract(db.Model):
     def getValidRentalContracts(self):
         contracts = db.GqlQuery("SELECT * "
                       "FROM RentalContract "  #need space between the statement and the question mark
-                      "WHERE isValid = :1 ORDER BY checkOutDate",True )  
-        #contracts = db.GqlQuery("SELECT * FROM RentalContract WHERE isValid = :1 ORDER BY startDate" ,True)
-        #contracts = db.GqlQuery("SELECT * FROM RentalContract WHERE isValid =:1 ORDER BY startDate" ,True)
-        #contracts = db.GqlQuery("SELECT * FROM RentalContract")
-#        allContracts = []
-#        for contract in contracts:
-#            allContracts.append(contract)
+                      "WHERE isValid = :1 ORDER BY startDate",True )  
         return contracts
     
     def getInvalidRentalContracts(self):
         contracts = db.GqlQuery("SELECT * "
-                      "FROM RentalContract"
-                      "WHERE isValid = :1","False" )
+                      "FROM RentalContract "    #need space between the statement and the question mark
+                      "WHERE isValid = :1 ORDER BY checkOutDate",False )
         return contracts
     
     def createRentalContract(self,data):
