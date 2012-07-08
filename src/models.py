@@ -82,7 +82,8 @@ class Tenant(db.Model):
         tenant.surname = data['surname']
         tenant.gender = data['gender']
         tenant.age = int(data['age'])
-        tenant.phoneNumber = data['phoneNumber'] 
+        tenant.phoneNumber = data['phoneNumber']
+        tenant.email = data['email']
         tenant.contactName = data['contactName']
         tenant.contactPhoneNumber = data['contactPhoneNumber']
         #tenant.registerDate = data['registerDate']

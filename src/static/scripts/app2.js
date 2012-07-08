@@ -121,7 +121,7 @@
 	}
 
 	function createRegisterTenantForm(){
-		var jqForm = $('<form class="form-horizontal" span2 id="tenantRegister" onsubmit="return false;">'
+		var jqForm = $('<form class="form-horizontal" span3 id="tenantRegister" onsubmit="return false;">'
 		
         +'<div class="control-group">'
         +'<div class="controls">'	

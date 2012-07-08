@@ -110,7 +110,7 @@
 				<div class="span12">
 					<h2>Current Registered Tenants</h2>
 					<div>			
-						<table class="table table-bordered">
+						<table class="table table-bordered" id="currentTenantTableId">
 							<thead>
 								<tr>
 									<th>Name</th>
@@ -144,9 +144,8 @@
 									<td class="checkinOrOutClass">
 										{% if tenant.hasCheckedIn %}
 										<a href="#" id="checkoutHrefId" rel="popover" data-content="click to check {{ tenant.firstName }} {{ tenant.surname }} out" data-tenant-key="{{ tenant.key}}"> Check Out </a>
-										{% else %}{% ifequal tenant.room None %}													
+										{% else %}												
 										<a href="#" id="checkinHrefId" rel="popover" data-content="click to check {{ tenant.firstName }} {{ tenant.surname }} in" data-tenant-key="{{ tenant.key}}"> Check In </a>						
-										{% endifequal %}
 										{% endif %}
 									</td>
 									<td class="deleteTenant">										

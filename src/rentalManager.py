@@ -140,8 +140,8 @@ class RoomProfileDataHandler(webapp.RequestHandler):
 
 class TenantContractsHandler(webapp.RequestHandler):
     def get(self):
-        contracts = db.GqlQuery("SELECT *"
-                            "FROM Contract")
+        contracts = db.GqlQuery("SELECT * "
+                            "FROM RentalContract")
 
         path = os.path.join(os.path.dirname(__file__), 'htmls/contracts.html')         
         template_values = {'contracts':contracts}

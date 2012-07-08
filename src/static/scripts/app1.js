@@ -225,6 +225,8 @@ $('td.deleteRoomClass a').popover();
 					data.gender = item.value;
 				} else if (item.name == 'tenant_phoneNumber') {
 					data.phoneNumber = item.value;
+				} else if (item.name == 'tenant_email') {
+					data.email = item.value;
 				} else if (item.name == 'contact_name') {
 					data.contactName = item.value;
 				} else if (item.name == 'contact_phoneNumber') {
@@ -241,8 +243,26 @@ $('td.deleteRoomClass a').popover();
 				data: dataStringJson,
  
 				success: function(resp) {
+					$('#tenantFormOrTable').children().remove();
 					alert(resp.tenantRegisterMsg);
-					window.location.replace("../tenants");
+					$('#currentTenantTableId > tbody').append('<tr><td class="tenantNameEditorClass"><a href="#" rel="popover" data-content="click to Edit ' 
+					+ data.firstName + '_' + data.surname + ' profile"  data-original-title="Remainder:" >'
+					+ data.firstName + '_' + data.surname +'</a></td><td>'
+					+ data.gender + "</td><td>"
+					+ data.age + "</td><td>"
+					+ data.phoneNumber + "</td><td>" 
+					+ data.email + "</td><td>"
+					+ data.contactName + "</td><td>"
+					+ data.contactPhoneNumber + '</td><td>'
+					+ data.registerDate + '</td><td class="checkinOrOutClass">'
+					+ '<a href="#" id="checkinHrefId" rel="popover" data-content="click to check'
+					+ data.firstName + data.surname + 'out"> Check In </a></td><td>'
+					+ 'Delete</td><td>Activities</td></tr>'
+					);
+					
+					
+					
+					//window.location.replace("../tenants");
 				 }
 
 			});
