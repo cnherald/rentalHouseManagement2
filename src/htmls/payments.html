@@ -3,7 +3,7 @@
 	<head>
 	
 		<meta charset="utf-8">
-		<title>Rooms</title>
+		<title>Tenant Payments</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="">
 		<meta name="author" content="">
@@ -43,11 +43,12 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			  </a>
-			  <a class="brand" href="#">Rooms Management</a>
+			  <a class="brand" href="#">Tenant Payments Management</a>
 			  <div class="nav-collapse">
 				<ul class="nav">
 				  <li class="active"><a href="/"><i class="icon-home icon-white"></i> Home</a></li>
 				  <li><a href="tenants">Tenants</a></li>
+				  <li><a href="rooms">Rooms</a></li>
 				  <li><a href="#">Something Else</a></li>
 				  
 				</ul>
@@ -58,8 +59,8 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Options<b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a id="registerRoom" href="#" >Register New Room</a></li>
-							<li><a href="roomContracts">Contracts By Room</a></li>
+							<li><a href="tenantContracts" >Contracts by Tenant</a></li>
+							<li><a href="roomContracts" >Contracts by Room</a></li>
 							<li><a href="#">Link 2</a></li>
 							<li><a href="#">Link 3</a></li>
 						</ul>						
@@ -76,7 +77,7 @@
 			<!--modal -->
 			<div class="modal hide" id="modal1"><!-- note the use of "hide" class -->
 			  <div class="modal-header">
-				<button class="close" data-dismiss="modal">×</button>
+				<button class="close" data-dismiss="modal">?/button>
 				<h3>Modal header</h3>
 			  </div>
 			  <div class="modal-body">				
@@ -93,31 +94,35 @@
 			<div class="row">			
 				<div class="span12">	
 					<div>			
-						<h2>Current Rooms</h2>
-						<table class="table table-bordered" id="currentRoomTableId">
+						<h2>Tenant Payments</h2>
+						<table class="table table-bordered">
 							<thead>
 								<tr>
-									<th>Number</th>
-									<th>Area</th>
-									<th>Rent Signal</th>
-									<th>Rent Double</th>
-									<th>Rental Status</th>
+									<th>Tenant Name</th>
+									<th>Room Number</th>
+									<th>Rent</th>
+									<th>Check in Date</th>
+									<th>Check out Date</th>
+									<th>Status</th>
 								</tr>
 							</thead>
 							<tbody>
-							{% for room in rooms %}
+							{% for contract in contracts %}
 								<tr>								
-									<td class="roomNumberEditorClass">
-										<a href="#" rel="popover" data-content="click to Edit room {{ room.roomNumber }} 's profile" data-original-title="Remainder:" data-room-key="{{ room.key }}" >{{ room.roomNumber }}</a>
+									<td class="tenantNameClass">
+										<a href="#" rel="popover" data-content="click to display tenant {{ contract.tenant.firstName }} {{ contract.tenant.surname }}'s profile" data-original-title="Remainder:" data-tenant-key="{{ contract.tenant.key }}" >{{ contract.tenant.firstName }} {{ contract.tenant.surname }}</a>
 									</td>	
-									<td>{{ room.area }}</td>
-									<td>{{ room.rentSingle }}</td>
-									<td>{{ room.rentDouble }}</td>
-									<td class="roomRentalStatus">
-										{% if room.isUnoccupied %}
-										<a href="#" id="roomVacantId" rel="popover" data-content="click to check room {{ room.roomNumber }} status" data-room-key="{{ room.key}}"> Vacant </a>
+									<td>
+										<a href="#" rel="popover" data-content="click to display Room {{ contract.room.roomNumber }} 's profile" data-original-title="Remainder:" data-room-key="{{ contract.room.key }}" >{{ contract.room.roomNumber }}</a>
+									</td>
+									<td>{{ contract.rent }}</td>
+									<td>{{ contract.startDate }}</td>
+									<td>{{ contract.checkOutDate }}</td>
+									<td >
+										{% if contract.isValid %}
+											Active
 										{% else %}												
-										<a href="#" id="roomOccupiedId" rel="popover" data-content="click to check room {{ room.roomNumber }} status" data-room-key="{{ room.key}}"> Occupied </a>						
+											Expired 					
 										{% endif %}									
 									</td>
 								</tr>
@@ -125,7 +130,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div id="roomFormOrTable"></div>
+					<div id="contractHereId"></div>
 				</div><!--span-->
 			</div><!--row-->
 			

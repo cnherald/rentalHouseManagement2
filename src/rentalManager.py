@@ -138,7 +138,7 @@ class RoomProfileDataHandler(webapp.RequestHandler):
         roomProfile_url = '/rooms'
         self.redirect(roomProfile_url)
 
-class TenantContractsHandler(webapp.RequestHandler):
+class TenantContractHandler(webapp.RequestHandler):
     def get(self):
         contracts = db.GqlQuery("SELECT * "
                             "FROM RentalContract")
@@ -147,10 +147,17 @@ class TenantContractsHandler(webapp.RequestHandler):
         template_values = {'contracts':contracts}
         self.response.out.write(template.render(path, template_values)) 
     
-    
+class TenantPaymentHandler(webapp.RequestHandler):    
+    def get(self):
+        payments = db.GqlQuery("SELECT * "
+                            "FROM Payment")
+        path = os.path.join(os.path.dirname(__file__), 'htmls/payments.html')         
+        template_values = {'payments':payments}
+        self.response.out.write(template.render(path, template_values)) 
     
 application = webapp.WSGIApplication([('/', MainPage),
-                                      ('/tenantContracts',TenantContractsHandler),
+                                      ('/tenantContracts',TenantContractHandler),
+                                      ('/tenantPayment',TenantPaymentHandler),
                                       ('/tenantRegister',TenantRegisterHandler),
                                       ('/roomRegister',RoomRegisterHandler),
                                       ('/tenantCheckin',TenantCheckinHandler),

@@ -151,7 +151,8 @@ class RentalContract(db.Model):
     
 class Payment(db.Model):
     contract = db.ReferenceProperty(RentalContract, required = True)
-    rentActual = db.FloatProperty()
+    #rentActual = db.FloatProperty()
+    total = db.FloatProperty()
     payPeriod = db.IntegerProperty(default = 1)
     bond = db.FloatProperty()
     

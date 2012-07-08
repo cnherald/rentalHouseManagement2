@@ -23,6 +23,9 @@ $('td.checkinOrOutClass a').popover();
 $('td.roomRentalStatus a').popover();
 $('td.deleteRoomClass a').popover();
 
+$('#currentTenantTableId td.tenantNameEditorClass a').popover();
+$('#currentRoomTableId td.roomNumberEditorClass a').popover();
+
 
 //check in a tenant
 	$('#checkinHrefId').click(function(){
@@ -247,7 +250,7 @@ $('td.deleteRoomClass a').popover();
 					alert(resp.tenantRegisterMsg);
 					$('#currentTenantTableId > tbody').append('<tr><td class="tenantNameEditorClass"><a href="#" rel="popover" data-content="click to Edit ' 
 					+ data.firstName + '_' + data.surname + ' profile"  data-original-title="Remainder:" >'
-					+ data.firstName + '_' + data.surname +'</a></td><td>'
+					+ data.firstName + ' ' + data.surname +'</a></td><td>'
 					+ data.gender + "</td><td>"
 					+ data.age + "</td><td>"
 					+ data.phoneNumber + "</td><td>" 
@@ -259,10 +262,6 @@ $('td.deleteRoomClass a').popover();
 					+ data.firstName + data.surname + 'out"> Check In </a></td><td>'
 					+ 'Delete</td><td>Activities</td></tr>'
 					);
-					
-					
-					
-					//window.location.replace("../tenants");
 				 }
 
 			});
@@ -384,13 +383,21 @@ $('td.deleteRoomClass a').popover();
 			data: dataStringJson,
 
 			success: function(resp) {
+				$('#roomFormOrTable').children().remove();
 				alert(resp.roomRegisterMsg);
-				//window.location.replace("http://localhost:8080/rooms");
-				window.location.replace("../rooms");
+				$('#currentRoomTableId > tbody').append('<tr><td class="roomNumberEditorClass"><a href="#" rel="popover" data-content="click to Edit Room ' 
+				+ data.roomNumber + ' profile"  data-original-title="Remainder:" >'
+				+ data.roomNumber + '</a></td><td>'
+				+ data.roomArea + '</td><td>'
+				+ data.rentSingle + '</td><td>'
+				+ data.rentDouble + '</td><td class="checkinOrOutClass">'
+				+ '<a href="#" id="roomVacantId" rel="popover" data-content="click to check Room '
+				+ data.roomNumber + 'status"> Vacant </a></td></tr>'
+				);
 			}
 		});
 
-		console.log('>>>roomRegister2');
+		//console.log('>>>roomRegister2');
 		return false;
 	
 	});
