@@ -115,16 +115,38 @@ class Tenant(db.Model):
             if self.key()== con.tenant.key():
                 return True
         return False
+    
+    def getLastPayDate(self):
+        
+        transactions = db.GqlQuery("SELECT * "
+                    "FROM Transaction")
+        payDates = []
+        if transactions:
+            for transaction in transactions:    
+                    if transaction.payment.contract.tenant.key().name() == self.key().name():
+                        payDates.append(transaction.transactionDate)
+        if not payDates:
+            return None
+        else:
+            return max(payDates)
 class RentalContract(db.Model):
     tenant = db.ReferenceProperty(Tenant)
     room = db.ReferenceProperty(Room)
     
     startDate = db.DateProperty()
-    expiryDate = db.DateProperty()
-    endDate = db.DateProperty()
+    payPeriod = db.IntegerProperty(default = 1)
+    rentExpiredDate = db.DateProperty()
+    #endDate = db.DateProperty()
     rent = db.FloatProperty()
+    #bond = db.FloatProperty()
     checkOutDate = db.DateProperty()
     isValid = db.BooleanProperty()
+    
+    def getRentRate(self):
+        return round(self.rent/7.0,1)
+    
+    def getBond(self):
+        return round(self.rent * 2)
     
     def getValidRentalContracts(self):
         contracts = db.GqlQuery("SELECT * "
@@ -145,18 +167,20 @@ class RentalContract(db.Model):
         self.payPeriod = int(data['payPeriod'])       
         startDate = datetime.strptime(data['startDate'],"%Y-%m-%d")
         self.startDate = startDate.date()
-        self.expiryDate = startDate.date()
+        self.rentExpiredDate = startDate.date()
         self.isValid = True
         self.put()
     
 class Payment(db.Model):
     contract = db.ReferenceProperty(RentalContract, required = True)
     #rentActual = db.FloatProperty()
-    total = db.FloatProperty()
-    payPeriod = db.IntegerProperty(default = 1)
-    bond = db.FloatProperty()
+    totalPaidAmount = db.FloatProperty()
+    
+    
     
 class Transaction(db.Model):
     payment = db.ReferenceProperty(Payment, required = True)
     paidAmount = db.FloatProperty()
     transactionDate = db.DateProperty()
+    
+

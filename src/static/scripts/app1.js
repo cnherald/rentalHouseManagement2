@@ -211,7 +211,7 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 		$('#tenantFormOrTable').children().remove();
 	});
 	
-
+//version 2
 	$('#tenantFormOrTable').on('submit', '#tenantRegister', function(){
 		//$('#tenantRegister').submit(function() {
 			
@@ -303,7 +303,7 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 	
 	//remove the tenant register form
 	//$('button#registerTenantCancel').click(function(){
-	$('#tenantFormOrTable').on('click', '#registerTenantCancel', function(){
+	$('#tenantFormOrTable').on('click', '#registerTenantCancel', function(){ //version 2
 		//alert("you want to cancel?");		
 		$('#tenantFormOrTable').children().remove();
 	});
@@ -318,48 +318,19 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 	});
 	
 	//remove the room register form
-	$('#roomFormOrTable').on('click', '#registerRoomCancel', function(){
+	$('#roomFormOrTable').on('click', '#registerRoomCancel', function(){  //version 2
 	//alert("you want to cancel?");	
 		$('#roomFormOrTable').children().remove();
 	});
 
-//register a room
-
-	// $(".roomRegisterButton").click(function() {
-		// $('.error').hide();
-		// var roomNumber = $("input#room_number").val();
-		// if (roomNumber==null || roomNumber =="") {
-			// $("label#roomNumber_error").show();
-			// $("input#room_number").focus();
-			// return false;
-		// }
-		
-		// var roomSize = $("input#room_size").val();
-		// if (roomSize==null || roomSize =="") {
-			// $("label#roomSize_error").show();
-			// $("input#room_size").focus();
-			// return false;
-		// }
-		
-		// var rentSingle = $("input#room_rent_single").val();
-		// if (rentSingle==null || rentSingle =="") {
-			// $("label#rentSingle_error").show();
-			// $("input#room_rent_single").focus();
-			// return false;
-		// }
-		
-		// var rentDouble = $("input#room_rent_double").val();
-		// if (rentDouble== null || rentDouble =="") {
-			// $("label#rentDouble_error").show();
-			// $("input#room_rent_double").focus();
-			// return false;
-		// }
+	$('#payRentNowId').click(function(){ //version 2
+		$('#paymentHereId').html(payRentForm()).show();
 	
-	// });
+	});
 		
 		
 		//$('#roomRegister').submit(function() {
-		$('#roomFormOrTable').on('submit', '#roomRegister', function(){
+		$('#roomFormOrTable').on('submit', '#roomRegister', function(){ //version 2
 		var values = $('#roomRegister').serializeArray(),
 			data = { };
 		$.each(values, function(index,item){
