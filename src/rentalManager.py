@@ -6,6 +6,7 @@ from google.appengine.ext.webapp import template
 from models import Tenant
 from models import Room
 from models import RentalContract
+from models import Payment
 from google.appengine.ext import db
 import simplejson
 import django.utils.simplejson as json
@@ -112,6 +113,8 @@ class TenantCheckinHandler(webapp.RequestHandler):
         data = simplejson.loads(jsonString)
         contract = RentalContract()
         contract.createRentalContract(data)
+        payment = Payment()
+        payment.initializePayment(contract)
         #.createCheckinActivityRecord()          
         checkinResponse = {'checkinSuccessMessage':'Congratulations, you have checked in the room successfully!'}
         jsonCheckinResponse = simplejson.dumps(checkinResponse)
@@ -154,10 +157,14 @@ class TenantPaymentHandler(webapp.RequestHandler):
         path = os.path.join(os.path.dirname(__file__), 'htmls/payments.html')         
         template_values = {'payments':payments}
         self.response.out.write(template.render(path, template_values)) 
-    
+        
+class PayRentHandler(webapp.RequestHandler):
+    pass        
+    #transactions go here
 application = webapp.WSGIApplication([('/', MainPage),
                                       ('/tenantContracts',TenantContractHandler),
                                       ('/tenantPayment',TenantPaymentHandler),
+                                      ('/payRent',PayRentHandler),
                                       ('/tenantRegister',TenantRegisterHandler),
                                       ('/roomRegister',RoomRegisterHandler),
                                       ('/tenantCheckin',TenantCheckinHandler),

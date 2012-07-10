@@ -323,10 +323,10 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 		$('#roomFormOrTable').children().remove();
 	});
 
-	$('#payRentNowId').click(function(){ //version 2
-		$('#paymentHereId').html(payRentForm()).show();
+	// $('#payRentNowId').click(function(){ //version 2
+		// $('#paymentHereId').html(payRentForm()).show();
 	
-	});
+	// });
 		
 		
 		//$('#roomRegister').submit(function() {
@@ -615,7 +615,7 @@ $('#modal1').on('modalDisplayEvent',function(e, tenantKey, firstName,surname){
 	   },
 		//success: "valid", 
 	
-		submitHandler: function(form) {
+		submitHandler: function(form) {  //this submitHandler handles the "pay rent form" submit event
 			var values = $('.payRentFormClass').serializeArray(),
 			data = {};	
 			$.each(values, function(index, item) {
@@ -644,15 +644,8 @@ $('#modal1').on('modalDisplayEvent',function(e, tenantKey, firstName,surname){
 //$(".payRentFormClass").validate();
 
 
-$('#modal1 .modalSubmitBtn').click(function(){
-	
-	//alert("you click modal's submit button");
-	
-	//$.getScript("scripts/jquery.validate.js",function(){
-		$('#payRentFormId').submit();
-	 //});
-	 
-		
+$('#modal1 .modalSubmitBtn').click(function(){	//this event triggers the dynamic "pay rent form" to be submitted
+		$('#payRentFormId').submit();	//this submit is handled by the "submitHandler" in the validate method 	
 });
 
 	 

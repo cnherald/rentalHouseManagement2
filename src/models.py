@@ -116,26 +116,13 @@ class Tenant(db.Model):
                 return True
         return False
     
-    def getLastPayDate(self):
-        
-        transactions = db.GqlQuery("SELECT * "
-                    "FROM Transaction")
-        payDates = []
-        if transactions:
-            for transaction in transactions:    
-                    if transaction.payment.contract.tenant.key().name() == self.key().name():
-                        payDates.append(transaction.transactionDate)
-        if not payDates:
-            return None
-        else:
-            return max(payDates)
 class RentalContract(db.Model):
     tenant = db.ReferenceProperty(Tenant)
     room = db.ReferenceProperty(Room)
     
     startDate = db.DateProperty()
     payPeriod = db.IntegerProperty(default = 1)
-    rentExpiredDate = db.DateProperty()
+    
     #endDate = db.DateProperty()
     rent = db.FloatProperty()
     #bond = db.FloatProperty()
@@ -167,16 +154,34 @@ class RentalContract(db.Model):
         self.payPeriod = int(data['payPeriod'])       
         startDate = datetime.strptime(data['startDate'],"%Y-%m-%d")
         self.startDate = startDate.date()
-        self.rentExpiredDate = startDate.date()
+        #self.rentExpiredDate = startDate.date()
         self.isValid = True
         self.put()
     
 class Payment(db.Model):
-    contract = db.ReferenceProperty(RentalContract, required = True)
+    contract = db.ReferenceProperty(RentalContract)
     #rentActual = db.FloatProperty()
     totalPaidAmount = db.FloatProperty()
+    rentExpiredDate = db.DateProperty()
     
-    
+    def initializePayment(self, contract):
+        self.contract = contract
+        self.rentExpiredDate = self.contract.startDate
+        self.totalPaidAmount = 0.0
+        self.put()
+        
+    def getLastPayDate(self):       
+        transactions = db.GqlQuery("SELECT * "
+                    "FROM Transaction")
+        payDates = []
+        if transactions:
+            for transaction in transactions:    
+                    if transaction.payment.key().name() == self.key().name():
+                        payDates.append(transaction.transactionDate)
+        if not payDates:
+            return None
+        else:
+            return max(payDates)
     
 class Transaction(db.Model):
     payment = db.ReferenceProperty(Payment, required = True)
