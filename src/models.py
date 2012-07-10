@@ -183,4 +183,10 @@ class Transaction(db.Model):
     paidAmount = db.FloatProperty()
     transactionDate = db.DateProperty()
     
-
+    def getAllTransactions(self):
+        transactions = db.GqlQuery("SELECT * "
+                      "FROM Transaction")
+    
+    def payRentNow(self):
+        pass
+        
