@@ -66,9 +66,6 @@ class Tenant(db.Model):
     contactName = db.StringProperty()
     contactPhoneNumber = db.PhoneNumberProperty()
     email = db.EmailProperty()  
-    #payPeriod = db.IntegerProperty(default = 1)    
-    #expiryDate = db.DateProperty()  
-    #startDate = db.DateProperty(auto_now_add = True)
     registerDate = db.DateProperty(auto_now_add = True)  
     
     def getAllTenants(self):
