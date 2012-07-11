@@ -13,9 +13,6 @@ from datetime import datetime
    
 
 class Room(db.Model):
-    #tenant = db.ReferenceProperty(required = False)
-    #tenant = db.ReferenceProperty()#test
-    #rentalContract = db.ReferenceProperty()
     roomNumber = db.StringProperty(required = False)    
     area = db.FloatProperty()
     rentSingle = db.FloatProperty()
