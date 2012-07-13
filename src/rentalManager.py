@@ -23,7 +23,7 @@ class MainPage(webapp.RequestHandler):
 #                    clearedTenants.append(tenant)                
 #                else:
 #                    pendingTenants.append(tenant)  
-        path = os.path.join(os.path.dirname(__file__), 'htmls/mainPage.html')
+        path = os.path.join(os.path.dirname(__file__), 'templates/mainPage.html')
         template_values = {'pendingTenants':pendingTenants, 'clearedTenants':clearedTenants}
         self.response.out.write(template.render(path, template_values))
         
@@ -32,7 +32,7 @@ class TenantHandler(webapp.RequestHandler):
     def get(self):
         tenants = Tenant().getCurrentTenants()
         rooms = Room.all().get()
-        path = os.path.join(os.path.dirname(__file__), 'htmls/tenants.html')
+        path = os.path.join(os.path.dirname(__file__), 'templates/tenants.html')
      
         if rooms:
             template_values = {'tenants':tenants} 
@@ -47,7 +47,7 @@ class RoomHandler(webapp.RequestHandler):
         rooms = db.GqlQuery("SELECT *"
                             "FROM Room")
 
-        path = os.path.join(os.path.dirname(__file__), 'htmls/rooms.html')         
+        path = os.path.join(os.path.dirname(__file__), 'templates/rooms.html')         
         template_values = {'rooms':rooms}
         self.response.out.write(template.render(path, template_values)) 
     def post(self):
@@ -146,7 +146,7 @@ class TenantContractHandler(webapp.RequestHandler):
         contracts = db.GqlQuery("SELECT * "
                             "FROM RentalContract")
 
-        path = os.path.join(os.path.dirname(__file__), 'htmls/contracts.html')         
+        path = os.path.join(os.path.dirname(__file__), 'templates/contracts.html')         
         template_values = {'contracts':contracts}
         self.response.out.write(template.render(path, template_values)) 
     
@@ -154,7 +154,7 @@ class TenantPaymentHandler(webapp.RequestHandler):
     def get(self):
         payments = db.GqlQuery("SELECT * "
                             "FROM Payment")
-        path = os.path.join(os.path.dirname(__file__), 'htmls/payments.html')         
+        path = os.path.join(os.path.dirname(__file__), 'templates/payments.html')         
         template_values = {'payments':payments}
         self.response.out.write(template.render(path, template_values)) 
         
