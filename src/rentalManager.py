@@ -165,17 +165,12 @@ class PayRentHandler(webapp.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json'
         jsonString = self.request.body          
         data = simplejson.loads(jsonString) #Decoding JSON
-#        payAmount = float(data['payAmount'])
-#        payDate = datetime.strptime(data['payDate'],"%Y-%m-%d").date()
-#        tenant_key = data['tenant_key']                   
-#        tenant = Tenant.get(tenant_key)
-#        payment_key = data['payment_key']
-#        payment = Payment.get(payment_key)
         transaction = Transaction()
-        #transaction.createTransaction(payment,payAmount,payDate)
-        transaction.createTransaction(data)
-        pass        
-    #transactions go here
+        transaction.processTransaction(data)
+        response = {'payRentSuccessNotice':'Congratulations, you have paid the rent!'}
+        json_response= simplejson.dumps(response)
+        return self.response.out.write(json_response)
+    
 application = webapp.WSGIApplication([('/', MainPage),
                                       ('/tenantContracts',TenantContractHandler),
                                       ('/tenantPayment',TenantPaymentHandler),

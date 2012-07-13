@@ -27,34 +27,7 @@ $('#currentTenantTableId td.tenantNameEditorClass a').popover();
 $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 
 
-//check in a tenant
-	$('#checkinHrefId').click(function(){
-		var tenantKey = $(this).data('tenant-key');
-		
-		$.ajax({
-			url:"/tenantCheckin?tenant_key=" + tenantKey,
-			type:'GET',
-			//dataType:'json',
-			dataType:'json',
-			success:function(resp){
-				if (resp.noVacancyResponse){
-					alert(resp.noVacancyResponse);
-				}else{
-					var tenant_data,rooms_data;
-					for (var i = 0; i < resp.length; i++) {
-						//alert("in for loop!");
-						//alert("resp.length:" + resp.length);
-						tenant_data = resp[i].tenantProfile;
-						rooms_data = resp[i].roomsProfile;
-					}
-					$('#tenantFormOrTable').html(creatCheckinForm(tenantKey,tenant_data,rooms_data)).show();
 
-				}
-			}		
-		
-		});
-		return false;
-	});
 
 	$('#checkoutHrefId').click(function(){		
 		//alert("you click checkout");
@@ -211,8 +184,8 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 		$('#tenantFormOrTable').children().remove();
 	});
 	
-//version 2
-	$('#tenantFormOrTable').on('submit', '#tenantRegister', function(){
+
+	$('#tenantFormOrTable').on('submit', '#tenantRegister', function(){  //version 2
 		//$('#tenantRegister').submit(function() {
 			
 			var values = $('#tenantRegister').serializeArray(),
@@ -267,76 +240,43 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 			});
 
 			//console.log('>>>tenantRegister2');
-			return false;		
-		
-		});
-		
-
+			return false;				
+		});		
 	
 	// Register a New Tenant page
 	$('#registerTenant').click(function(){
 		//alert("you click register");
 		$('#tenantFormOrTable').html(createRegisterTenantForm()).show();
 		//alert("validate the tenant form?");
-		$('#tenantRegister').validate(
-			// errorPlacement: function(error, element) {
-				// error.appendTo($('#hereId'));
-			// },
-			// showErrors: function(errorMap,errorList){
-				// $('#tenantRegister').find('input').each(function(){
-					// $(this).removeClass('error');
-				
-				// });
-				// $('#hereId').html("");
-				// if(errorList.length){
-				// $('#hereId').html(errorList[0]['message']);
-				// $(errorList[0]['element']).addClass('error');
-				// }
-			
-			// },
-			// debug:true
-		
-		);
-	
+		$('#tenantRegister').validate(		
+		);	
 	});
 	
 	
 	//remove the tenant register form
-	//$('button#registerTenantCancel').click(function(){
 	$('#tenantFormOrTable').on('click', '#registerTenantCancel', function(){ //version 2
-		//alert("you want to cancel?");		
 		$('#tenantFormOrTable').children().remove();
 	});
 	
-	// Register a New Room page
-	$('#registerRoom').click(function(){
-		
+	// get the register room form
+	$('#registerRoom').click(function(){	//version 2		
 		$('#roomFormOrTable').html(createRegisterRoomForm()).show();
-		//alert("validate the room form?");
 		$('#roomRegister').validate();
 	
 	});
 	
 	//remove the room register form
 	$('#roomFormOrTable').on('click', '#registerRoomCancel', function(){  //version 2
-	//alert("you want to cancel?");	
 		$('#roomFormOrTable').children().remove();
 	});
-
-	// $('#payRentNowId').click(function(){ //version 2
-		// $('#paymentHereId').html(payRentForm()).show();
-	
-	// });
-		
-		
-		//$('#roomRegister').submit(function() {
-		$('#roomFormOrTable').on('submit', '#roomRegister', function(){ //version 2
+				
+	//submit the register room form
+	$('#roomFormOrTable').on('submit', '#roomRegister', function(){ //version 2
 		var values = $('#roomRegister').serializeArray(),
 			data = { };
 		$.each(values, function(index,item){
 			if (item.name == 'room_number'){
 				data.roomNumber = item.value;
-				//console.log('>>>roomNumber', item.value);
 			} else if (item.name == 'room_area') {
 				data.roomArea = item.value;
 			}else if (item.name == 'room_rent_single') {
@@ -367,93 +307,156 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 				);
 			}
 		});
-
-		//console.log('>>>roomRegister2');
 		return false;
 	
 	});
-//check in	
+
 	//checkin form validation
-	//$(function() {
-		$('.error').hide();
-		$(".submitButton").click(function(){
-		//alert("you click checkin");
-			$('.error').hide();
-			var startDate = $("input#tenant_startDate").val();
-			if (startDate == ""){
-				$("label#startDate_error").show();
-				$("input#tenant_startDate").focus();
-				return false;
-			}
-		});
-	//});
-		//console.trace();
-	//$('#checkInForm').submit(function() {
-	$('#tenantFormOrTable').on('submit', '#checkInForm', function(){
-	
-		//console.trace();
-	//$('#submitButton').click(function() {
-		//$('#submit_btn').attr('disabled', true);
-		//console.log('>>>Here is SerializeArray');
-		//debugger;
-		//console.debug("debug");
- 		var values = $('#checkInForm').serializeArray(),
-			data = { };
-		var valuesOrderRoomForm = $('#orderRoomForm').serializeArray();
-			console.log('>>>values',values);
-		$.each(values, function(index, item) {
-			if (item.name == 'tenant_key'){
-				data.tenantKey = item.value;
-			}
-			// if (item.name == 'tenant_room_key') {
-				// data.roomKey = item.value;
+
+		// $('.error').hide();
+		// $(".submitButton").click(function(){
+			// $('.error').hide();
+			// var startDate = $("input#tenant_startDate").val();
+			// if (startDate == ""){
+				// $("label#startDate_error").show();
+				// $("input#tenant_startDate").focus();
+				// return false;
 			// }
-			if (item.name == 'tenant_startDate') {
-					data.startDate = item.value;
-			}
-			if (item.name == 'tenant_payPeriod') {
-				data.payPeriod = item.value;
-			}
-		}); 
-		var value = $('.selectRoomClass select').val();
-		if(value == "title"){
-			alert('please select a room first');
-		}else if (!$('#singleRentRadioId').prop('checked')&& !$('#doubleRentRadioId').prop('checked')){
-			alert('you did not tick the box');
-		} else{
-			//alert('Yes, you tick the box');
-			$.each(valuesOrderRoomForm, function (index, item) {
+		// });
 		
-				if (item.name == 'room_rentSingle' || item.name === 'room_rentDouble') {
-				
-					data.actualRent = item.value;
-					//console.log('>>>',data);
-				}else {			
-					data[item.name] = item.value;
+	//get the tenant check in form
+	$('#checkinHrefId').click(function(){ //version 2
+		var tenantKey = $(this).data('tenant-key');
+		
+		$.ajax({
+			url:"/tenantCheckin?tenant_key=" + tenantKey,
+			type:'GET',
+			dataType:'json',
+			success:function(resp){
+				if (resp.noVacancyResponse){
+					alert(resp.noVacancyResponse);
+				}else{
+					var tenant_data,rooms_data;
+					for (var i = 0; i < resp.length; i++) {
+						tenant_data = resp[i].tenantProfile;
+						rooms_data = resp[i].roomsProfile;
+					}
+					$('#tenantFormOrTable').html(creatCheckinForm(tenantKey,tenant_data,rooms_data)).show();
+					$('#checkInForm').validate({
+						submitHandler: function(form) {
+							alert("submit");
+						 		var values = $('#checkInForm').serializeArray(),
+								data = { };
+								var valuesOrderRoomForm = $('#orderRoomForm').serializeArray();
+								console.log('>>>values',values);
+								$.each(values, function(index, item) {
+									if (item.name == 'tenant_key'){
+										data.tenantKey = item.value;
+									}
+									if (item.name == 'tenant_startDate') {
+											data.startDate = item.value;
+									}
+									if (item.name == 'tenant_payPeriod') {
+										data.payPeriod = item.value;
+									}
+								}); 
+								var value = $('.selectRoomClass select').val();
+								if(value == "title"){
+									alert('please select a room first');
+								}else if (!$('#singleRentRadioId').prop('checked')&& !$('#doubleRentRadioId').prop('checked')){
+									alert('you did not tick the box');
+								} else{
+									$.each(valuesOrderRoomForm, function (index, item) {
+								
+										if (item.name == 'room_rentSingle' || item.name === 'room_rentDouble') {			
+											data.actualRent = item.value;
+										}else {			
+											data[item.name] = item.value;
+										}
+									});
+								
+									console.log('>>>data',data);
+									var dataStringJson = JSON.stringify(data);
+									
+									var r = confirm("Do u really want to check in this room?");
+									if(r) {
+									$.ajax({
+										url: '/tenantCheckin',
+										type: 'POST',
+										data: dataStringJson,
+										success: function(resp) {				
+											alert(resp.checkinSuccessMessage);
+											window.location.replace("../tenants");
+										} 
+									});					
+									return false;
+									}
+								}
+								return false;
+						
+						}
+					
+					});
+
 				}
-			});
+			}		
 		
-			console.log('>>>data',data);
-			var dataStringJson = JSON.stringify(data);
-			console.log('>>>ajax starts');
-			var r = confirm("Do u really want to check in this room?");
-			if(r) {
-			$.ajax({
-				url: '/tenantCheckin',
-				type: 'POST',
-				data: dataStringJson,
-				success: function(resp) {				
-					alert(resp.checkinSuccessMessage);
-					window.location.replace("../tenants");
-				} 
-			});					
-			return false;
-			}
-		}
+		});
 		return false;
 	});
 
-
+	//submit the tenant check in form
+	$('#tenantFormOrTable').on('click', '#checkInForm1', function(){  //version 2
+		$('#checkInForm').submit();
+ 		// var values = $('#checkInForm').serializeArray(),
+			// data = { };
+		// var valuesOrderRoomForm = $('#orderRoomForm').serializeArray();
+			// console.log('>>>values',values);
+		// $.each(values, function(index, item) {
+			// if (item.name == 'tenant_key'){
+				// data.tenantKey = item.value;
+			// }
+			// if (item.name == 'tenant_startDate') {
+					// data.startDate = item.value;
+			// }
+			// if (item.name == 'tenant_payPeriod') {
+				// data.payPeriod = item.value;
+			// }
+		// }); 
+		// var value = $('.selectRoomClass select').val();
+		// if(value == "title"){
+			// alert('please select a room first');
+		// }else if (!$('#singleRentRadioId').prop('checked')&& !$('#doubleRentRadioId').prop('checked')){
+			// alert('you did not tick the box');
+		// } else{
+			// $.each(valuesOrderRoomForm, function (index, item) {
+		
+				// if (item.name == 'room_rentSingle' || item.name === 'room_rentDouble') {			
+					// data.actualRent = item.value;
+				// }else {			
+					// data[item.name] = item.value;
+				// }
+			// });
+		
+			// console.log('>>>data',data);
+			// var dataStringJson = JSON.stringify(data);
+			
+			// var r = confirm("Do u really want to check in this room?");
+			// if(r) {
+			// $.ajax({
+				// url: '/tenantCheckin',
+				// type: 'POST',
+				// data: dataStringJson,
+				// success: function(resp) {				
+					// alert(resp.checkinSuccessMessage);
+					// window.location.replace("../tenants");
+				// } 
+			// });					
+			// return false;
+			// }
+		// }
+		// return false;
+	});
 
 // display room profile on bootstrap modal
 $('td.roomNumberClass a').click(function () {
@@ -575,11 +578,11 @@ $('#modal1').bind('tenantActivityFormEvent', function(e, tenantActivityData){
 //display pay rent form on bootstrap modal
 	$('td.payRentClass a').click(function (e) {	
 	$('#modal1').modal('show');
-	var tenantKey = $(this).data('tenant-key');
+	//var tenantKey = $(this).data('tenant-key');
 	var firstName = $(this).data('tenant-firstname');
 	var surname = $(this).data('tenant-surname');
 	var paymentkey = $(this).data('paymentkey');
-	$('#modal1').trigger("modalDisplayEvent", [ tenantKey, firstName,surname,paymentkey]);		
+	$('#modal1').trigger("modalDisplayEvent", [firstName,surname,paymentkey]);		
 	
 
 	e.preventDefault();
@@ -587,13 +590,11 @@ $('#modal1').bind('tenantActivityFormEvent', function(e, tenantActivityData){
 
 
 //$('#modal1').bind('myCustomEvent',function(e, roomProfileData){ //both "on" and "bind" are working here
-$('#modal1').on('modalDisplayEvent',function(e, tenantKey, firstName,surname,paymentkey){
+$('#modal1').on('modalDisplayEvent',function(e,firstName,surname,paymentkey){
 
 	$('h3').text("Pay Rent Form");
-	$('#displayHereId').html(payRentForm(tenantKey,firstName,surname,paymentkey));
-	
-		//validate method is called to validate the pay rent form
-		$('#payRentFormId').validate({
+	$('#displayHereId').html(payRentForm(firstName,surname,paymentkey));
+		$('#payRentFormId').validate({	//validate method is called to validate the pay rent form
 		rules: {
 			 payAmount: {
 				required: true,
@@ -617,7 +618,6 @@ $('#modal1').on('modalDisplayEvent',function(e, tenantKey, firstName,surname,pay
 				date: "the pay date should be in the format of date"
 			}
 	   },
-		//success: "valid", 
 	
 		submitHandler: function(form) {  //this submitHandler handles the "pay rent form" submit event
 			var values = $('.payRentFormClass').serializeArray(),

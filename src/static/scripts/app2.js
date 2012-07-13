@@ -246,7 +246,7 @@
 	}
 
 	
-	function creatCheckinForm(tenantKey,tenant_data,rooms_data){		
+	function creatCheckinForm(tenantKey,tenant_data,rooms_data){	//version 2
 		var roomNumberOptions = new Array();
 		roomNumberOptions.push('<option value = "title">Vacant Rooms</option>');
 		$.each(rooms_data, function(item){
@@ -299,55 +299,26 @@
 	
 	
 	//function payRentForm(tenantKey,tenant_data){
-	function payRentForm(tenantKey,firstName,surname,paymentkey) {
+	function payRentForm(firstName,surname,paymentkey) {
 		
 		var jqForm = $('<form class="payRentFormClass" id="payRentFormId" ></form>');
-		//$.each(tenant_data,function(item){
-			jqForm.append(
-				
+			jqForm.append(				
 				'<div>'
 				+ '<label> Pay Now Form for: </label>'
 				+ '<label>' + firstName + '_' + surname + '</label>'
-				+ '<input type="hidden" name="tenant_key" value=' + tenantKey + ' />'
 				+ '<input type="hidden" name="payment_key" value=' + paymentkey + ' />'
-				+ '</div>'
-				
+				+ '</div>'				
 				+ '<div>'
 				+ '<label for="payAmount">Paid Amount: </label>'
 				+ '<em>*</em><input id="pay_Amount" type="number" name="payAmount" class="required" placeholder="the amount you want to pay..."/>'
-				//+ '<label class="error" for="payAmount" id="payAmount_error">Please type in the amount you want to pay.</label>'
-				+ '</div>'
-				
-				//+ '<div>'
-				//+ '<label for="email">Email Address: </label>'
-				//+ '<em>*</em><input id="email_address" type="email" name="email" class="required" placeholder="your email address..."/>'
-				//+ '<label class="error" for="payAmount" id="payAmount_error">Please type in the amount you want to pay.</label>'
-				//+ '</div>'
-				
-				
+				+ '</div>'								
 				+ '<div>'
 				+ '<label for="payDate">Pay Date: </label>'
 				+ '<em>*</em><input id="pay_Date" type="date" name="payDate" placeholder="Year-Month-Day" class="required"/>'
-				//+ '<em>*</em><input value="2011-12-01" class="validate[required,custom[date]]" type="text" name="payDate" id="pay_Date" />'
-				//+ '<label>Name</label>'
-				//+ '<em>*</em><input  name="name"  class="required"/>'
-				//+ '<label class="error" for="payDate" id="payDate_error">This field is required.</label>'
 				+ '</div>'
-				//+ '<p><input  id="payRentFormSubmitBtnId" class="submit" type="submit" value="Submit"/></p>'
-				//+ '<input  id="payRentFormSubmitBtnId" class="submit" type="submit" value="Submit"/>'
-				//+ '<input  id="payRentFormSubmitBtnId" class="submit" type="hidden" value="Submit"/>'
 				+ '<div>'		
-				//+ '</br>'
-				//+ '<a href="/">Main Page</a>'
 				+ '</div>'
 				);
-		//});
-		//$('body').append(jqForm);
-		//$('body').append('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>');
-		//$('body').append('<script type="text/javascript" src="/scripts/app.js"></script>');
-		//$('body').append('<script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script>');
-		//$('body').append('<script type="text/javascript" src="/scripts/jquery.validate.js"></script>');
-		
 		return jqForm;
 	}
 	

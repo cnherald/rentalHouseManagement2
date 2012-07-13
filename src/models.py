@@ -192,7 +192,7 @@ class Transaction(db.Model):
         transactions = db.GqlQuery("SELECT * "
                       "FROM Transaction")
     
-    def createTransaction(self,data):
+    def processTransaction(self,data):
         paidAmount = float(data['payAmount'])
         payDate = datetime.strptime(data['payDate'],"%Y-%m-%d").date()
 #        tenant_key = data['tenant_key']                   
