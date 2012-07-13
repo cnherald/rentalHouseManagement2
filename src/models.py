@@ -177,6 +177,12 @@ class Payment(db.Model):
         else:
             return max(payDates)
     
+    def updateExpiryDate(self,paidAmount):        
+        rate = self.contract.getRentRate()
+        days = int(paidAmount / rate)
+        paid_days = timedelta(days = days)         
+        self.rentExpiredDate = self.rentExpiredDate + paid_days
+    
 class Transaction(db.Model):
     payment = db.ReferenceProperty(Payment)
     paidAmount = db.FloatProperty()
@@ -187,14 +193,18 @@ class Transaction(db.Model):
                       "FROM Transaction")
     
     def createTransaction(self,data):
-        payAmount = float(data['payAmount'])
+        paidAmount = float(data['payAmount'])
         payDate = datetime.strptime(data['payDate'],"%Y-%m-%d").date()
 #        tenant_key = data['tenant_key']                   
 #        tenant = Tenant.get(tenant_key)
         payment_key = data['payment_key']
         payment = Payment.get(payment_key)
+        payment.totalPaidAmount = payment.totalPaidAmount + paidAmount
         self.payment = payment
-        self.payAmount = payAmount
+        self.payAmount = paidAmount
         self.transactionDate = payDate
-        pass
+        payment.updateExpiryDate(paidAmount)
+        payment.put()
+        self.put()
+        
         
