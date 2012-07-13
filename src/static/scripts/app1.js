@@ -585,9 +585,11 @@ $('#modal1').bind('tenantActivityFormEvent', function(e, tenantActivityData){
 
 
 //$('#modal1').bind('myCustomEvent',function(e, roomProfileData){ //both "on" and "bind" are working here
-$('#modal1').on('modalDisplayEvent',function(e, tenantKey, firstName,surname){
+//$('#modal1').on('modalDisplayEvent',function(e, tenantKey, firstName,surname,payment){
+$('#modal1').on('modalDisplayEvent',function(e, payment){
 	$('h3').text("Pay Rent Form");
-	$('#displayHereId').html(payRentForm(tenantKey,firstName,surname));
+	//$('#displayHereId').html(payRentForm(tenantKey,firstName,surname,payment));
+	$('#displayHereId').html(payRentForm(payment));
 		//validate method is called to validate the pay rent form
 		$('#payRentFormId').validate({
 		rules: {
@@ -622,7 +624,7 @@ $('#modal1').on('modalDisplayEvent',function(e, tenantKey, firstName,surname){
 				data[item.name] = item.value;
 			});
 			var dataStringJson = JSON.stringify(data);	
-			alert("you get " + dataStringJson);
+			//alert("you get " + dataStringJson);
 			$('#modal1').modal('hide');
 			console.trace();
 			$.ajax({

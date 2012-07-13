@@ -133,7 +133,7 @@
 									<td>{{ payment.getLastPayDate }}</td>
 									<td>{{ payment.rentExpiredDate }}</td>
 									<td class="payRentClass">
-										<a href="#" id="payRentNowId" rel="popover" data-content="click to pay the rent right now" data-original-title="Remainder:" data-tenant-key="{{ payment.contract.tenant.key }}" data-tenant-firstname="{{ payment.contract.tenant.firstName }}" data-tenant-surname="{{ payment.contract.tenant.surname}}">Pay Now</a>
+										<a href="#" id="payRentNowId" rel="popover" data-content="click to pay the rent right now" data-original-title="Remainder:" data-tenant-key="{{ payment.contract.tenant.key }}" data-tenant-firstname="{{ payment.contract.tenant.firstName }}" data-tenant-surname="{{ payment.contract.tenant.surname}}" data-payment-key="{{ payment.key}}">Pay Now</a>
 									</td>
 								</tr>
 							{% endfor %}

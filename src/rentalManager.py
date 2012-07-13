@@ -159,7 +159,11 @@ class TenantPaymentHandler(webapp.RequestHandler):
         self.response.out.write(template.render(path, template_values)) 
         
 class PayRentHandler(webapp.RequestHandler):
-    pass        
+    def post(self):
+        self.response.headers['Content-Type'] = 'application/json'
+        jsonString = self.request.body          
+        data = simplejson.loads(jsonString) #Decoding JSON    
+        pass        
     #transactions go here
 application = webapp.WSGIApplication([('/', MainPage),
                                       ('/tenantContracts',TenantContractHandler),
