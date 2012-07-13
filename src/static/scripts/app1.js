@@ -578,18 +578,20 @@ $('#modal1').bind('tenantActivityFormEvent', function(e, tenantActivityData){
 	var tenantKey = $(this).data('tenant-key');
 	var firstName = $(this).data('tenant-firstname');
 	var surname = $(this).data('tenant-surname');
-	$('#modal1').trigger("modalDisplayEvent", [ tenantKey, firstName,surname]);		
+	var paymentkey = $(this).data('paymentkey');
+	$('#modal1').trigger("modalDisplayEvent", [ tenantKey, firstName,surname,paymentkey]);		
+	
 
 	e.preventDefault();
 });
 
 
 //$('#modal1').bind('myCustomEvent',function(e, roomProfileData){ //both "on" and "bind" are working here
-//$('#modal1').on('modalDisplayEvent',function(e, tenantKey, firstName,surname,payment){
-$('#modal1').on('modalDisplayEvent',function(e, payment){
+$('#modal1').on('modalDisplayEvent',function(e, tenantKey, firstName,surname,paymentkey){
+
 	$('h3').text("Pay Rent Form");
-	//$('#displayHereId').html(payRentForm(tenantKey,firstName,surname,payment));
-	$('#displayHereId').html(payRentForm(payment));
+	$('#displayHereId').html(payRentForm(tenantKey,firstName,surname,paymentkey));
+	
 		//validate method is called to validate the pay rent form
 		$('#payRentFormId').validate({
 		rules: {

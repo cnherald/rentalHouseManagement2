@@ -7,9 +7,11 @@ from models import Tenant
 from models import Room
 from models import RentalContract
 from models import Payment
+from models import Transaction
 from google.appengine.ext import db
 import simplejson
 import django.utils.simplejson as json
+from datetime import datetime
 
 class MainPage(webapp.RequestHandler):
     def get(self):
@@ -162,7 +164,16 @@ class PayRentHandler(webapp.RequestHandler):
     def post(self):
         self.response.headers['Content-Type'] = 'application/json'
         jsonString = self.request.body          
-        data = simplejson.loads(jsonString) #Decoding JSON    
+        data = simplejson.loads(jsonString) #Decoding JSON
+#        payAmount = float(data['payAmount'])
+#        payDate = datetime.strptime(data['payDate'],"%Y-%m-%d").date()
+#        tenant_key = data['tenant_key']                   
+#        tenant = Tenant.get(tenant_key)
+#        payment_key = data['payment_key']
+#        payment = Payment.get(payment_key)
+        transaction = Transaction()
+        #transaction.createTransaction(payment,payAmount,payDate)
+        transaction.createTransaction(data)
         pass        
     #transactions go here
 application = webapp.WSGIApplication([('/', MainPage),

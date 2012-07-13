@@ -299,8 +299,7 @@
 	
 	
 	//function payRentForm(tenantKey,tenant_data){
-	//function payRentForm(tenantKey,firstName,surname,payment) {
-	function payRentForm(payment) {
+	function payRentForm(tenantKey,firstName,surname,paymentkey) {
 		
 		var jqForm = $('<form class="payRentFormClass" id="payRentFormId" ></form>');
 		//$.each(tenant_data,function(item){
@@ -308,8 +307,9 @@
 				
 				'<div>'
 				+ '<label> Pay Now Form for: </label>'
-				+ '<label>' + payment.contract.tenant.firstName + '_' + payment.contract.tenant.surname + '</label>'
-				+ '<input type="hidden" name="tenant_key" value=' + payment.contract.tenant.key + ' />'
+				+ '<label>' + firstName + '_' + surname + '</label>'
+				+ '<input type="hidden" name="tenant_key" value=' + tenantKey + ' />'
+				+ '<input type="hidden" name="payment_key" value=' + paymentkey + ' />'
 				+ '</div>'
 				
 				+ '<div>'

@@ -178,7 +178,7 @@ class Payment(db.Model):
             return max(payDates)
     
 class Transaction(db.Model):
-    payment = db.ReferenceProperty(Payment, required = True)
+    payment = db.ReferenceProperty(Payment)
     paidAmount = db.FloatProperty()
     transactionDate = db.DateProperty()
     
@@ -186,6 +186,15 @@ class Transaction(db.Model):
         transactions = db.GqlQuery("SELECT * "
                       "FROM Transaction")
     
-    def payRentNow(self):
+    def createTransaction(self,data):
+        payAmount = float(data['payAmount'])
+        payDate = datetime.strptime(data['payDate'],"%Y-%m-%d").date()
+#        tenant_key = data['tenant_key']                   
+#        tenant = Tenant.get(tenant_key)
+        payment_key = data['payment_key']
+        payment = Payment.get(payment_key)
+        self.payment = payment
+        self.payAmount = payAmount
+        self.transactionDate = payDate
         pass
         
