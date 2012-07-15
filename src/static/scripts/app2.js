@@ -221,7 +221,7 @@
 	}
 	
 	function creatShowRoomProfileForm(roomKey,data_json){
-		var jqForm = $('<form class="well form-horizontal" id="orderRoomForm" onsubmit="return false;"></form>');
+		var jqForm = $('<form class="well form-horizontal" id="orderRoomForm" ></form>');
 		$.each(data_json,function(item){
 			jqForm.append(
 				'<div>'
@@ -231,12 +231,12 @@
 				+ '<p>Area:'+ data_json[item].area +'</p>'
 				+ '</div>'
 				+ '<div>'
-				+ '<input type = "radio" id = "singleRentRadioId" name = "rent">'					
-				+ '<p>Single Rent: <input  type="text" name="room_rentSingle" id="singleRentID" class="rent-input" value=' + data_json[item].rentSingle + ' disabled/></p>'
+				+ '<input class = "required" type = "radio" id = "singleRentRadioId" name = "rent">'					
+				+ '<p>Single Rent: <input  type="text" name="room_rentSingle" id="singleRentID" class="required" value=' + data_json[item].rentSingle + ' disabled/></p>'
 				+ '</div>'								
 				+ '<div>'							
-				+ '<input type = "radio" id = "doubleRentRadioId" name = "rent">'
-				+ '<p>Double Rent: <input type="text" name="room_rentDouble" id="doubleRent" class="rent-input" value=' + data_json[item].rentDouble + ' disabled/></p>'
+				+ '<input class = "required" type = "radio" id = "doubleRentRadioId" name = "rent">'
+				+ '<p>Double Rent: <input type="text" name="room_rentDouble" id="doubleRent" class="required" value=' + data_json[item].rentDouble + ' disabled/></p>'
 				+ '</div>'
 			);
 		
@@ -258,7 +258,7 @@
 			payPeriodOptions.push('<option value=' + i +'>' + i + "week" + '</option>');
 		}
 		
-		var jqForm = $('<form class="form-horizontal" span2 id="checkInForm"></form>');
+		var jqForm = $('<form id="checkInForm" onsubmit="return false;"></form>');
 		$.each(tenant_data, function(item){
 				jqForm.append(
 					'<div>'
@@ -273,10 +273,10 @@
 					+ '</div>'
 					+ '<span id="showRoomInfo"></span>'
 					+ '<div>'
-					+ '<p>StartDate: <input id="tenant_startDate" type="date" name="tenant_startDate" placeholder="Year-Month-Day"></p>'
+					+ '<p>StartDate: <input id="tenant_startDate" type="date" name="tenant_startDate" class="required" placeholder="Year-Month-Day"></p>'
 					+ '</div>'
 					+ '<div class = "selectPayPeriodClass">'
-					+ '<p>PayPeriod: <select id="tenant_payPeriod" name="tenant_payPeriod"></p>'
+					+ '<p>PayPeriod: <select id="tenant_payPeriod" name="tenant_payPeriod" class="required" ></p>'
 					+ '</select>'
 					+ '</div>'						
 					+ '<div>'

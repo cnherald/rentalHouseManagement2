@@ -130,59 +130,14 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 	});
 	
 	
-	$('#room_key').change(function () {		
-		var roomKey = $('#room_key').val();
-		var url = "roomInfo?room_key=" + roomKey;
-		//$('#roomInfo').html(roomKey);
-		//console.log(">>>" + url);
-		$('#roomInfo').html('<iframe src="' + url + '">');
-		return false;
-	});
+	// $('#room_key').change(function () {		
+		// var roomKey = $('#room_key').val();
+		// var url = "roomInfo?room_key=" + roomKey;
+		// $('#roomInfo').html('<iframe src="' + url + '">');
+		// return false;
+	// });
 	
-	//Get the profile of the room
-	//$('#selectRoom').change(function(){
-	//$('.selectRoomClass select').change(function(){ //use container:"selectRoomClass" instead of id:#selectRoom
-	$('#tenantFormOrTable').on('change', '.selectRoomClass select', function(){
-		var value = $('.selectRoomClass select').val();
-		if(value == "title"){
-			$('#showRoomInfo').children().remove();
-		} else {
-			var roomKey = value;
-			$.ajax({
-				url: 'roomProfileData?room_key=' + roomKey, //get the selected room profile from the server side
-				type: 'GET',
-				dataType:'json',
-				success: function(data_json){
-					$('#showRoomInfo').html(creatShowRoomProfileForm(roomKey,data_json)).show();
-				}		
-			
-			});	
-		}
-
-	});
 	
-		
-	//$('#showRoomInfo').on('change','#orderRoomForm :checkbox',function(evt){ //attaching "change" event to dynamic html elements
-	//$('#showRoomInfo').on('change','#orderRoomForm :radio',function(evt){	//attaching radio "change" event to dynamic html elements	
-	$('#tenantFormOrTable').on('change','#orderRoomForm :radio',function(evt){ //attaching radio "change" event to dynamic html elements	
-		var $this = $(this),
-		checked = $this.is(':checked');		//get the boolean of the radio's status
-		$this.parent().find('input[type="text"]').attr('disabled', !checked); //works,Tim's version--enables the text to be changable
-		return false;
-	});
-	
-
-	//reset room information
-	$('#tenantFormOrTable').on('click', '#checkInForm input[type = reset]', function(){
-		//alert("you want to reset?");	
-		$('#showRoomInfo').children().remove();
-	});
-	
-	//cancel checkin
-	$('#tenantFormOrTable').on('click', '#checkinFormCancel', function(){
-		//alert("you want to cancel?");
-		$('#tenantFormOrTable').children().remove();
-	});
 	
 
 	$('#tenantFormOrTable').on('submit', '#tenantRegister', function(){  //version 2
@@ -248,8 +203,7 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 		//alert("you click register");
 		$('#tenantFormOrTable').html(createRegisterTenantForm()).show();
 		//alert("validate the tenant form?");
-		$('#tenantRegister').validate(		
-		);	
+		$('#tenantRegister').validate();	
 	});
 	
 	
@@ -323,7 +277,55 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 				// return false;
 			// }
 		// });
+	
+
+//Get the profile of the room
+	//$('#selectRoom').change(function(){
+	//$('.selectRoomClass select').change(function(){ //use container:"selectRoomClass" instead of id:#selectRoom
+	$('#tenantFormOrTable').on('change', '.selectRoomClass select', function(){	//version 2
+		var value = $('.selectRoomClass select').val();
+		if(value == "title"){
+			$('#showRoomInfo').children().remove();
+		} else {
+			var roomKey = value;
+			$.ajax({
+				url: 'roomProfileData?room_key=' + roomKey, //get the selected room profile from the server side
+				type: 'GET',
+				dataType:'json',
+				success: function(data_json){
+					$('#showRoomInfo').html(creatShowRoomProfileForm(roomKey,data_json)).show();
+					//$('orderRoomForm').validate();
+					$('#checkInForm').validate();
+				}		
+			
+			});	
+		}
+
+	});
+	
 		
+	//$('#showRoomInfo').on('change','#orderRoomForm :checkbox',function(evt){ //attaching "change" event to dynamic html elements
+	//$('#showRoomInfo').on('change','#orderRoomForm :radio',function(evt){	//attaching radio "change" event to dynamic html elements	
+	$('#tenantFormOrTable').on('change','#orderRoomForm :radio',function(evt){ //attaching radio "change" event to dynamic html elements	
+		var $this = $(this),
+		checked = $this.is(':checked');		//get the boolean of the radio's status
+		$this.parent().find('input[type="text"]').attr('disabled', !checked); //works,Tim's version--enables the text to be changable
+		return false;
+	});
+	
+
+	//reset room information
+	$('#tenantFormOrTable').on('click', '#checkInForm input[type = reset]', function(){
+		//alert("you want to reset?");	
+		$('#showRoomInfo').children().remove();
+	});
+	
+	//cancel checkin
+	$('#tenantFormOrTable').on('click', '#checkinFormCancel', function(){
+		//alert("you want to cancel?");
+		$('#tenantFormOrTable').children().remove();
+	});
+	
 	//get the tenant check in form
 	$('#checkinHrefId').click(function(){ //version 2
 		var tenantKey = $(this).data('tenant-key');
@@ -342,120 +344,65 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 						rooms_data = resp[i].roomsProfile;
 					}
 					$('#tenantFormOrTable').html(creatCheckinForm(tenantKey,tenant_data,rooms_data)).show();
-					$('#checkInForm').validate({
-						submitHandler: function(form) {
-							alert("submit");
-						 		var values = $('#checkInForm').serializeArray(),
-								data = { };
-								var valuesOrderRoomForm = $('#orderRoomForm').serializeArray();
-								console.log('>>>values',values);
-								$.each(values, function(index, item) {
-									if (item.name == 'tenant_key'){
-										data.tenantKey = item.value;
-									}
-									if (item.name == 'tenant_startDate') {
-											data.startDate = item.value;
-									}
-									if (item.name == 'tenant_payPeriod') {
-										data.payPeriod = item.value;
-									}
-								}); 
-								var value = $('.selectRoomClass select').val();
-								if(value == "title"){
-									alert('please select a room first');
-								}else if (!$('#singleRentRadioId').prop('checked')&& !$('#doubleRentRadioId').prop('checked')){
-									alert('you did not tick the box');
-								} else{
-									$.each(valuesOrderRoomForm, function (index, item) {
-								
-										if (item.name == 'room_rentSingle' || item.name === 'room_rentDouble') {			
-											data.actualRent = item.value;
-										}else {			
-											data[item.name] = item.value;
-										}
-									});
-								
-									console.log('>>>data',data);
-									var dataStringJson = JSON.stringify(data);
-									
-									var r = confirm("Do u really want to check in this room?");
-									if(r) {
-									$.ajax({
-										url: '/tenantCheckin',
-										type: 'POST',
-										data: dataStringJson,
-										success: function(resp) {				
-											alert(resp.checkinSuccessMessage);
-											window.location.replace("../tenants");
-										} 
-									});					
-									return false;
-									}
-								}
-								return false;
-						
-						}
-					
-					});
+					$('#checkInForm').validate();
 
 				}
 			}		
 		
 		});
-		return false;
+		//return false;
 	});
 
 	//submit the tenant check in form
-	$('#tenantFormOrTable').on('click', '#checkInForm1', function(){  //version 2
-		$('#checkInForm').submit();
- 		// var values = $('#checkInForm').serializeArray(),
-			// data = { };
-		// var valuesOrderRoomForm = $('#orderRoomForm').serializeArray();
-			// console.log('>>>values',values);
-		// $.each(values, function(index, item) {
-			// if (item.name == 'tenant_key'){
-				// data.tenantKey = item.value;
-			// }
-			// if (item.name == 'tenant_startDate') {
-					// data.startDate = item.value;
-			// }
-			// if (item.name == 'tenant_payPeriod') {
-				// data.payPeriod = item.value;
-			// }
-		// }); 
-		// var value = $('.selectRoomClass select').val();
-		// if(value == "title"){
-			// alert('please select a room first');
-		// }else if (!$('#singleRentRadioId').prop('checked')&& !$('#doubleRentRadioId').prop('checked')){
-			// alert('you did not tick the box');
-		// } else{
-			// $.each(valuesOrderRoomForm, function (index, item) {
+	$('#tenantFormOrTable').on('submit', '#checkInForm', function(){  //version 2		
+ 		var values = $('#checkInForm').serializeArray(),
+			data = { };
+		var valuesOrderRoomForm = $('#orderRoomForm').serializeArray();
+			console.log('>>>values',values);
+		$.each(values, function(index, item) {
+			if (item.name == 'tenant_key'){
+				data.tenantKey = item.value;
+			}
+			if (item.name == 'tenant_startDate') {
+					data.startDate = item.value;
+			}
+			if (item.name == 'tenant_payPeriod') {
+				data.payPeriod = item.value;
+			}
+		}); 
+		var value = $('.selectRoomClass select').val();
+		if(value == "title"){
+			alert('please select a room before checkin');
+		}else if (!$('#singleRentRadioId').prop('checked')&& !$('#doubleRentRadioId').prop('checked')){
+			alert('you did not tick the box');
+		} else{
+			$.each(valuesOrderRoomForm, function (index, item) {
 		
-				// if (item.name == 'room_rentSingle' || item.name === 'room_rentDouble') {			
-					// data.actualRent = item.value;
-				// }else {			
-					// data[item.name] = item.value;
-				// }
-			// });
+				if (item.name == 'room_rentSingle' || item.name === 'room_rentDouble') {			
+					data.actualRent = item.value;
+				}else {			
+					data[item.name] = item.value;
+				}
+			});
 		
-			// console.log('>>>data',data);
-			// var dataStringJson = JSON.stringify(data);
+			console.log('>>>data',data);
+			var dataStringJson = JSON.stringify(data);
 			
-			// var r = confirm("Do u really want to check in this room?");
-			// if(r) {
-			// $.ajax({
-				// url: '/tenantCheckin',
-				// type: 'POST',
-				// data: dataStringJson,
-				// success: function(resp) {				
-					// alert(resp.checkinSuccessMessage);
-					// window.location.replace("../tenants");
-				// } 
-			// });					
-			// return false;
-			// }
-		// }
-		// return false;
+			var r = confirm("Do u really want to check in this room?");
+			if(r) {
+			$.ajax({
+				url: '/tenantCheckin',
+				type: 'POST',
+				data: dataStringJson,
+				success: function(resp) {				
+					alert(resp.checkinSuccessMessage);
+					window.location.replace("../tenants");
+				} 
+			});					
+			return false;
+			}
+		}
+		return false;
 	});
 
 // display room profile on bootstrap modal
