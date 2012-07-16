@@ -193,7 +193,7 @@ class Transaction(db.Model):
                       "FROM Transaction")
     
     def processTransaction(self,data):
-        paidAmount = float(data['payAmount'])
+        paidAmount = float(data['paidAmount'])
         payDate = datetime.strptime(data['payDate'],"%Y-%m-%d").date()
 #        tenant_key = data['tenant_key']                   
 #        tenant = Tenant.get(tenant_key)
@@ -201,7 +201,7 @@ class Transaction(db.Model):
         payment = Payment.get(payment_key)
         payment.totalPaidAmount = payment.totalPaidAmount + paidAmount
         self.payment = payment
-        self.payAmount = paidAmount
+        self.paidAmount = paidAmount
         self.transactionDate = payDate
         payment.updateExpiryDate(paidAmount)
         payment.put()

@@ -310,7 +310,7 @@
 				+ '</div>'				
 				+ '<div>'
 				+ '<label for="payAmount">Paid Amount: </label>'
-				+ '<em>*</em><input id="pay_Amount" type="number" name="payAmount" class="required" placeholder="the amount you want to pay..."/>'
+				+ '<em>*</em><input id="pay_Amount" type="number" name="paidAmount" class="required" placeholder="the amount you want to pay..."/>'
 				+ '</div>'								
 				+ '<div>'
 				+ '<label for="payDate">Pay Date: </label>'

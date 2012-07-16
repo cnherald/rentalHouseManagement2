@@ -171,6 +171,13 @@ class PayRentHandler(webapp.RequestHandler):
         json_response= simplejson.dumps(response)
         return self.response.out.write(json_response)
     
+class TransactionHandler(webapp.RequestHandler):
+    def get(self):
+        #transaction = Transaction()
+        data_list = Transaction().getTransactions()
+        output_json = json.dumps(data_list)
+        self.response.out.write(output_json)
+    
 application = webapp.WSGIApplication([('/', MainPage),
                                       ('/tenantContracts',TenantContractHandler),
                                       ('/tenantPayment',TenantPaymentHandler),
