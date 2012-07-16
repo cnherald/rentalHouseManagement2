@@ -132,16 +132,24 @@ class RoomProfileDataHandler(webapp.RequestHandler):
         output_json = json.dumps(data_list)
         self.response.out.write(output_json) 
 
-    def post(self):
-        room_key = self.request.get('room_key')
-        room = Room.get(room_key)
-        room.roomNumber = self.request.get('room_number')    
-        room.size = float(self.request.get('room_size'))
-        room.rentSingle = float(self.request.get('room_rentSingle'))
-        room.rentDouble = float(self.request.get('room_rentDouble'))
-        room.put()
-        roomProfile_url = '/rooms'
-        self.redirect(roomProfile_url)
+#    def post(self):
+#        room_key = self.request.get('room_key')
+#        room = Room.get(room_key)
+#        room.roomNumber = self.request.get('room_number')    
+#        room.size = float(self.request.get('room_size'))
+#        room.rentSingle = float(self.request.get('room_rentSingle'))
+#        room.rentDouble = float(self.request.get('room_rentDouble'))
+#        room.put()
+#        roomProfile_url = '/rooms'
+#        self.redirect(roomProfile_url)
+
+class TenantProfileDataHandler(webapp.RequestHandler):
+    def get(self):
+        tenant_key = self.request.get('tenant_key')
+        tenant = Tenant.get(tenant_key)
+        data_list = tenant.getTenantProfile()
+        output_json = json.dumps(data_list)
+        self.response.out.write(output_json)  
 
 class TenantContractHandler(webapp.RequestHandler):
     def get(self):
@@ -189,6 +197,7 @@ application = webapp.WSGIApplication([('/', MainPage),
                                       ('/tenantCheckin',TenantCheckinHandler),
                                       ('/rooms',RoomHandler),
                                       ('/roomProfileData',RoomProfileDataHandler),
+                                      ('/tenantProfileData',TenantProfileDataHandler),
                                       ('/tenants',TenantHandler)], debug=True)
 
 def main():

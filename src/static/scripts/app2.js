@@ -71,26 +71,18 @@
 		return jqTable;
 	}
 	
-	function roomProfileTable(data_json) {		
-		//alert("data para:" + data_json);//why display "[obj Object]"?
-		var jqTable = $('<table class="table table-bordered"><thead><tr><th>Number</th><th>Size</th><th>Single Rent</th><th>Double Rent</th><th>Actual Rent</th></tr></thead><tbody></tbody></table>');
+	function roomProfileTable(data_json) {	//version 2
+		var jqTable = $('<table class="table table-bordered"><thead><tr><th>Number</th><th>Area</th><th>Single Rent</th><th>Double Rent</th></tr></thead><tbody></tbody></table>');
 		var jqBody = jqTable.find('tbody');	
-
-		// for (var i = 0; i < data_json.length; i++) {		
-			// jqBody.append('<tr><td>' + data_json[i].firstName + '</td><td>' + data_json[i].surname + '</td></tr>');
-		// }
-				
 		$.each(data_json,function(item){
 			jqBody.append(
 			'<tr><td>' + data_json[item].roomNumber
-			+ '</td><td>' + data_json[item].size 
+			+ '</td><td>' + data_json[item].area 
 			+ '</td><td>' + data_json[item].rentSingle 
 			+ '</td><td>'+ data_json[item].rentDouble
-			+ '</td><td>' + data_json[item].rentActual 
 			+ '</td></tr>'
 			);
 		});		
-		//$('body').append(jqTable);
 		return jqTable;
 	}
 	

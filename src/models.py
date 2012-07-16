@@ -87,12 +87,13 @@ class Tenant(db.Model):
         return tenant
     
     def getTenantProfile(self):
-        tenants = db.GqlQuery("SELECT * "
-                      "FROM Tenant")
+#        tenants = db.GqlQuery("SELECT * "
+#                      "FROM Tenant")
         data_list = []
-        for tenant in tenants:
-            if tenant.key()== self.key():
-                data_list.append({'firstName':tenant.firstName,'surname':tenant.surname,'gender':tenant.gender,'age':tenant.age,'phoneNumber':tenant.phoneNumber,'email':tenant.email,'contactName':tenant.contactName,'contactPhoneNumber':tenant.contactPhoneNumber,'registerDate': tenant.registerDate.isoformat()})          
+        #for tenant in tenants:
+            #if tenant.key()== self.key():
+                #data_list.append({'firstName':tenant.firstName,'surname':tenant.surname,'gender':tenant.gender,'age':tenant.age,'phoneNumber':tenant.phoneNumber,'email':tenant.email,'contactName':tenant.contactName,'contactPhoneNumber':tenant.contactPhoneNumber,'registerDate': tenant.registerDate.isoformat()})
+        data_list.append({'firstName':self.firstName,'surname':self.surname,'gender':self.gender,'age':self.age,'phoneNumber':self.phoneNumber,'email':self.email,'contactName':self.contactName,'contactPhoneNumber':self.contactPhoneNumber,'registerDate': self.registerDate.isoformat()})        
         return data_list
     
     def getCurrentTenants(self):
@@ -192,7 +193,7 @@ class Payment(db.Model):
                 tenant = self.contract.tenant
                 transactions_list.append({'transactionNumber': tenant.firstName + "_" + tenant.surname + "_" + str(i),'transactionDate': transaction.transactionDate.isoformat(), 'paidAmount': transaction.paidAmount})
                 i = i + 1
-            transactions_list.append({'totalPaidAmount':self.totalPaidAmount}) 
+        transactions_list.append({'totalPaidAmount':self.totalPaidAmount}) 
         return transactions_list
 
                 
