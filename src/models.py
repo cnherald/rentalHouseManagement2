@@ -182,6 +182,20 @@ class Payment(db.Model):
         days = int(paidAmount / rate)
         paid_days = timedelta(days = days)         
         self.rentExpiredDate = self.rentExpiredDate + paid_days
+        
+    def getTenantTransactions(self):
+        transactions = Transaction().getAllTransactions()
+        transactions_list = []
+        i = 1
+        for transaction in transactions:
+            if transaction.payment.key() == self.key():
+                tenant = self.contract.tenant
+                transactions_list.append({'transactionNumber': tenant.firstName + "_" + tenant.surname + "_" + str(i),'transactionDate': transaction.transactionDate.isoformat(), 'paidAmount': transaction.paidAmount})
+                i = i + 1
+            transactions_list.append({'totalPaidAmount':self.totalPaidAmount}) 
+        return transactions_list
+
+                
     
 class Transaction(db.Model):
     payment = db.ReferenceProperty(Payment)
@@ -191,6 +205,7 @@ class Transaction(db.Model):
     def getAllTransactions(self):
         transactions = db.GqlQuery("SELECT * "
                       "FROM Transaction")
+        return transactions
     
     def processTransaction(self,data):
         paidAmount = float(data['paidAmount'])
@@ -207,4 +222,15 @@ class Transaction(db.Model):
         payment.put()
         self.put()
         
-        
+#    def getTenantTransactions(self,payment_key):
+#        transactions = self.getAllTransactions()       
+#        transactions_list = []
+#        i = 1
+#        for transaction in transactions:
+#            if payment_key == transaction.payment.key():
+#                tenant = transaction.payment.contract.tenant                
+#                transactions_list.append({'transactionNumber': tenant.firstName + "_" + tenant.surname + "_" + str(i),'transactionDate': transaction.transactionDate.isoformat(), 'paidAmount': transaction.paidAmount})
+#                i = i + 1
+#        transactions_list.append({'totalPaidAmount':transaction.payment.totalPaidAmount}) 
+#        return transactions_list
+     

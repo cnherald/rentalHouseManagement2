@@ -173,15 +173,17 @@ class PayRentHandler(webapp.RequestHandler):
     
 class TransactionHandler(webapp.RequestHandler):
     def get(self):
-        #transaction = Transaction()
-        data_list = Transaction().getTransactions()
-        output_json = json.dumps(data_list)
-        self.response.out.write(output_json)
+        payment_key = self.request.get('payment_key')
+        payment = Payment.get(payment_key)
+        transactions_list = payment.getTenantTransactions()
+        transactions_list_json = json.dumps(transactions_list)
+        self.response.out.write(transactions_list_json)
     
 application = webapp.WSGIApplication([('/', MainPage),
                                       ('/tenantContracts',TenantContractHandler),
                                       ('/tenantPayment',TenantPaymentHandler),
                                       ('/payRent',PayRentHandler),
+                                      ('/transaction',TransactionHandler),
                                       ('/tenantRegister',TenantRegisterHandler),
                                       ('/roomRegister',RoomRegisterHandler),
                                       ('/tenantCheckin',TenantCheckinHandler),

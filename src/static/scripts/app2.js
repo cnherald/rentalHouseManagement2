@@ -390,22 +390,22 @@
 	
 	
 	
-	function paymentHistoryTable(data_json){
-		var jqTable = $('<label>Payment History</label><table class="table table-bordered"><thead><tr><th>Payment Number</th><th>Pay Date</th><th>Pay Amount</th></tr></thead><tbody></tbody></table>');
+	function creatTransactionTable(transactions_list_json){
+		var jqTable = $('<label>Payment Transactions</label><table class="table table-bordered"><thead><tr><th>Transaction Number</th><th>Transaction Date</th><th>Paid Amount</th></tr></thead><tbody></tbody></table>');
 		var jqBody = jqTable.find('tbody');	
-		$.each(data_json,function(item){
+		$.each(transactions_list_json,function(item){
 			
-			if (data_json[item].totalPaidRent){
+			if (transactions_list_json[item].totalPaidAmount){
 				jqBody.append(
-				'<tr><td>Total Paid Rent</td><td></td><td>'
-				+ data_json[item].totalPaidRent
+				'<tr><td>Total Paid Amount</td><td></td><td>'
+				+ transactions_list_json[item].totalPaidAmount
 				+ '</td></tr>'
 				);
 			}else {
 				jqBody.append('<tr><td>' 
-					+ data_json[item].paymentNumber 
-					+ '</td><td>' + data_json[item].payDate 
-					+ '</td><td>' + data_json[item].paidAmount 
+					+ transactions_list_json[item].transactionNumber 
+					+ '</td><td>' + transactions_list_json[item].transactionDate 
+					+ '</td><td>' + transactions_list_json[item].paidAmount 
 					+ '</td></tr>'
 				);
 			

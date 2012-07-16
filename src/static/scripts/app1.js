@@ -15,7 +15,7 @@ $('td.tenantNameEditorClass a').popover();
 $('td.tenantNameClass a').popover();
 $('td.roomNumberClass a').popover();
 $('td.roomNumberEditorClass a').popover();
-$('td.paymentHistoryClass a').popover();
+$('td.tenantTransactionClass a').popover();
 $('td.payRentClass a').popover();
 $('td.deleteTenant a').popover();
 $('td.tenantActivityClass a').popover();
@@ -446,6 +446,21 @@ $('#modal1').on('renderTenantInfoFormEvent',function(e, tenantProfileData){
 	$('#displayHereId').html(tenantInfoTable(tenantProfileData));
 });
 
+
+//display tenant payment transactions
+$('td.tenantTransactionClass a').click(function(){   //version 2
+	var paymentKey = $(this).data('payment-key');
+	$.ajax({
+		url: "transaction?payment_key=" + paymentKey,
+		type:'GET',
+		dataType: 'json',
+		success: function(transactions_list_json){
+			$('#paymentFormOrTable').html(creatTransactionTable(transactions_list_json)).show();
+		}
+	
+	});
+
+});
 //display tenant payment history on bootstrap modal
 	$('td.paymentHistoryClass a').click(function(){
 		$('#modal1').modal('show');
