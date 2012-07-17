@@ -29,22 +29,7 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 
 
 
-	$('#checkoutHrefId').click(function(){		
-		//alert("you click checkout");
-		var tenantKey = $(this).data('tenant-key');
-		$.ajax({
-			url:"checkout?tenant_key=" + tenantKey,
-			type:'GET',
-			dataType:'json',
-			success: function(data_json){
-				$('#tenantOrRoomProfile').html(checkoutForm(tenantKey,data_json)).show();
-			}
-		});
-		
-			
-	
-	
-	});
+
 	
 	//check out a tenant
 	$('div.checkout button').click( function (){
@@ -128,16 +113,6 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 		}
 		
 	});
-	
-	
-	// $('#room_key').change(function () {		
-		// var roomKey = $('#room_key').val();
-		// var url = "roomInfo?room_key=" + roomKey;
-		// $('#roomInfo').html('<iframe src="' + url + '">');
-		// return false;
-	// });
-	
-	
 	
 
 	$('#tenantFormOrTable').on('submit', '#tenantRegister', function(){  //version 2
@@ -404,6 +379,21 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 		}
 		return false;
 	});
+	
+	//check out tenant
+	$('#checkoutHrefId').click(function(){		
+		//alert("you click checkout");
+		var tenantKey = $(this).data('tenant-key');
+		$.ajax({
+			url:"tenantCheckout?tenant_key=" + tenantKey,
+			type:'GET',
+			dataType:'json',
+			success: function(data_json){
+				$('#tenantFormOrTable').html(checkoutForm(tenantKey,data_json)).show();
+			}
+		});
+
+	});
 
 // display room profile on bootstrap modal
 $('td.roomNumberClass a').click(function () {
@@ -448,18 +438,25 @@ $('#modal1').on('renderTenantInfoFormEvent',function(e, tenantProfileData){
 
 
 //display tenant payment transactions
-$('td.tenantTransactionClass a').click(function(){   //version 2
+$('td.tenantTransactionClass a').toggle(function(){   //version 2
 	var paymentKey = $(this).data('payment-key');
-	$.ajax({
-		url: "transaction?payment_key=" + paymentKey,
-		type:'GET',
-		dataType: 'json',
-		success: function(transactions_list_json){
-			$('#paymentFormOrTable').html(creatTransactionTable(transactions_list_json)).show();
-		}
+	if ($(this).data('totalpaidamount') == 0){
+		alert("The tenant hasn't paid, please click 'Pay Now' to pay the rent!");
+	} else{
+		$.ajax({
+			url: "transaction?payment_key=" + paymentKey,
+			type:'GET',
+			dataType: 'json',
+			success: function(transactions_list_json){
+				$('#paymentFormOrTable').html(creatTransactionTable(transactions_list_json)).show();
+			}
 	
-	});
-
+		});
+	
+	}
+},function() {
+		$('#paymentFormOrTable').children().remove();	
+		return false;
 });
 //display tenant payment history on bootstrap modal
 	$('td.paymentHistoryClass a').click(function(){

@@ -121,6 +121,24 @@ class TenantCheckinHandler(webapp.RequestHandler):
         checkinResponse = {'checkinSuccessMessage':'Congratulations, you have checked in the room successfully!'}
         jsonCheckinResponse = simplejson.dumps(checkinResponse)
         return self.response.out.write(jsonCheckinResponse)
+
+class TenantStatusHandler(webapp.RequestHandler):   
+    def get(self):
+        tenant_key = self.request.get('tenant_key')
+        tenant = Tenant.get(tenant_key)
+        checkout_data_list = tenant.getTenantStatusInfo()
+        output_json = json.dumps(checkout_data_list) 
+        self.response.out.write(output_json) 
+    def delete(self):
+        tenant_key = self.request.get('tenant_key')
+        tenantToCheckout = Tenant.get(tenant_key) # tenant-key = tenant.key
+        tenantToCheckout.createCheckoutActivityRecord()
+        tenantToCheckout.unRegisterRoom()
+        self.response.headers['Content-Type'] = 'application/json'
+        response = {'checkoutSuccessNotice':'The tenant has checked out successfully!'}
+        jsonResponse = simplejson.dumps(response)
+        return self.response.out.write(jsonResponse)
+
     
 class RoomProfileDataHandler(webapp.RequestHandler):
     def get(self):
@@ -195,6 +213,7 @@ application = webapp.WSGIApplication([('/', MainPage),
                                       ('/tenantRegister',TenantRegisterHandler),
                                       ('/roomRegister',RoomRegisterHandler),
                                       ('/tenantCheckin',TenantCheckinHandler),
+                                      ('/tenantStatusInfomation',TenantStatusHandler),
                                       ('/rooms',RoomHandler),
                                       ('/roomProfileData',RoomProfileDataHandler),
                                       ('/tenantProfileData',TenantProfileDataHandler),

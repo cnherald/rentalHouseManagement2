@@ -110,6 +110,38 @@ class Tenant(db.Model):
             if self.key()== con.tenant.key():
                 return True
         return False
+   
+    def getTenantStatusInfo(self):
+        data_list = []
+        data_list.append({'firstName':self.firstName,'surname':self.surname,'roomNumber':self.getTenantContract().room.roomNumber,'startDate':self.getTenantContract().startDate.isoformat(),'livingPeriod':self.getLivingPeriod(),'rent':self.getTenantContract().rent,'rentRate':self.getTenantContract().getRentRate(),'totalPaidRent':self.getPayment().totalPaidAmount,'unpaidDays': self.getUnpaidDays(),'unpaidRent':self.getUnpaidRent()})          
+        return data_list   
+   
+    def getTenantContract(self):
+        contracts = RentalContract().getValidRentalContracts()
+        for contract in contracts:
+            if contract.tenant.key() == self.key():
+                return contract
+            
+    def getLivingPeriod(self):
+        today = date.today()
+        contract = self.getTenantContract()
+        startDay = contract.startDate       
+        return (today-startDay).days
+    
+    def getPayment(self):
+        contract = self.getTenantContract()
+        payment = contract.getTenantPayment()
+        return payment
+    
+    def getUnpaidDays(self):
+        #today = datetime.date.today()
+        today = date.today()
+        expiryDate = self.getPayment().rentExpiredDate
+        return (today-expiryDate).days
+         
+    def getUnpaidRent(self):
+        return round(self.getUnpaidDays()*self.getTenantContract().getRentRate(),1)       
+    
     
 class RentalContract(db.Model):
     tenant = db.ReferenceProperty(Tenant)
@@ -152,6 +184,14 @@ class RentalContract(db.Model):
         #self.rentExpiredDate = startDate.date()
         self.isValid = True
         self.put()
+        
+    def getTenantPayment(self):
+        payments = Payment().getAllPayments()
+        for payment in payments:
+            if payment.contract.key() == self.key():
+                return payment
+        
+        
     
 class Payment(db.Model):
     contract = db.ReferenceProperty(RentalContract)
@@ -159,6 +199,10 @@ class Payment(db.Model):
     totalPaidAmount = db.FloatProperty()
     rentExpiredDate = db.DateProperty()
     
+    def getAllPayments(self):
+        payments = db.GqlQuery("SELECT * "
+                      "FROM Payment ")
+        return payments
     def initializePayment(self, contract):
         self.contract = contract
         self.rentExpiredDate = self.contract.startDate
@@ -195,8 +239,7 @@ class Payment(db.Model):
                 i = i + 1
         transactions_list.append({'totalPaidAmount':self.totalPaidAmount}) 
         return transactions_list
-
-                
+        
     
 class Transaction(db.Model):
     payment = db.ReferenceProperty(Payment)

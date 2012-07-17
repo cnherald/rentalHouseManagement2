@@ -130,7 +130,7 @@
 									<td>{{ payment.contract.getBond }}</td>
 									<td>{{ payment.contract.payPeriod }}</td>
 									<td class="tenantTransactionClass">
-										<a href="#" rel="popover" data-content="click to get {{ payment.contract.tenant.firstName }} {{ payment.contract.tenant.surname }}'s transactions" data-original-title="Remainder:" data-payment-key="{{ payment.key }}" >{{ payment.totalPaidAmount }}</a>		
+										<a href="#" rel="popover" data-content="click to get {{ payment.contract.tenant.firstName }} {{ payment.contract.tenant.surname }}'s transactions" data-original-title="Remainder:" data-payment-key="{{ payment.key }}" data-totalpaidamount="{{ payment.totalPaidAmount }}" >{{ payment.totalPaidAmount }}</a>		
 									</td>
 									<td>{{ payment.getLastPayDate }}</td>
 									<td>{{ payment.rentExpiredDate }}</td>
