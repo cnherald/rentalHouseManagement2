@@ -25,6 +25,7 @@ $('td.deleteRoomClass a').popover();
 
 $('#currentTenantTableId td.tenantNameEditorClass a').popover();
 $('#currentRoomTableId td.roomNumberEditorClass a').popover();
+$('#tenantFormOrTable td.payRentClass a').popover(); //not working
 
 
 
@@ -382,14 +383,15 @@ $('#currentRoomTableId td.roomNumberEditorClass a').popover();
 	
 	//check out tenant
 	$('#checkoutHrefId').click(function(){		
-		//alert("you click checkout");
+		alert("you click checkout");
 		var tenantKey = $(this).data('tenant-key');
+		//var paymentKey = $(this).data('tenant-paymentkey');
 		$.ajax({
-			url:"tenantCheckout?tenant_key=" + tenantKey,
+			url:"rentalStatusInfomation?tenant_key=" + tenantKey,
 			type:'GET',
 			dataType:'json',
-			success: function(data_json){
-				$('#tenantFormOrTable').html(checkoutForm(tenantKey,data_json)).show();
+			success: function(rentalStatus_data_list){
+				$('#tenantFormOrTable').html(createRentalStatusTable(rentalStatus_data_list)).show();
 			}
 		});
 

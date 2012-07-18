@@ -316,67 +316,29 @@
 	
 	
 	//check out form
-	function checkoutForm(tenantKey,data_json){
-		var jqForm = $('<div></div>');
-		$.each(data_json, function(item){
-			jqForm.append(
-				'<div><label>Check out</label>'
-				+ '<div><label for="tenant_name">Tenant Name: </label>'
-				+  data_json[item].firstName   +  data_json[item].surname  
-				+ '<input type="hidden" name="tenant_key" value='
-				+  tenantKey
-				+ '/></div>'
-				+ '<div><label for="tenant_roomNumber">Room Number: </label>'
-				+ data_json[item].roomNumber
-				+ '</div>'
-				+ '<div><label for="tenant_startDate">Start Date: </label>'
-				+ data_json[item].startDate
-				+ '</div>'
-				+ '<div><label for="tenant_livingPeriod">Living Period: </label>'
-				+ data_json[item].livingPeriod
-				+ '</div>'
-				+ '<div><label for="tenant_rent">Rent: </label>'
-				+ data_json[item].rent
-				+ '</div>'
-				+ '<div><label for="tenant_rentRate">Rent Rate: </label>'
-				+ data_json[item].rentRate
-				+ '</div>'
-				+ '<div><label for="tenant_rentPaid">Total Paid Rent: </label>'
-				+ data_json[item].totalPaidRent
-					
-				+ '</div>'
-				+ '<div><label for="tenant_unpaidDays">Unpaid Days: </label>'
-				+ data_json[item].unpaidDays
-				+ '</div>'
-				+ '<div><label for="tenant_rentUnpaid">Unpaid Rent: </label>'
-				+ data_json[item].unpaidRent
-				+ '</div>'
-				//+ '<div><a href="/payRent">Pay Now</a></div>'
-				// + '<div class=payRentClass>'
-				// + '<a id = "payRentBtnId1" href="#" data-tenant-key='
-				// + tenantKey + ' data-tenant-firstname='
-				// + data_json[item].firstName + ' data-tenant-surname='
-				// + data_json[item].surname + ' >Pay Now</a>'
-				// + '<div>'
-				+ '<div class="checkout"><button data-tenant-key='
-				+ tenantKey + ' data-tenant-unpaidrent='
-				+ data_json[item].unpaidRent + ' data-tenant-firstname='
-				+ data_json[item].firstName + ' data-tenant-surname='
-				+ data_json[item].surname
-				+ '>Check Out</button></br>'
-				+ '</div>'
-				+ '<div id="checkoutpayRentId"></div>'
-		
-		);
-		
-		
-		});
-		$('body').append(jqForm);
-		//$('body').append('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>');
-		$('body').append('<script type="text/javascript" src="/scripts/app.js"></script>');
-		return jqForm;
-	
-	
+	function createRentalStatusTable(rentalStatus_data_list){
+		var jqTable = $('<label>Rental Status</label><table class="table table-bordered"><thead><tr><th>Tenant Name</th><th>Room Number</th><th>Rent</th><th>Rent Rate</th><th>Checkin Date</th><th>Living Period</th><th>Total Paid Rent</th><th>Last Pay Date</th><th>Unpaid Days</th><th>Unpaid Rent</th></tr></thead><tbody></tbody></table>');
+		var jqBody = jqTable.find('tbody');	
+		$.each(rentalStatus_data_list,function(item){
+				jqBody.append('<tr><td>' 
+					+ rentalStatus_data_list[item].firstName  + rentalStatus_data_list[item].surname
+					+ '</td><td>' + rentalStatus_data_list[item].roomNumber 
+					+ '</td><td>' + rentalStatus_data_list[item].rent
+					+ '</td><td>' + rentalStatus_data_list[item].rentRate
+					+ '</td><td>' + rentalStatus_data_list[item].startDate
+					+ '</td><td>' + rentalStatus_data_list[item].livingPeriod
+					+ '</td><td>' + rentalStatus_data_list[item].totalPaidRent
+					+ '</td><td>' + rentalStatus_data_list[item].lastPayDate
+					+ '</td><td>' + rentalStatus_data_list[item].unpaidDays
+					+ '</td><td class="payRentClass"><a href="#" id="payRentNowId" rel="popover" data-content="click to pay the rent right now" data-original-title="Remainder:" data-tenant-firstname=' 
+					+ rentalStatus_data_list[item].firstName + 'data-tenant-surname=' + rentalStatus_data_list[item].surname + 'data-paymentkey=' + rentalStatus_data_list[item].paymentKey 
+					+ '>'
+					+ rentalStatus_data_list[item].unpaidRent
+					+ '</a></td></tr>'
+				);
+
+		});		
+		return jqTable;		
 	}
 	
 	

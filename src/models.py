@@ -111,10 +111,11 @@ class Tenant(db.Model):
                 return True
         return False
    
-    def getTenantStatusInfo(self):
-        data_list = []
-        data_list.append({'firstName':self.firstName,'surname':self.surname,'roomNumber':self.getTenantContract().room.roomNumber,'startDate':self.getTenantContract().startDate.isoformat(),'livingPeriod':self.getLivingPeriod(),'rent':self.getTenantContract().rent,'rentRate':self.getTenantContract().getRentRate(),'totalPaidRent':self.getPayment().totalPaidAmount,'unpaidDays': self.getUnpaidDays(),'unpaidRent':self.getUnpaidRent()})          
-        return data_list   
+    def getRentalStatusInfo(self):
+        rentalStatus_data_list = []
+        paymentKey = self.getPayment().key()
+        rentalStatus_data_list.append({'firstName':self.firstName,'surname':self.surname,'roomNumber':self.getTenantContract().room.roomNumber,'startDate':self.getTenantContract().startDate.isoformat(),'livingPeriod':self.getLivingPeriod(),'rent':self.getTenantContract().rent,'rentRate':self.getTenantContract().getRentRate(),'totalPaidRent':self.getPayment().totalPaidAmount,'lastPayDate':self.getLastPayDate().isoformat(),'unpaidDays': self.getUnpaidDays(),'unpaidRent':self.getUnpaidRent(),'paymentKey':str(paymentKey)})          
+        return rentalStatus_data_list   
    
     def getTenantContract(self):
         contracts = RentalContract().getValidRentalContracts()
@@ -140,7 +141,23 @@ class Tenant(db.Model):
         return (today-expiryDate).days
          
     def getUnpaidRent(self):
-        return round(self.getUnpaidDays()*self.getTenantContract().getRentRate(),1)       
+        return round(self.getUnpaidDays()*self.getTenantContract().getRentRate(),1)
+    
+    def getLastPayDate(self):
+        
+#        transactions = db.GqlQuery("SELECT * "
+#                    "FROM Transaction")
+        tenantPayment = self.getPayment()
+        transactions = db.GqlQuery("SELECT * FROM Transaction WHERE payment = :1" ,tenantPayment,)
+        transactionDates = []
+        if transactions:
+            for transaction in transactions:    
+                    #if transaction.payer.key().name() == self.key().name():
+                transactionDates.append(transaction.transactionDate)
+        if not transactionDates:
+            return None
+        else:
+            return max(transactionDates)       
     
     
 class RentalContract(db.Model):
@@ -190,6 +207,7 @@ class RentalContract(db.Model):
         for payment in payments:
             if payment.contract.key() == self.key():
                 return payment
+    
         
         
     

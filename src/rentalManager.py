@@ -122,11 +122,11 @@ class TenantCheckinHandler(webapp.RequestHandler):
         jsonCheckinResponse = simplejson.dumps(checkinResponse)
         return self.response.out.write(jsonCheckinResponse)
 
-class TenantStatusHandler(webapp.RequestHandler):   
+class rentalStatusHandler(webapp.RequestHandler):   
     def get(self):
         tenant_key = self.request.get('tenant_key')
         tenant = Tenant.get(tenant_key)
-        checkout_data_list = tenant.getTenantStatusInfo()
+        checkout_data_list = tenant.getRentalStatusInfo()
         output_json = json.dumps(checkout_data_list) 
         self.response.out.write(output_json) 
     def delete(self):
@@ -213,7 +213,7 @@ application = webapp.WSGIApplication([('/', MainPage),
                                       ('/tenantRegister',TenantRegisterHandler),
                                       ('/roomRegister',RoomRegisterHandler),
                                       ('/tenantCheckin',TenantCheckinHandler),
-                                      ('/tenantStatusInfomation',TenantStatusHandler),
+                                      ('/rentalStatusInfomation',rentalStatusHandler),
                                       ('/rooms',RoomHandler),
                                       ('/roomProfileData',RoomProfileDataHandler),
                                       ('/tenantProfileData',TenantProfileDataHandler),
