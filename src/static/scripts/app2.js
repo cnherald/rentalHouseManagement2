@@ -317,11 +317,11 @@
 	
 	//check out form
 	function createRentalStatusTable(rentalStatus_data_list){
-		var jqTable = $('<label>Rental Status</label><table class="table table-bordered"><thead><tr><th>Tenant Name</th><th>Room Number</th><th>Rent</th><th>Rent Rate</th><th>Checkin Date</th><th>Living Period</th><th>Total Paid Rent</th><th>Last Pay Date</th><th>Unpaid Days</th><th>Unpaid Rent</th></tr></thead><tbody></tbody></table>');
+		var jqTable = $('<label> Rental Status</label><table class="table table-bordered"><thead><tr><th>Tenant Name</th><th>Room Number</th><th>Rent</th><th>Rent Rate</th><th>Checkin Date</th><th>Living Period</th><th>Total Paid Rent</th><th>Last Pay Date</th><th>Unpaid Days</th><th>Unpaid Rent</th></tr></thead><tbody></tbody></table>');
 		var jqBody = jqTable.find('tbody');	
 		$.each(rentalStatus_data_list,function(item){
 				jqBody.append('<tr><td>' 
-					+ rentalStatus_data_list[item].firstName  + rentalStatus_data_list[item].surname
+					+ rentalStatus_data_list[item].firstName + '_' + rentalStatus_data_list[item].surname
 					+ '</td><td>' + rentalStatus_data_list[item].roomNumber 
 					+ '</td><td>' + rentalStatus_data_list[item].rent
 					+ '</td><td>' + rentalStatus_data_list[item].rentRate
@@ -330,9 +330,9 @@
 					+ '</td><td>' + rentalStatus_data_list[item].totalPaidRent
 					+ '</td><td>' + rentalStatus_data_list[item].lastPayDate
 					+ '</td><td>' + rentalStatus_data_list[item].unpaidDays
-					+ '</td><td class="payRentClass"><a href="#" id="payRentNowId" rel="popover" data-content="click to pay the rent right now" data-original-title="Remainder:" data-tenant-firstname=' 
-					+ rentalStatus_data_list[item].firstName + 'data-tenant-surname=' + rentalStatus_data_list[item].surname + 'data-paymentkey=' + rentalStatus_data_list[item].paymentKey 
-					+ '>'
+					+ '</td><td class="payRentClass">'
+					+ '<a href="#" id="payRentNowId" rel="popover" data-content="click to pay the rent right now" data-original-title="Remainder:" data-tenant-firstname=' 
+					+ rentalStatus_data_list[item].firstName + ' data-tenant-surname=' + rentalStatus_data_list[item].surname + ' data-paymentkey=' + rentalStatus_data_list[item].paymentKey + '>'
 					+ rentalStatus_data_list[item].unpaidRent
 					+ '</a></td></tr>'
 				);
