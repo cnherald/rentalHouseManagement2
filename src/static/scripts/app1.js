@@ -550,6 +550,22 @@ $('#modal1').bind('tenantActivityFormEvent', function(e, tenantActivityData){
 });
 
 
+//display pay rent form on bootstrap modal
+	//$('td.payRentClass a').click(function (e) {
+$('#tenantFormOrTable').on('submit', 'td.payRentClass a', function(){  //version 2
+	alert("you pay before checkout?");
+	$('#modal1').modal('show');
+	//var tenantKey = $(this).data('tenant-key');
+	var firstName = $(this).data('tenant-firstname');
+	var surname = $(this).data('tenant-surname');
+	var paymentkey = $(this).data('paymentkey');
+	$('#modal1').trigger("modalDisplayEvent", [firstName,surname,paymentkey]);		
+	
+
+	e.preventDefault();
+});
+
+
 //$('#modal1').bind('myCustomEvent',function(e, roomProfileData){ //both "on" and "bind" are working here
 $('#modal1').on('modalDisplayEvent',function(e,firstName,surname,paymentkey){
 
