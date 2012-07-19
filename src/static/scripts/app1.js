@@ -382,7 +382,8 @@ $('#tenantFormOrTable td.payRentClass a').popover(); //not working
 	});
 	
 	//check out tenant
-	$('#checkoutHrefId').click(function(){		
+	//$('#checkoutHrefId').click(function(){
+	$('td.checkinOrOutClass a').click(function(){	
 		alert("you click checkout");
 		var tenantKey = $(this).data('tenant-key');
 		//var paymentKey = $(this).data('tenant-paymentkey');
