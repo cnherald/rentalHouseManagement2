@@ -33,14 +33,14 @@ class TenantHandler(webapp.RequestHandler):
     roomNotAvailable = False
     def get(self):
         tenants = Tenant().getCurrentTenants()
-        rooms = Room.all().get()
+        #rooms = Room.all().get()
         path = os.path.join(os.path.dirname(__file__), 'templates/tenants.html')
      
-        if rooms:
-            template_values = {'tenants':tenants} 
-        else:                 
-            roomNotAvailable = True
-            template_values = {'tenants':tenants, 'roomNotAvailable':roomNotAvailable}                       
+        #if rooms:
+        template_values = {'tenants':tenants} 
+        #else:                 
+            #roomNotAvailable = True
+            #template_values = {'tenants':tenants, 'roomNotAvailable':roomNotAvailable}                       
 
         self.response.out.write(template.render(path, template_values)) 
         
@@ -122,7 +122,17 @@ class TenantCheckinHandler(webapp.RequestHandler):
         jsonCheckinResponse = simplejson.dumps(checkinResponse)
         return self.response.out.write(jsonCheckinResponse)
 
-class rentalStatusHandler(webapp.RequestHandler):   
+
+class TenantCheckoutHandler(webapp.RequestHandler):
+    def get(self):
+        tenant_key = self.request.get('tenant_key')
+        tenant = Tenant.get(tenant_key)
+        path = os.path.join(os.path.dirname(__file__), 'templates/checkList.html')         
+        template_values = {'tenant':tenant}
+        resp = template.render(path, template_values)
+        return self.response.out.write(resp) 
+        
+class RentalStatusHandler(webapp.RequestHandler):   
     def get(self):
         tenant_key = self.request.get('tenant_key')
         tenant = Tenant.get(tenant_key)
@@ -213,7 +223,8 @@ application = webapp.WSGIApplication([('/', MainPage),
                                       ('/tenantRegister',TenantRegisterHandler),
                                       ('/roomRegister',RoomRegisterHandler),
                                       ('/tenantCheckin',TenantCheckinHandler),
-                                      ('/rentalStatusInfomation',rentalStatusHandler),
+                                      ('/tenantCheckout',TenantCheckoutHandler),
+                                      ('/rentalStatusInfomation',RentalStatusHandler),
                                       ('/rooms',RoomHandler),
                                       ('/roomProfileData',RoomProfileDataHandler),
                                       ('/tenantProfileData',TenantProfileDataHandler),

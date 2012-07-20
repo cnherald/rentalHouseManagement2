@@ -344,7 +344,7 @@
 	
 	
 	
-	function creatTransactionTable(transactions_list_json){
+	function creatTransactionTable(transactions_list_json){  //version 2
 		var jqTable = $('<label>Payment Transactions</label><table class="table table-bordered"><thead><tr><th>Transaction Number</th><th>Transaction Date</th><th>Paid Amount</th></tr></thead><tbody></tbody></table>');
 		var jqBody = jqTable.find('tbody');	
 		$.each(transactions_list_json,function(item){
@@ -367,6 +367,31 @@
 		});	
 
 		return jqTable;		
+	}
+	
+	function createCheckListPage(){
+		// var checkListPage = "<html><head><title>Check Out Check List</title></head><body></body></html>";
+		// var jqBody = checkListPage.find('body');
+		// jqBody.append('<p>hello</p>');
+		// var j = window.open('');
+		// j.document.write(checkListPage);
+		// j.document.close();
+		
+		var checkListPage = "<html><head><title>";
+	    checkListPage += "Check out check list";
+		checkListPage += "</title></head><body>";
+		checkListPage += "<h1>Check Out Checklist</h1>";
+		checkListPage += "<ul><li><input type='checkbox'/><label>Payment Check</label></li>";
+		checkListPage += "<li><input type='checkbox'/><label>Room Cleaning</label></li>";
+		checkListPage += "<li><input type='checkbox'/><label>Kitchen Stuff</label></li>";
+		checkListPage += "<li><input type='checkbox'/><label>Fridge Food</label></li>";
+		checkListPage += "<li><input type='checkbox'/><label>Keys</label></li>";
+		checkListPage += "</ul></body></html>";
+		var j = window.open('');
+		j.document.write(checkListPage);
+		j.document.close();
+		
+		
 	}
 	
 	

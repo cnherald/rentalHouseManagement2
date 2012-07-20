@@ -305,30 +305,34 @@ $('#tenantFormOrTable td.payRentClass a').popover(); //not working
 	//get the tenant check in form
 	//$('#checkinHrefId').click(function(){ //version 2
 	$('td.checkinOrOutClass #checkinHrefId').click(function(){
-		alert("Do you want to check in now?");
-		var tenantKey = $(this).data('tenant-key');
-		
-		$.ajax({
-			url:"/tenantCheckin?tenant_key=" + tenantKey,
-			type:'GET',
-			dataType:'json',
-			success:function(resp){
-				if (resp.noVacancyResponse){
-					alert(resp.noVacancyResponse);
-				}else{
-					var tenant_data,rooms_data;
-					for (var i = 0; i < resp.length; i++) {
-						tenant_data = resp[i].tenantProfile;
-						rooms_data = resp[i].roomsProfile;
-					}
-					$('#tenantFormOrTable').html(creatCheckinForm(tenantKey,tenant_data,rooms_data)).show();
-					$('#checkInForm').validate();
+		var agree=confirm("Do you want to check in now?");
+		if(agree){
+			var tenantKey = $(this).data('tenant-key');			
+			$.ajax({
+				url:"/tenantCheckin?tenant_key=" + tenantKey,
+				type:'GET',
+				dataType:'json',
+				success:function(resp){
+					if (resp.noVacancyResponse){
+						alert(resp.noVacancyResponse);
+					}else{
+						var tenant_data,rooms_data;
+						for (var i = 0; i < resp.length; i++) {
+							tenant_data = resp[i].tenantProfile;
+							rooms_data = resp[i].roomsProfile;
+						}
+						$('#tenantFormOrTable').html(creatCheckinForm(tenantKey,tenant_data,rooms_data)).show();
+						$('#checkInForm').validate();
 
-				}
-			}		
+					}
+				}		
+			
+			});
 		
-		});
-		//return false;
+		}else{
+			return false;
+		}
+		
 	});
 
 	//submit the tenant check in form
@@ -366,8 +370,8 @@ $('#tenantFormOrTable td.payRentClass a').popover(); //not working
 			console.log('>>>data',data);
 			var dataStringJson = JSON.stringify(data);
 			
-			var r = confirm("Do u really want to check in this room?");
-			if(r) {
+			var agree = confirm("Do u really want to check in this room?");
+			if(agree) {
 			$.ajax({
 				url: '/tenantCheckin',
 				type: 'POST',
@@ -385,20 +389,42 @@ $('#tenantFormOrTable td.payRentClass a').popover(); //not working
 	
 	//check out tenant
 	//$('#checkoutHrefId').click(function(){
-	$('td.checkinOrOutClass #checkoutHrefId').click(function(){	
-		alert("Do you want to checkout now?");
+	$('td.checkinOrOutClass #checkoutHrefId1').click(function(){	
+		var agree=confirm("Do you want to checkout now?");
+		if (agree){
+			var tenantKey = $(this).data('tenant-key');
+			$.ajax({
+				url:"rentalStatusInfomation?tenant_key=" + tenantKey,
+				type:'GET',
+				dataType:'json',
+				success: function(rentalStatus_data_list){
+					$('#tenantFormOrTable').html(createRentalStatusTable(rentalStatus_data_list)).show();
+				}
+			});
+		
+		
+		}else{
+			return false;
+		}
+	});
+	
+	
+	$('td.checkinOrOutClass #checkoutHrefId').click(function(){
 		var tenantKey = $(this).data('tenant-key');
-		//var paymentKey = $(this).data('tenant-paymentkey');
 		$.ajax({
-			url:"rentalStatusInfomation?tenant_key=" + tenantKey,
+			url:"tenantCheckout?tenant_key=" + tenantKey,
 			type:'GET',
 			dataType:'json',
-			success: function(rentalStatus_data_list){
-				$('#tenantFormOrTable').html(createRentalStatusTable(rentalStatus_data_list)).show();
+			success: function(resp){
+				resp;
 			}
 		});
-
-	});
+	
+		// createCheckListPage();
+		// return false;
+		
+	});	
+	
 
 // display room profile on bootstrap modal
 $('td.roomNumberClass a').click(function () {
