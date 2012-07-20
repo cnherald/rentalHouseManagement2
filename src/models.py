@@ -114,7 +114,10 @@ class Tenant(db.Model):
     def getRentalStatusInfo(self):
         rentalStatus_data_list = []
         paymentKey = self.getPayment().key()
-        rentalStatus_data_list.append({'firstName':self.firstName,'surname':self.surname,'roomNumber':self.getTenantContract().room.roomNumber,'startDate':self.getTenantContract().startDate.isoformat(),'livingPeriod':self.getLivingPeriod(),'rent':self.getTenantContract().rent,'rentRate':self.getTenantContract().getRentRate(),'totalPaidRent':self.getPayment().totalPaidAmount,'lastPayDate':self.getLastPayDate().isoformat(),'unpaidDays': self.getUnpaidDays(),'unpaidRent':self.getUnpaidRent(),'paymentKey':str(paymentKey)})          
+        lastPayDate = self.getLastPayDate()
+        if lastPayDate:
+            lastPayDate = lastPayDate.isoformat()
+        rentalStatus_data_list.append({'firstName':self.firstName,'surname':self.surname,'roomNumber':self.getTenantContract().room.roomNumber,'startDate':self.getTenantContract().startDate.isoformat(),'livingPeriod':self.getLivingPeriod(),'rent':self.getTenantContract().rent,'rentRate':self.getTenantContract().getRentRate(),'totalPaidRent':self.getPayment().totalPaidAmount,'lastPayDate':lastPayDate,'unpaidDays': self.getUnpaidDays(),'unpaidRent':self.getUnpaidRent(),'paymentKey':str(paymentKey)})          
         return rentalStatus_data_list   
    
     def getTenantContract(self):

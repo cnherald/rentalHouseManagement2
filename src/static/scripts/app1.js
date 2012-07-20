@@ -303,7 +303,9 @@ $('#tenantFormOrTable td.payRentClass a').popover(); //not working
 	});
 	
 	//get the tenant check in form
-	$('#checkinHrefId').click(function(){ //version 2
+	//$('#checkinHrefId').click(function(){ //version 2
+	$('td.checkinOrOutClass #checkinHrefId').click(function(){
+		alert("Do you want to check in now?");
 		var tenantKey = $(this).data('tenant-key');
 		
 		$.ajax({
@@ -383,8 +385,8 @@ $('#tenantFormOrTable td.payRentClass a').popover(); //not working
 	
 	//check out tenant
 	//$('#checkoutHrefId').click(function(){
-	$('td.checkinOrOutClass a').click(function(){	
-		alert("you click checkout");
+	$('td.checkinOrOutClass #checkoutHrefId').click(function(){	
+		alert("Do you want to checkout now?");
 		var tenantKey = $(this).data('tenant-key');
 		//var paymentKey = $(this).data('tenant-paymentkey');
 		$.ajax({
